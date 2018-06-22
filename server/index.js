@@ -13,6 +13,10 @@ const router = express.Router();
 // root (/) should always serve our server rendered page
 router.use('^/$', serverRenderer);
 
+// TODO: Adding this for now as mentioned here: https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a
+// May have to adjust eventually...
+router.use('*', serverRenderer);
+
 // other static resources should just be served as they are
 router.use(express.static(
     path.resolve(__dirname, '..', 'build'),

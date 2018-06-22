@@ -8,4 +8,5 @@ https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-cod
 TODO:
 
 1. Get comfortable with everything in server directory
-2. Read docs on npm run build
+2. Read docs on npm run build  - https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment
+3. Continue with tutorial from above, may need to flesh out some basic components and routing first
