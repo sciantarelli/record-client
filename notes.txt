@@ -1,0 +1,11 @@
+1. Followed the first part of this tutorial:
+https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a
+
+2. Set NODE_ENV = development
+
+3. Ran npm run build
+
+TODO:
+
+1. Get comfortable with everything in server directory
+2. Read docs on npm run build
