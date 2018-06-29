@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
 // import our main App component
-import App from '../../src/App';
+import App from '../../src/components/App';
 
 const path = require("path");
 const fs = require("fs");
