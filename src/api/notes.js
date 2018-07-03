@@ -7,8 +7,8 @@ const fetchNotes = () => {
     method: 'get',
     url: BASE_URL,
     headers: {
-      'X-User-Email': 'admin@test.com',
-      'X-User-Token': 'ng6A5tShZSpXN2tUYZaN'
+      'X-User-Email': '',
+      'X-User-Token': ''
     }
   });
 };
