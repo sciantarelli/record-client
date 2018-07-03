@@ -3,14 +3,14 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:3001/v1/notes';
 
 const fetchNotes = () => {
-  axios({
+  return axios({
     method: 'get',
     url: BASE_URL,
     headers: {
-      'X-User-Email': '',
-      'X-User-Token': ''
+      'X-User-Email': 'admin@test.com',
+      'X-User-Token': 'ng6A5tShZSpXN2tUYZaN'
     }
-  }).then(response => console.log(response));
+  });
 };
 
 export { fetchNotes };
