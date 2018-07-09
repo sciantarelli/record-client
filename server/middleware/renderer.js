@@ -2,13 +2,14 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../../src/store';
+import createAppStore from '../../src/store';
 import App from '../../src/components/App';
 
 const path = require("path");
 const fs = require("fs");
 
 export default (req, res, next) => {
+  const store = createAppStore();
 
   // point to the html file created by CRA's build tool
   const filePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
@@ -21,18 +22,21 @@ export default (req, res, next) => {
 
     const content = renderToString(
         <Provider store={store}>
-          <StaticRouter location={req.path} context={{}}>
+          <StaticRouter location={req.originalUrl} context={{}}>
             <App />
           </StaticRouter>
         </Provider>
     );
 
+    const reduxState = JSON.stringify(store.getState());
+
     // inject the rendered app into our html and send it
     return res.send(
-        htmlData.replace(
-            '<div id="root"></div>',
-            `<div id="root">${content}</div>`
-        )
+        htmlData
+            .replace(
+                '<div id="root"></div>',
+                `<div id="root">${content}</div>`
+            ).replace('"__SERVER_REDUX_STATE__"', reduxState)
     );
   });
 }

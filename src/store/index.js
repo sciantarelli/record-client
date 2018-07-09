@@ -7,12 +7,18 @@ import rootSaga from '../sagas';
 const logger = createLogger();
 const saga = createSagaMiddleware();
 
-const store = createStore(
-    rootReducer,
-    undefined,
-    applyMiddleware(saga, logger)
-);
+const createAppStore = initialState => {
+  const store = createStore(
+      rootReducer,
+      (initialState || undefined),
+      applyMiddleware(saga, logger)
+  );
 
-saga.run(rootSaga);
+  saga.run(rootSaga);
 
-export default store;
+  return store;
+};
+
+
+
+export default createAppStore;
