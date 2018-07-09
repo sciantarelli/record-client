@@ -1,7 +1,8 @@
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-
-// import our main App component
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../../src/store';
 import App from '../../src/components/App';
 
 const path = require("path");
@@ -18,15 +19,20 @@ export default (req, res, next) => {
       return res.status(404).end()
     }
 
-    // render the app as a string
-    const html = ReactDOMServer.renderToString(<App />);
+    const content = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.path} context={{}}>
+            <App />
+          </StaticRouter>
+        </Provider>
+    );
 
-  // inject the rendered app into our html and send it
-  return res.send(
-      htmlData.replace(
-          '<div id="root"></div>',
-          `<div id="root">${html}</div>`
-      )
-  );
-});
+    // inject the rendered app into our html and send it
+    return res.send(
+        htmlData.replace(
+            '<div id="root"></div>',
+            `<div id="root">${content}</div>`
+        )
+    );
+  });
 }

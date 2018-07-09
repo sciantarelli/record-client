@@ -1,6 +1,4 @@
 import express from 'express';
-
-// we'll talk about this in a minute:
 import serverRenderer from './middleware/renderer';
 
 const PORT = 3000;
@@ -13,15 +11,14 @@ const router = express.Router();
 // root (/) should always serve our server rendered page
 router.use('^/$', serverRenderer);
 
-// TODO: Adding this for now as mentioned here: https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a
-// May have to adjust eventually...
-router.use('*', serverRenderer);
-
 // other static resources should just be served as they are
 router.use(express.static(
     path.resolve(__dirname, '..', 'build'),
     { maxAge: '30d' },
 ));
+
+// Everything else should be handled by React
+router.use('*', serverRenderer);
 
 // tell the app to use the above rules
 app.use(router);
