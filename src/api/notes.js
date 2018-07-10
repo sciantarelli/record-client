@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// TODO: Hardcoded domain
 const BASE_URL = 'http://localhost:3001/v1/notes';
 
 const fetchNotes = () => {

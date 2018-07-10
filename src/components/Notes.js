@@ -40,6 +40,7 @@ const mapStateToProps = state => ({
 });
 
 
+// TODO: Consider refactoring this to a HOC, otherwise it's unnecessary layer (could use dispatch in componentDidMount)
 const mapDispatchToProps = (dispatch) => ({
   onFetchNotes: () => dispatch(doFetchNotes())
 });
