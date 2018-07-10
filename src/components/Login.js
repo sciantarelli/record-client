@@ -18,38 +18,41 @@ class Login extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, authError } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label>Email</label>
-          <Field
-              name="email"
-              type="text"
-              component="input"
-              autoComplete="none"
-          />
-        </fieldset>
-        <fieldset>
-          <label>Password</label>
-          <Field
-              name="password"
-              type="password"
-              component="input"
-              autoComplete="none"
-          />
-        </fieldset>
-        <div>{this.props.error}</div>
-        <button>Login</button>
-      </form>
+      <div>
+        { authError && <p className="error">{authError.message}</p> }
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <fieldset>
+            <label>Email</label>
+            <Field
+                name="email"
+                type="text"
+                component="input"
+                autoComplete="none"
+            />
+          </fieldset>
+          <fieldset>
+            <label>Password</label>
+            <Field
+                name="password"
+                type="password"
+                component="input"
+                autoComplete="none"
+            />
+          </fieldset>
+          <button>Login</button>
+        </form>
+      </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return { error: state.auth.error };
-}
+const mapStateToProps = state => ({
+  // TODO: This should use a selector
+  authError: state.auth.error
+});
 
 export default compose(
     connect(mapStateToProps),

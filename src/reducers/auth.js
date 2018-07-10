@@ -9,7 +9,11 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
-      return {...state, isAuthenticating: true};
+      return {
+        ...state,
+        isAuthenticating: true,
+        error: ''
+      };
     case AUTH_SUCCESS:
       return {
         ...state,
