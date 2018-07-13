@@ -8,9 +8,29 @@ const logger = createLogger();
 const saga = createSagaMiddleware();
 
 const createAppStore = initialState => {
+
+  if (!initialState || (initialState === '__SERVER_REDUX_STATE__')) {
+    initialState = {};
+  }
+
+  let auth, expiry;
+
+  // TODO: Refactor once this is solid
+  if (typeof localStorage !== 'undefined'
+      && (auth = JSON.parse(localStorage.getItem('auth')))) {
+
+    if ((expiry = parseInt(auth.expiry, 10))
+        && (Date.now() < (expiry * 1000))) {
+
+      initialState.auth = auth
+    } else {
+      localStorage.removeItem('auth');
+    }
+  }
+
   const store = createStore(
       rootReducer,
-      (initialState || undefined),
+      initialState,
       applyMiddleware(saga, logger)
   );
 

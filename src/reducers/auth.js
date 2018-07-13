@@ -3,7 +3,11 @@ import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR } from '../constants/actionTypes';
 const INITIAL_STATE = {
   authenticated: '',
   error: '',
-  isAuthenticating: false
+  isAuthenticating: false,
+  access_token: '',
+  client: '',
+  expiry: '',
+  uid: ''
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -15,9 +19,16 @@ export default function(state = INITIAL_STATE, action) {
         error: ''
       };
     case AUTH_SUCCESS:
+      const headers = action.headers;
+      const { client, expiry, uid } = headers;
+
       return {
         ...state,
-        authenticated: action.data.user.authentication_token,
+        authenticated: '', // TODO: Remove this, originally from action.data.user.authentication_token,
+        access_token: headers['access-token'],
+        client,
+        expiry,
+        uid,
         isAuthenticating: false
       };
     case AUTH_ERROR:

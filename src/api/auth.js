@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // TODO: Hardcoded domain
-const BASE_URL = 'http://localhost:3001/v1/sessions';
+const BASE_URL = 'http://localhost:3001/v1/auth/sign_in';
 
 const postAuthUser = ({ email='', password=''}) => {
   return axios({

@@ -1,4 +1,4 @@
-import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR }from '../constants/actionTypes';
+import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR, AUTH_UPDATED }from '../constants/actionTypes';
 
 
 const authUser = (formProps) => ({
@@ -6,9 +6,9 @@ const authUser = (formProps) => ({
   formProps
 });
 
-const authSuccess = data => ({
+const authSuccess = headers => ({
   type: AUTH_SUCCESS,
-  data
+  headers
 });
 
 const authError = error => ({
@@ -16,4 +16,9 @@ const authError = error => ({
   error,
 });
 
-export { authUser, authSuccess, authError };
+const authUpdated = headers => ({
+  type: AUTH_UPDATED,
+  headers
+});
+
+export { authUser, authSuccess, authError, authUpdated };
