@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { BASE_API_URL } from '../constants';
 
-// TODO: Hardcoded domain, Common task, refactor
-const BASE_URL = 'http://localhost:3001/v1/notes';
+const BASE_URL = `${BASE_API_URL}/notes`;
 
 // TODO: Common task, refactor
 const fetchNotes = (authState) => {

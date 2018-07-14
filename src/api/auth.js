@@ -1,13 +1,13 @@
 // TODO: Refactor common axios into config type setup
 import axios from 'axios';
+import { BASE_API_URL } from '../constants';
 
-// TODO: Hardcoded domain
-const BASE_URL = 'http://localhost:3001/v1/auth/sign_in';
+const BASE_URL = `${BASE_API_URL}/auth`;
 
 const postAuthUser = ({ email='', password=''}) => {
   return axios({
     method: 'post',
-    url: BASE_URL,
+    url: `${BASE_URL}/sign_in`,
     data: {
       email,
       password
