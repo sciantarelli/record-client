@@ -1,26 +1,26 @@
 import { call, put } from 'redux-saga/effects';
 import { postAuthUser } from '../api/auth';
-import { authSuccess, authError } from '../actions/auth';
+import { doAuthSuccess, doAuthError } from '../actions/auth';
 
 function* handleAuthUser(action) {
   const { formProps } = action;
 
   try {
     const result = yield call(postAuthUser, formProps);
-    yield put(authSuccess(result.headers));
+    yield put(doAuthSuccess(result.headers));
     setAuthToLocalStorage(result.headers);
   } catch (error) {
-    yield put(authError(error));
+    yield put(doAuthError(error));
     clearAuthFromLocalStorage();
   }
 }
 
 function* handleAuthUpdated(action) {
   try {
-    yield put(authSuccess(action.headers));
+    yield put(doAuthSuccess(action.headers));
     setAuthToLocalStorage(action.headers);
   } catch (error) {
-    yield put(authError(error));
+    yield put(doAuthError(error));
     // TODO: Since we're doing this, should auth info also be cleared from the store? Hmm...
     clearAuthFromLocalStorage();
   }

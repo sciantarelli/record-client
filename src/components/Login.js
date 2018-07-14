@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { authUser } from '../actions/auth';
+import { doAuthUser } from '../actions/auth';
 import { getAuthError } from '../selectors/auth';
 
 class Login extends Component {
@@ -15,7 +15,7 @@ class Login extends Component {
 
     const { dispatch } = this.props;
 
-    dispatch(authUser(formProps));
+    dispatch(doAuthUser(formProps));
   };
 
   render() {

@@ -10,6 +10,7 @@ class Notes extends Component {
   componentDidMount() {
     const { notes, onFetchNotes } = this.props;
 
+    // TODO: Is this check necessary?
     if (!notes.length) {
       onFetchNotes();
     }

@@ -1,24 +1,24 @@
 import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR, AUTH_UPDATED }from '../constants/actionTypes';
 
 
-const authUser = (formProps) => ({
+const doAuthUser = (formProps) => ({
   type: AUTH_USER,
   formProps
 });
 
-const authSuccess = headers => ({
+const doAuthSuccess = headers => ({
   type: AUTH_SUCCESS,
   headers
 });
 
-const authError = error => ({
+const doAuthError = error => ({
   type: AUTH_ERROR,
   error,
 });
 
-const authUpdated = headers => ({
+const doAuthUpdated = headers => ({
   type: AUTH_UPDATED,
   headers
 });
 
-export { authUser, authSuccess, authError, authUpdated };
+export { doAuthUser, doAuthSuccess, doAuthError, doAuthUpdated };
