@@ -1,13 +1,22 @@
 import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR } from '../constants/actionTypes';
 
+const errorDefault = () => null;
+const isAuthenticatingDefault = () => false;
+const accessTokenDefault = () => '';
+const clientDefault = () => '';
+const expiryDefault = () => '';
+const uidDefault = () => '';
+
+
 const INITIAL_STATE = {
-  error: '',
-  isAuthenticating: false,
-  access_token: '',
-  client: '',
-  expiry: '',
-  uid: ''
+  error: errorDefault(),
+  isAuthenticating: isAuthenticatingDefault(),
+  access_token: accessTokenDefault(),
+  client: clientDefault(),
+  expiry: expiryDefault(),
+  uid: uidDefault()
 };
+
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -15,7 +24,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         isAuthenticating: true,
-        error: ''
+        error: errorDefault()
       };
     case AUTH_SUCCESS:
       const headers = action.headers;
@@ -27,13 +36,13 @@ export default function(state = INITIAL_STATE, action) {
         client,
         expiry,
         uid,
-        isAuthenticating: false
+        isAuthenticating: isAuthenticatingDefault()
       };
     case AUTH_ERROR:
       return {
         ...state,
         error: action.error,
-        isAuthenticating: false
+        isAuthenticating: isAuthenticatingDefault()
       };
     default:
       return state;

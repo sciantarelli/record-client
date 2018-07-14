@@ -1,47 +1,43 @@
 import { NOTES_FETCH, NOTES_ADD, NOTES_FETCH_ERROR } from '../constants/actionTypes';
 
-// TODO: Clean up this ugliness
+const notesDefault = () => [];
+const errorDefault = () => null;
+const isFetchingDefault = () => false;
+
 
 const INITIAL_STATE = {
-  notes: [],
-  error: null,
-  isFetching: false
+  notes: notesDefault(),
+  error: errorDefault(),
+  isFetching: isFetchingDefault()
 };
 
-const applyFetchNotes = (state, action) => ({
-  notes: state.notes,
-  error: null,
-  isFetching: true
-});
 
-const applyAddNotes = (state, action) => ({
-  notes: action.notes,
-  error: null,
-  isFetching: false
-});
-
-const applyFetchErrorNotes = (state, action) => ({
-  notes: [],
-  error: action.error,
-  isFetching: false
-});
-
-function notesReducer(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case NOTES_FETCH : {
-      return applyFetchNotes(state, action)
+      return {
+        ...state,
+        error: errorDefault(),
+        isFetching: true
+      }
     }
     case NOTES_ADD : {
-      return applyAddNotes(state, action);
+      return {
+        ...state,
+        error: errorDefault(),
+        isFetching: isFetchingDefault(),
+        notes: action.notes
+      }
     }
-
     case NOTES_FETCH_ERROR : {
-      return applyFetchErrorNotes(state, action);
+      return {
+        ...state,
+        error: action.error,
+        isFetching: isFetchingDefault(),
+        notes: notesDefault()
+      }
     }
 
     default : return state;
   }
 }
-
-
-export default notesReducer;
