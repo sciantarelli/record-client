@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { authUser } from '../actions/auth';
+import { getAuthError } from '../selectors/auth';
 
 class Login extends Component {
   onSubmit = formProps => {
@@ -50,8 +51,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  // TODO: This should use a selector
-  authError: state.auth.error
+  authError: getAuthError(state.auth)
 });
 
 export default compose(

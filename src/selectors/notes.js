@@ -1,7 +1,10 @@
-const getReadableNotes = ({ notesState }) =>
+const getNotes = notesState =>
     notesState.notes;
 
-const getFetchError = ({ notesState }) =>
+const getNotesError = notesState =>
     notesState.error;
 
-export { getReadableNotes, getFetchError };
+const getNotesIsFetching = notesState =>
+    notesState.isFetching;
+
+export { getNotes, getNotesError, getNotesIsFetching };

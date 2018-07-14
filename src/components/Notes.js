@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { doFetchNotes } from '../actions/notes'
+import { doFetchNotes } from '../actions/notes';
+import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
 
 // TODO: If api call fails with an error, ideally it would retry if the error was something other than unauthorized or bad request
 class Notes extends Component {
@@ -33,10 +34,9 @@ class Notes extends Component {
 };
 
 const mapStateToProps = state => ({
-  // TODO: This should use a selector
-    notes: state.notesState.notes,
-    error: state.notesState.error,
-    isFetching: state.notesState.isFetching
+  notes: getNotes(state.notesState),
+  error: getNotesError(state.notesState),
+  isFetching: getNotesIsFetching(state.notesState)
 });
 
 

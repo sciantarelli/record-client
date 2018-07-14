@@ -1,7 +1,6 @@
 import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR } from '../constants/actionTypes';
 
 const INITIAL_STATE = {
-  authenticated: '',
   error: '',
   isAuthenticating: false,
   access_token: '',
@@ -24,7 +23,6 @@ export default function(state = INITIAL_STATE, action) {
 
       return {
         ...state,
-        authenticated: '', // TODO: Remove this, originally from action.data.user.authentication_token,
         access_token: headers['access-token'],
         client,
         expiry,
