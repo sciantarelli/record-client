@@ -3,11 +3,14 @@ import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas';
+import { routerMiddleware } from 'react-router-redux';
+
 
 const logger = createLogger();
 const saga = createSagaMiddleware();
 
-const createAppStore = initialState => {
+
+const createClientStore = (initialState, history) => {
 
   if (!initialState || (initialState === '__SERVER_REDUX_STATE__')) {
     initialState = {};
@@ -16,8 +19,7 @@ const createAppStore = initialState => {
   let auth, expiry;
 
   // TODO: Refactor once this is solid
-  if (typeof localStorage !== 'undefined'
-      && (auth = JSON.parse(localStorage.getItem('auth')))) {
+  if (auth = JSON.parse(localStorage.getItem('auth'))) {
 
     if ((expiry = parseInt(auth.expiry, 10))
         && (Date.now() < (expiry * 1000))) {
@@ -27,6 +29,23 @@ const createAppStore = initialState => {
       localStorage.removeItem('auth');
     }
   }
+
+  const store = createStore(
+      rootReducer,
+      initialState,
+      applyMiddleware(routerMiddleware(history), saga, logger)
+  );
+
+  saga.run(rootSaga);
+
+  return store;
+};
+
+
+const createServerStore = () => {
+
+  const initialState = {};
+  let auth, expiry;
 
   const store = createStore(
       rootReducer,
@@ -41,4 +60,4 @@ const createAppStore = initialState => {
 
 
 
-export default createAppStore;
+export { createClientStore, createServerStore };

@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import { postAuthUser } from '../api/auth';
 import { doAuthSuccess, doAuthError } from '../actions/auth';
+import { push } from 'react-router-redux';
 
 function* handleAuthUser(action) {
   const { formProps } = action;
@@ -9,6 +10,7 @@ function* handleAuthUser(action) {
     const result = yield call(postAuthUser, formProps);
     yield put(doAuthSuccess(result.headers));
     setAuthToLocalStorage(result.headers);
+    yield put(push('/notes')); // TODO: Eventually change this to '/'
   } catch (error) {
     yield put(doAuthError(error));
     clearAuthFromLocalStorage();

@@ -3,7 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { doAuthUser } from '../actions/auth';
-import { getAuthError } from '../selectors/auth';
+import { getIsAuthenticating, getAuthError } from '../selectors/auth';
 
 class Login extends Component {
   onSubmit = formProps => {
@@ -19,11 +19,12 @@ class Login extends Component {
   };
 
   render() {
-    const { handleSubmit, authError } = this.props;
+    const { handleSubmit, authError, isAuthenticating } = this.props;
 
     return (
       <div>
-        { authError && <p className="error">{authError.message}</p> }
+        { authError && <p>{authError.message}</p> }
+        { isAuthenticating && <p>Logging In...</p> }
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <fieldset>
             <label>Email</label>
@@ -51,6 +52,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
+  isAuthenticating: getIsAuthenticating(state.auth),
   authError: getAuthError(state.auth)
 });
 

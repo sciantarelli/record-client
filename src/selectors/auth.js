@@ -1,4 +1,7 @@
 const getAuthError = authState =>
     authState.error;
 
-export { getAuthError };
+const getIsAuthenticating = authState =>
+    authState.isAuthenticating;
+
+export { getAuthError, getIsAuthenticating };
