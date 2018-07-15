@@ -18,14 +18,27 @@ function* handleAuthUser(action) {
 }
 
 function* handleAuthUpdated(action) {
+  let { headers } = action;
+
+  // This happens when the server deems requests came in batches
+  if (tokenNotRefreshed(headers)) {
+    return;
+  }
+
   try {
-    yield put(doAuthSuccess(action.headers));
-    setAuthToLocalStorage(action.headers);
+    yield put(doAuthSuccess(headers));
+    setAuthToLocalStorage(headers);
   } catch (error) {
     yield put(doAuthError(error));
     // TODO: Since we're doing this, should auth info also be cleared from the store? Hmm...
     clearAuthFromLocalStorage();
   }
+}
+
+function tokenNotRefreshed(headers) {
+  const { client, expiry, uid } = headers;
+
+  return client && uid && !expiry && !headers['access-token'];
 }
 
 function setAuthToLocalStorage(headers) {
