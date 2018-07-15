@@ -1,4 +1,5 @@
 import React from 'react';
+import requireAuth from './requireAuth';
 
 const Dashboard = () => {
   return (
@@ -6,4 +7,4 @@ const Dashboard = () => {
   )
 };
 
-export default Dashboard;
+export default requireAuth(Dashboard);

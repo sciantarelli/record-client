@@ -8,7 +8,7 @@ import { compose } from 'redux';
 // TODO: If api call fails with an error, ideally it would retry if the error was something other than unauthorized or bad request
 class Notes extends Component {
 
-  // TODO: Consider refactoring this to a HOC
+  // TODO: Consider refactoring this to a HOC, perhaps a data fetcher. Also, consider data fetching shouldn't run if user is logged out
   componentDidMount() {
     const { notes, onFetchNotes } = this.props;
 
