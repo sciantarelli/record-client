@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { doFetchNotes } from '../actions/notes';
 import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
+import requireAuth from './requireAuth';
+import { compose } from 'redux';
 
 // TODO: If api call fails with an error, ideally it would retry if the error was something other than unauthorized or bad request
 class Notes extends Component {
@@ -50,4 +52,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Notes);
+)(requireAuth(Notes));
