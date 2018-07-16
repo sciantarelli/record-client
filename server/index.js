@@ -1,7 +1,8 @@
 import express from 'express';
 import serverRenderer from './middleware/renderer';
 
-const PORT = 3000;
+console.log(process.env.PORT);
+const PORT = process.env.PORT || 3000;
 const path = require('path');
 
 // initialize the application and create the routes
