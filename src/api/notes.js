@@ -11,6 +11,17 @@ const fetchNote = (id, authState) => {
   });
 };
 
+const updateNote = ({ id, name, content}, authState) => {
+  return axios({
+    ...authHeaders(authState),
+    method: 'put',
+    url: `${BASE_URL}/${id}`,
+    data: {
+      id, name, content
+    }
+  });
+};
+
 // TODO: Common task, refactor
 const fetchNotes = (authState) => {
   return axios({
@@ -35,4 +46,4 @@ const authHeaders = authState => {
 
 
 
-export { fetchNote, fetchNotes };
+export { fetchNote, updateNote, fetchNotes };

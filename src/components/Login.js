@@ -7,12 +7,6 @@ import { getIsAuthenticating, getAuthError } from '../selectors/auth';
 
 class Login extends Component {
   onSubmit = formProps => {
-
-    // TODO: So this uses a callback to redirect. Try to handle in actions
-    // this.props.signin(formProps, () => {
-    //   this.props.history.push('/feature');
-    // });
-
     const { dispatch } = this.props;
 
     dispatch(doAuthUser(formProps));

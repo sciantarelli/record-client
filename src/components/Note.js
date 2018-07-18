@@ -1,32 +1,64 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { doFetchNote } from '../actions/notes';
-import { getNote, getNoteError, getNoteIsFetching } from '../selectors/notes';
+import { reduxForm, Field } from 'redux-form';
+import { doFetchNote, doUpdateNote } from '../actions/notes';
+import { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 
 class Note extends Component {
 
-  render() {
-    const {data} = this.props;
+  onSubmit = formProps => {
+    const { dispatch } = this.props;
 
-    return(
+    dispatch(doUpdateNote(formProps));
+  };
+
+  render() {
+    const { data, errorMessage, isFetching, isSaving, handleSubmit } = this.props;
+
+    if (!data || errorMessage) return null;
+
+    return (
       <div>
-        { data && <div>{data.name}</div> }
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <div>
+            <Field
+                name="name"
+                type="text"
+                component="input"
+            />
+          </div>
+          <div>
+            <Field
+                name="content"
+                type="text"
+                component="textarea"
+                class="temp-textarea"
+            />
+          </div>
+
+          <div>
+            { !isFetching && !isSaving && <button>Save</button> }
+          </div>
+        </form>
       </div>
     )
   }
-
 }
 
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
+  const data = getNote(state.openNotesState, id);
 
   return {
-    data: getNote(state.openNotesState, id),
-    error: getNoteError(state.openNotesState, id),
-    isFetching: getNoteIsFetching(state.openNotesState, id)
+    data,
+    errorMessage: getNoteError(state.openNotesState, id),
+    isFetching: getNoteIsFetching(state.openNotesState, id),
+    isSaving: getNoteIsSaving(state.openNotesState, id),
+    initialValues: data
   };
 };
 
@@ -35,8 +67,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   doFetch: () => dispatch(doFetchNote(ownProps.match.params.id))
 });
 
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+// TODO: Fix up this compose call
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    reduxForm({
+      form: 'note',
+      enableReinitialize: true
+    })
 )(requireAuth(dataLoading(Note)));

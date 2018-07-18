@@ -7,22 +7,19 @@ export default Entity => {
 
     // TODO: Consider that data fetching shouldn't run if user is logged out
     componentDidMount() {
-      console.log(this.props);
       const { data, doFetch } = this.props;
 
-      // TODO: Is this check necessary? If it is, may need to modify to handle arrays, object, etc
-      if (!data) {
-        doFetch();
-      }
+      if (!data) doFetch();
     }
 
     render() {
-      const {isFetching, error} = this.props;
+      const {isFetching, isSaving, errorMessage} = this.props;
 
       return(
         <div>
           { isFetching && <div>Loading...</div> }
-          { error && <p className="error">{error.message}</p> }
+          { isSaving && <div>Saving...</div> }
+          { errorMessage && <p>{errorMessage}</p> }
 
           <Entity {...this.props} />
         </div>

@@ -4,6 +4,7 @@ import { doFetchNotes } from '../actions/notes';
 import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
+import { Link } from 'react-router-dom';
 
 // TODO: If api call fails with an error, ideally it would retry if the error was something other than unauthorized or bad request
 class Notes extends Component {
@@ -11,12 +12,13 @@ class Notes extends Component {
   render() {
     const {data} = this.props;
 
+    console.log(data);
     return (
-      <div>
-        {(data || []).map(note =>
-          <div>{note.name}</div>
+      <ul>
+        {Object.keys(data || {}).map(id =>
+          <li><Link to={`notes/${id}`}>{data[id].name}</Link></li>
         )}
-      </div>
+      </ul>
     )
   }
 
@@ -24,7 +26,7 @@ class Notes extends Component {
 
 const mapStateToProps = state => ({
   data: getNotes(state.notesState),
-  error: getNotesError(state.notesState),
+  errorMessage: getNotesError(state.notesState),
   isFetching: getNotesIsFetching(state.notesState)
 });
 
