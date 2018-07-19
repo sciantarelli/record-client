@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 class AppLink extends Component {
   render() {
-    const { location } = this.props;
+    const { location, children } = this.props;
     const toPath = this.props.to;
     const currentPath = location && location.pathname;
     const isCurrentPath = (currentPath == toPath);
@@ -12,8 +12,8 @@ class AppLink extends Component {
     return(
         <li>
           { isCurrentPath ?
-              <div>{this.props.children}</div> :
-              <Link to={toPath}>{this.props.children}</Link>
+              <div>{children}</div> :
+              <Link to={toPath}>{children}</Link>
           }
         </li>
     );
@@ -22,4 +22,30 @@ class AppLink extends Component {
 
 const NavLink = withRouter(AppLink);
 
-export { AppLink, NavLink };
+
+const openNoteNavLink = (openNote) => {
+  if (!openNote.id) return;
+
+  return componentNavLink(openNote, '/notes');
+};
+
+
+const componentNavLink = (component, path) => {
+  return (
+    <NavLink to={`${path}/${component.id}`}>
+      {abbrevForNavLink(component.name)}
+    </NavLink>
+  );
+};
+
+
+const abbrevForNavLink = (text) => {
+  const maxLength = 15;
+
+  if (text.length <= maxLength) return text;
+
+  return `${text.substring(0, maxLength)}...`;
+};
+
+
+export { AppLink, NavLink, openNoteNavLink };
