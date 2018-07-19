@@ -12,19 +12,19 @@ class Header extends Component {
     const { pathname } = this.props.location;
 
     return (
-      <div className="header">
-        <ul>
+      <div id="header">
+        <ul id="main-nav">
           <NavLink to="/login">Login</NavLink>
           <NavLink to="/">Dashboard</NavLink>
-          <NavLink to="/notes">All Notes</NavLink>
+          <NavLink to="/notes">Notes</NavLink>
+          <NavLink to="/ideas">Ideas</NavLink>
         </ul>
 
-        <ul>
+        <ul class="sub-nav">
           {
-            pathname != '/notes' &&
-              Object.keys(openNotesState || {}).map(id =>
-                openNoteNavLink(openNotesState[id])
-              )
+            Object.keys(openNotesState || {}).map(id =>
+              openNoteNavLink(openNotesState[id])
+            )
           }
         </ul>
       </div>

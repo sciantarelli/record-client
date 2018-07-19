@@ -7,15 +7,14 @@ class AppLink extends Component {
     const { location, children } = this.props;
     const toPath = this.props.to;
     const currentPath = location && location.pathname;
-    const isCurrentPath = (currentPath == toPath);
+    let className = 'app-link';
+
+    if ((currentPath == toPath)) className = `${className} active-link`;
 
     return(
-        <li>
-          { isCurrentPath ?
-              <div>{children}</div> :
-              <Link to={toPath}>{children}</Link>
-          }
-        </li>
+      <li className={className}>
+        <Link to={toPath}>{children}</Link>
+      </li>
     );
   }
 }
