@@ -1,10 +1,10 @@
-import { NOTE_FETCH, NOTE_ADD, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR } from '../constants/actionTypes';
+import { NOTE_FETCH, NOTE_ADD, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { deletePropertyFromObject } from '../helpers';
 
 
 const errorDefault = () => null;
 const isFetchingDefault = () => false;
 const isSavingDefault = () => false;
-
 
 const INITIAL_STATE = {};
 
@@ -57,7 +57,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         [id]: {
-          ...action.formProps,
+          ...state[id],
           isSaving: true,
           error: errorDefault()
         }
@@ -81,6 +81,11 @@ export default function(state = INITIAL_STATE, action) {
           isSaving: isSavingDefault()
         }
       }
+    }
+    case NOTE_CLOSE : {
+      const { [action.id]:value, ...newState } = state;
+
+      return deletePropertyFromObject(state, action.id);
     }
 
     default : return state;

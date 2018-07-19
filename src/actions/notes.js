@@ -1,4 +1,4 @@
-import { NOTE_ADD, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_ADD, NOTES_FETCH, NOTES_FETCH_ERROR } from '../constants/actionTypes';
+import { NOTE_ADD, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_ADD, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
 
 const doFetchNote = id => ({
   type: NOTE_FETCH,
@@ -32,6 +32,11 @@ const doUpdateNoteError = (id, error) => ({
   error
 });
 
+const doCloseNote = id => ({
+  type: NOTE_CLOSE,
+  id
+});
+
 const doFetchNotes = query => ({
   type: NOTES_FETCH,
   query,
@@ -47,4 +52,4 @@ const doFetchErrorNotes = error => ({
   error,
 });
 
-export { doFetchNote, doAddNote, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doAddNotes, doFetchNotes, doFetchErrorNotes };
+export { doFetchNote, doAddNote, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doAddNotes, doFetchNotes, doFetchErrorNotes };

@@ -22,7 +22,6 @@ const updateNote = ({ id, name, content}, authState) => {
   });
 };
 
-// TODO: Common task, refactor
 const fetchNotes = (authState) => {
   return axios({
     ...authHeaders(authState),
@@ -31,6 +30,7 @@ const fetchNotes = (authState) => {
   });
 };
 
+// TODO: Common need, refactor
 const authHeaders = authState => {
   const { access_token, client, expiry, uid } = authState;
 
