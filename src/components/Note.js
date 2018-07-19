@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { doFetchNote, doUpdateNote } from '../actions/notes';
+import { doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
 import { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
@@ -10,9 +10,9 @@ import dataLoading from './dataLoading';
 class Note extends Component {
 
   onSubmit = formProps => {
-    const { dispatch } = this.props;
+    const { doUpdate } = this.props;
 
-    dispatch(doUpdateNote(formProps));
+    doUpdate(formProps);
   };
 
   render() {
@@ -63,9 +63,15 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  doFetch: () => dispatch(doFetchNote(ownProps.match.params.id))
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const id = ownProps.match.params.id;
+
+  return {
+    doFetch: () => dispatch(doFetchNote(id)),
+    doUpdate: (formProps) => dispatch(doUpdateNote(formProps)),
+    doClose: () => dispatch(doCloseNote(id))
+  };
+};
 
 // TODO: Fix up this compose call
 export default compose(
