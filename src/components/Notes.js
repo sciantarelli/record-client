@@ -12,11 +12,10 @@ class Notes extends Component {
   render() {
     const {data} = this.props;
 
-    console.log(data);
     return (
       <ul>
         {Object.keys(data || {}).map(id =>
-          <li><Link to={`notes/${id}`}>{data[id].name}</Link></li>
+          <li><Link to={`/notes/${id}`}>{data[id].name}</Link></li>
         )}
       </ul>
     )
