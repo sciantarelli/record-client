@@ -1,7 +1,12 @@
-import { call, put } from 'redux-saga/effects';
-import { postAuthUser } from '../api/auth';
+import { call, put, select } from 'redux-saga/effects';
+import { postAuthUser, deleteAuthUser } from '../api/auth';
 import { doAuthSuccess, doAuthError } from '../actions/auth';
+import { doStoreReset } from '../actions/store';
 import { push } from 'react-router-redux';
+
+
+const get_auth = (state) => state.auth;
+
 
 function* handleAuthUser(action) {
   const { formProps } = action;
@@ -16,6 +21,7 @@ function* handleAuthUser(action) {
     clearAuthFromLocalStorage();
   }
 }
+
 
 function* handleAuthUpdated(action) {
   let { headers } = action;
@@ -35,11 +41,26 @@ function* handleAuthUpdated(action) {
   }
 }
 
+
+function* handleAuthDestroy(action) {
+  try {
+    const auth = yield select(get_auth);
+    yield call(deleteAuthUser, auth);
+  } catch (error) {
+    // TODO: User probably doesn't care if failed to logout on server, but consider doing something here
+  } finally {
+    clearAuthFromLocalStorage();
+    yield put(doStoreReset());
+  }
+}
+
+
 function tokenNotRefreshed(headers) {
   const { client, expiry, uid } = headers;
 
   return client && uid && !expiry && !headers['access-token'];
 }
+
 
 function setAuthToLocalStorage(headers) {
   const { client, expiry, uid } = headers;
@@ -54,8 +75,10 @@ function setAuthToLocalStorage(headers) {
   localStorage.setItem('auth', JSON.stringify(auth));
 }
 
+
 function clearAuthFromLocalStorage() {
   localStorage.removeItem('auth');
 }
 
-export { handleAuthUser, handleAuthUpdated };
+
+export { handleAuthUser, handleAuthUpdated, handleAuthDestroy };

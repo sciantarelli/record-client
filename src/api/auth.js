@@ -1,6 +1,7 @@
 // TODO: Refactor common axios into config type setup
 import axios from 'axios';
 import { BASE_API_URL } from '../constants';
+import { authHeaders } from './index';
 
 const BASE_URL = `${BASE_API_URL}/auth`;
 
@@ -15,4 +16,12 @@ const postAuthUser = ({ email='', password=''}) => {
   });
 };
 
-export { postAuthUser };
+const deleteAuthUser = authState => {
+  return axios({
+    ...authHeaders(authState),
+    method: 'delete',
+    url: `${BASE_URL}/sign_out`
+  })
+};
+
+export { postAuthUser, deleteAuthUser };

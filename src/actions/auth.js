@@ -1,4 +1,4 @@
-import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR, AUTH_UPDATED }from '../constants/actionTypes';
+import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR, AUTH_UPDATED, AUTH_DESTROY }from '../constants/actionTypes';
 
 
 const doAuthUser = (formProps) => ({
@@ -21,4 +21,8 @@ const doAuthUpdated = headers => ({
   headers
 });
 
-export { doAuthUser, doAuthSuccess, doAuthError, doAuthUpdated };
+const doLogoutUser = () => ({
+  type: AUTH_DESTROY
+});
+
+export { doAuthUser, doAuthSuccess, doAuthError, doAuthUpdated, doLogoutUser };

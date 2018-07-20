@@ -24,7 +24,7 @@ export default Entity => {
   }
 
   const mapDispatchToProps = (dispatch) => ({
-    navigateAway: () => dispatch(push('login'))
+    navigateAway: () => dispatch(push('/login'))
   });
 
   function mapStateToProps(state) {

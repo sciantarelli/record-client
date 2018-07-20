@@ -1,7 +1,7 @@
 import { takeEvery, all } from 'redux-saga/effects';
-import { NOTE_FETCH, NOTE_UPDATE, NOTES_FETCH, AUTH_USER, AUTH_UPDATED } from '../constants/actionTypes';
+import { NOTE_FETCH, NOTE_UPDATE, NOTES_FETCH, AUTH_USER, AUTH_UPDATED, AUTH_DESTROY } from '../constants/actionTypes';
 import { handleFetchNote, handleUpdateNote, handleFetchNotes } from './notes';
-import { handleAuthUser, handleAuthUpdated } from './auth';
+import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 
 function *watchAll() {
   yield all([
@@ -9,7 +9,8 @@ function *watchAll() {
     takeEvery(NOTE_UPDATE, handleUpdateNote),
     takeEvery(NOTES_FETCH, handleFetchNotes),
     takeEvery(AUTH_USER, handleAuthUser),
-    takeEvery(AUTH_UPDATED, handleAuthUpdated)
+    takeEvery(AUTH_UPDATED, handleAuthUpdated),
+    takeEvery(AUTH_DESTROY, handleAuthDestroy)
   ])
 }
 
