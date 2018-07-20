@@ -4,4 +4,10 @@ const getAuthError = authState =>
 const getIsAuthenticating = authState =>
     authState.isAuthenticating;
 
-export { getAuthError, getIsAuthenticating };
+const getIsAuthenticated = authState => {
+  const { access_token, client, uid, expiry } = authState;
+
+  return (access_token && client && uid && expiry) ? true : false;
+};
+
+export { getAuthError, getIsAuthenticating, getIsAuthenticated };

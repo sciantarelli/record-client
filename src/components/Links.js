@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { getIsAuthenticated } from '../selectors/auth';
 
 
 class AppLink extends Component {
   render() {
-    const { location, children } = this.props;
+    const { location, children, auth, isAuthed } = this.props;
+
+    if (auth && !isAuthed) return null;
+    if ((auth === false) && isAuthed) return null;
+
     const toPath = this.props.to;
     const currentPath = location && location.pathname;
     let className = 'app-link';
@@ -19,7 +25,13 @@ class AppLink extends Component {
   }
 }
 
-const NavLink = withRouter(AppLink);
+const mapStateToProps = (state) => ({
+  isAuthed: getIsAuthenticated(state.auth)
+});
+
+const ConnectedAppLink = connect(mapStateToProps)(AppLink);
+
+const NavLink = withRouter(ConnectedAppLink);
 
 
 const openNoteNavLink = (openNote) => {
@@ -29,9 +41,9 @@ const openNoteNavLink = (openNote) => {
 };
 
 
-const componentNavLink = (component, path) => {
+const componentNavLink = (component, path, requireAuth=true) => {
   return (
-    <NavLink to={`${path}/${component.id}`}>
+    <NavLink to={`${path}/${component.id}`} auth={requireAuth}>
       {abbrevForNavLink(component.name)}
     </NavLink>
   );
@@ -47,4 +59,4 @@ const abbrevForNavLink = (text) => {
 };
 
 
-export { AppLink, NavLink, openNoteNavLink };
+export { ConnectedAppLink as AppLink, NavLink, openNoteNavLink };
