@@ -13,7 +13,7 @@ class Header extends Component {
 
     return (
       <div id="header">
-        <ul id="main-nav">
+        <ul id="main-nav" class="nav-links">
           <NavLink to="/login" auth={false}>Login</NavLink>
           <NavLink to="/logout" auth={true}>Logout</NavLink>
           <NavLink to="/" auth={true}>Dashboard</NavLink>
@@ -21,7 +21,7 @@ class Header extends Component {
           <NavLink to="/ideas" auth={true}>Ideas</NavLink>
         </ul>
 
-        <ul class="sub-nav">
+        <ul class="sub-nav nav-links">
           {
             Object.keys(openNotesState || {}).map(id =>
               openNoteNavLink(openNotesState[id])

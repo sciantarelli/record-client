@@ -25,6 +25,9 @@ ul {
 ul > .app-link {
   margin-right: 7px;
   padding-bottom: 2px;
+}
+
+ul.nav-links li {
   display: inline-block;
 }
 
