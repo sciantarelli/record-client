@@ -15,6 +15,7 @@ export default () => {
           <Route path='/login' component={Login} />
           <Route path='/logout' component={Logout} />
           <Route exact path='/notes' component={Notes} />
+          <Route exact path='/notes/new' render={()=> <Note skipLoad={true}/>} />
           <Route path="/notes/:id" component={Note}/>
           <Route path='/404' component={NotFound} />
           <Redirect to="/404" />

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
+import { doCreateNote, doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
 import { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
@@ -10,15 +10,15 @@ import dataLoading from './dataLoading';
 class Note extends Component {
 
   onSubmit = formProps => {
-    const { doUpdate } = this.props;
+    const { data, doCreate, doUpdate } = this.props;
 
-    doUpdate(formProps);
+    (data && data.id) ? doUpdate(formProps) : doCreate(formProps);
   };
 
   render() {
-    const { data, errorMessage, isFetching, isSaving, handleSubmit } = this.props;
+    const { skipLoad, data, errorMessage, isFetching, isSaving, handleSubmit } = this.props;
 
-    if (!data || errorMessage) return null;
+    if (!skipLoad && (!data || errorMessage)) return null;
 
     return (
       <div>
@@ -49,8 +49,12 @@ class Note extends Component {
 }
 
 
+const getIdFromOwnProps = (ownProps) => ownProps.match && ownProps.match.params.id;
+
+
+// TODO: Note shouldn't be stored in open notes, right? It may be cool though....
 const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.id;
+  const id = getIdFromOwnProps(ownProps);
   const data = getNote(state.openNotesState, id);
 
   return {
@@ -64,10 +68,11 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const id = ownProps.match.params.id;
+  const id = getIdFromOwnProps();
 
   return {
     doFetch: () => dispatch(doFetchNote(id)),
+    doCreate: () => dispatch(doCreateNote()),
     doUpdate: (formProps) => dispatch(doUpdateNote(formProps)),
     doClose: () => dispatch(doCloseNote(id))
   };

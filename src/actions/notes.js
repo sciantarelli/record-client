@@ -1,4 +1,10 @@
-import { NOTE_ADD, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_ADD, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_CREATE, NOTE_ADD, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_ADD, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+
+
+const doCreateNote = formProps => ({
+  type: NOTE_CREATE,
+  formProps
+});
 
 const doFetchNote = id => ({
   type: NOTE_FETCH,
@@ -52,4 +58,4 @@ const doFetchErrorNotes = error => ({
   error,
 });
 
-export { doFetchNote, doAddNote, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doAddNotes, doFetchNotes, doFetchErrorNotes };
+export { doCreateNote, doFetchNote, doAddNote, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doAddNotes, doFetchNotes, doFetchErrorNotes };
