@@ -1,4 +1,5 @@
 export const STORE_RESET = 'STORE_RESET';
+export const DISPATCH_THEN_ROUTE = 'DISPATCH_THEN_ROUTE';
 
 export const AUTH_USER = 'AUTH_USER';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
@@ -6,6 +7,8 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_UPDATED = 'AUTH_UPDATED';
 export const AUTH_DESTROY = 'AUTH_DESTROY';
 
+
+export const NOTE_NEW = 'NOTE_NEW';
 export const NOTE_CREATE = 'NOTE_CREATE';
 export const NOTE_CREATE_SUCCESS = 'NOTE_CREATE_SUCCESS';
 export const NOTE_CREATE_ERROR = 'NOTE_CREATE_ERROR';

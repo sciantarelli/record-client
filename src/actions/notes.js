@@ -1,5 +1,9 @@
-import { NOTE_CREATE, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
 
+
+const doNewNote = () => ({
+  type: NOTE_NEW
+});
 
 const doCreateNote = formProps => ({
   type: NOTE_CREATE,
@@ -58,4 +62,4 @@ const doFetchErrorNotes = error => ({
   error,
 });
 
-export { doCreateNote, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes };
+export { doNewNote, doCreateNote, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes };
