@@ -7,9 +7,9 @@ export default Entity => {
 
     // TODO: Consider that data fetching shouldn't run if user is logged out. I don't think this is relevant anymore
     componentDidMount() {
-      const { data, errorMessage, doFetch } = this.props;
+      const { data, errorMessage, doFetch, skipLoad } = this.props;
 
-      if (!data || errorMessage ) doFetch();
+      if (!skipLoad && (!data || errorMessage) ) doFetch();
     }
 
     render() {
