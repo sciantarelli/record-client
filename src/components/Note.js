@@ -68,7 +68,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const id = getIdFromOwnProps();
+  const id = getIdFromOwnProps(ownProps);
 
   return {
     doFetch: () => dispatch(doFetchNote(id)),
