@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import { fetchNote, updateNote, fetchNotes } from '../api/notes';
-import { doAddNote, doFetchErrorNote, doAddNotes, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
+import { doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
 import { doAuthUpdated } from '../actions/auth';
 import { push } from 'react-router-redux';
 
@@ -15,7 +15,7 @@ function* handleFetchNote(action) {
     const auth = yield select(get_auth);
     const result = yield call(fetchNote, id, auth);
     yield put(doAuthUpdated(result.headers));
-    yield put(doAddNote(result.data));
+    yield put(doFetchNoteSuccess(result.data));
   } catch (error) {
     const { response, request } = error;
 
@@ -69,7 +69,7 @@ function* handleFetchNotes(action) {
     const auth = yield select(get_auth);
     const result = yield call(fetchNotes, auth);
     yield put(doAuthUpdated(result.headers));
-    yield put(doAddNotes(result.data));
+    yield put(doFetchNotesSuccess(result.data));
   } catch (error) {
     // TODO: Flesh out error handling
     yield put(doFetchErrorNotes(error));

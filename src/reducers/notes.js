@@ -1,4 +1,4 @@
-import { NOTES_FETCH, NOTES_ADD, NOTES_FETCH_ERROR, NOTE_UPDATE_SUCCESS } from '../constants/actionTypes';
+import { NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTES_FETCH, NOTES_FETCH_SUCCESS, NOTES_FETCH_ERROR, NOTE_UPDATE_SUCCESS } from '../constants/actionTypes';
 
 const notesDefault = () => null;
 const errorDefault = () => null;
@@ -21,7 +21,7 @@ export default function(state = INITIAL_STATE, action) {
         isFetching: true
       }
     }
-    case NOTES_ADD : {
+    case NOTES_FETCH_SUCCESS : {
       return {
         ...state,
         error: errorDefault(),
@@ -37,22 +37,27 @@ export default function(state = INITIAL_STATE, action) {
         notes: notesDefault()
       }
     }
+    case NOTE_CREATE_SUCCESS: {
+      return notesWithReplacement(state, action.note);
+    }
     case NOTE_UPDATE_SUCCESS : {
-      if (!state.notes) return state;
-
-      const { id, name, content } = action.note;
-
-      return {
-        ...state,
-        notes: {
-          ...state.notes,
-          [action.note.id]: {
-            id, name, content
-          }
-        }
-      }
+      return notesWithReplacement(state, action.note);
     }
 
     default : return state;
   }
 }
+
+const notesWithReplacement = (state, note) => {
+  if (!state.notes) return state;
+
+  const { id, name, content } = note;
+
+  return {
+    ...state,
+    notes: {
+      ...state.notes,
+      [id]: { id, name, content }
+    }
+  }
+};

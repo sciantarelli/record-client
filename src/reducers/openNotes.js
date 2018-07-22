@@ -1,4 +1,4 @@
-import { NOTE_FETCH, NOTE_ADD, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
 import { deletePropertyFromObject } from '../helpers';
 
 
@@ -31,7 +31,7 @@ export default function(state = INITIAL_STATE, action) {
       }
     }
     // TODO: Possibly rename ADD to something else, like FETCH SUCCESS
-    case NOTE_ADD : {
+    case NOTE_FETCH_SUCCESS : {
       return {
         ...state,
         [action.note.id]: {
