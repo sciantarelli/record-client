@@ -1,11 +1,16 @@
-import { push } from 'react-router-redux';
 import { put } from 'redux-saga/effects';
+import { doNewNote } from '../actions/notes';
 
 
-function* handleDispatchThenRoute(action) {
-  yield put(action.action());
-  yield put(push(action.path));
+function* handleLocationChange(action) {
+  const { pathname } = action.payload;
+
+  switch (pathname) {
+    case '/notes/new' : {
+      yield put(doNewNote());
+    }
+  }
 }
 
 
-export { handleDispatchThenRoute };
+export { handleLocationChange };
