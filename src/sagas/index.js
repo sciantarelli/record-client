@@ -4,6 +4,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import { NOTE_CREATE, NOTE_FETCH, NOTE_UPDATE, NOTES_FETCH, AUTH_USER, AUTH_UPDATED, AUTH_DESTROY } from '../constants/actionTypes';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleFetchNotes } from './notes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
+import { handleLocationChange } from './general';
 
 
 function *watchAll() {
