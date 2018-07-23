@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
-import { fetchNote, updateNote, fetchNotes } from '../api/notes';
-import { doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
+import { createNote, fetchNote, updateNote, fetchNotes } from '../api/notes';
+import { doCreateNoteSuccess, doCreateNoteError, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
 import { doAuthUpdated } from '../actions/auth';
 import { push } from 'react-router-redux';
 
@@ -44,6 +44,21 @@ function* handleFetchNote(action) {
   }
 }
 
+function* handleCreateNote(action) {
+  try {
+    const auth = yield select(get_auth);
+    const result = yield call(createNote, action.formProps, auth);
+    const note = result.data;
+
+    yield put(doAuthUpdated(result.headers));
+    yield put(doCreateNoteSuccess(note));
+    yield put(doCloseNote('new'));
+    yield put(push(`/notes/${note.id}`))
+  } catch (error) {
+    // TODO: Flesh out error handling
+    yield put(doCreateNoteError(error));
+  }
+}
 
 function* handleUpdateNote(action) {
 
@@ -76,4 +91,4 @@ function* handleFetchNotes(action) {
   }
 }
 
-export { handleFetchNote, handleUpdateNote, handleFetchNotes };
+export { handleCreateNote, handleFetchNote, handleUpdateNote, handleFetchNotes };

@@ -10,12 +10,11 @@ import { AppLink } from './Links';
 class Notes extends Component {
 
   render() {
-    const {data} = this.props;
+    const { data } = this.props;
 
-    // TODO: Shouldn't need to wait for Loading to create new note! Look in Data Loader to fix
     return (
       <ul>
-        <AppLink to="/notes/new" auth={true}>Create Note</AppLink>
+        <AppLink to='/notes/new' auth={true}>Create Note</AppLink>
 
         {Object.keys(data || {}).map(id =>
           <AppLink to={`/notes/${id}`} auth={true}>{data[id].name}</AppLink>

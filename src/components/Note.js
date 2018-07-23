@@ -48,11 +48,11 @@ class Note extends Component {
   }
 }
 
+// Id can be explicitly passed for 'new' note, so that's checked first
+const getIdFromOwnProps = (ownProps) =>
+    ownProps.id || (ownProps.match && ownProps.match.params.id);
 
-const getIdFromOwnProps = (ownProps) => ownProps.match && ownProps.match.params.id;
 
-
-// TODO: Note shouldn't be stored in open notes, right? It may be cool though....
 const mapStateToProps = (state, ownProps) => {
   const id = getIdFromOwnProps(ownProps);
   const data = getNote(state.openNotesState, id);
@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     doFetch: () => dispatch(doFetchNote(id)),
-    doCreate: () => dispatch(doCreateNote()),
+    doCreate: (formProps) => dispatch(doCreateNote(formProps)),
     doUpdate: (formProps) => dispatch(doUpdateNote(formProps)),
     doClose: () => dispatch(doCloseNote(id))
   };

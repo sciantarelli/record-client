@@ -4,6 +4,15 @@ import { authHeaders } from './index';
 
 const BASE_URL = `${BASE_API_URL}/notes`;
 
+const createNote = ({ name, content }, authState) => {
+  return axios({
+    ...authHeaders(authState),
+    method: 'post',
+    url: `${BASE_URL}`,
+    data: { name, content }
+  })
+};
+
 const fetchNote = (id, authState) => {
   return axios({
     ...authHeaders(authState),
@@ -32,4 +41,4 @@ const fetchNotes = (authState) => {
 };
 
 
-export { fetchNote, updateNote, fetchNotes };
+export { createNote, fetchNote, updateNote, fetchNotes };

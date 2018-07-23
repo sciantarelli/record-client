@@ -1,4 +1,4 @@
-import { NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
 import { deletePropertyFromObject } from '../helpers';
 
 
@@ -19,6 +19,50 @@ const DEFAULT_NOTE_STATE = {
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
+
+    case NOTE_NEW : {
+      if (state['new']) return state;
+
+      return {
+        ...state,
+        ['new']: DEFAULT_NOTE_STATE
+      }
+    }
+    case NOTE_CREATE : {
+      const id = 'new';
+
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          isSaving: true,
+          error: errorDefault()
+        }
+      }
+    }
+    case NOTE_CREATE_SUCCESS : {
+      const { id, name, content } = action.note;
+
+      return {
+        ...state,
+        [id]: {
+          ...DEFAULT_NOTE_STATE,
+          id, name, content
+        }
+      }
+    }
+    case NOTE_CREATE_ERROR : {
+      const id = 'new';
+
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          error: action.error,
+          isSaving: isSavingDefault()
+        }
+      }
+    }
 
     // TODO: Consider adding some sort of check on all these references to action.id, so not just anything can be set
     case NOTE_FETCH : {
