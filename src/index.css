@@ -6,6 +6,11 @@ body {
   background: #fafafa;
 }
 
+input, select, textarea, button {
+  font-family:inherit;
+  font-size: inherit;
+}
+
 #header {
   background: #f7f7f7;
   padding: 3px;
