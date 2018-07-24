@@ -74,7 +74,6 @@ export default function(state = INITIAL_STATE, action) {
         }
       }
     }
-    // TODO: Possibly rename ADD to something else, like FETCH SUCCESS
     case NOTE_FETCH_SUCCESS : {
       return {
         ...state,

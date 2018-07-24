@@ -78,11 +78,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-// TODO: Fix up this compose call
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     reduxForm({
       form: 'note',
       enableReinitialize: true
-    })
-)(requireAuth(dataLoading(Note)));
+    }),
+    requireAuth,
+    dataLoading
+)(Note);
