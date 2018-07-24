@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
-import openNotesReducer from './openNotes';
-import notesReducer from './notes';
 import authReducer from './auth';
+import notesReducer from './notes';
+import openNotesReducer from './openNotes';
 
 
 const appReducer = combineReducers({

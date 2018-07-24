@@ -1,8 +1,8 @@
+import { push } from 'react-router-redux';
 import { call, put, select } from 'redux-saga/effects';
 import { postAuthUser, deleteAuthUser } from '../api/auth';
 import { doAuthSuccess, doAuthError } from '../actions/auth';
 import { doStoreReset } from '../actions/store';
-import { push } from 'react-router-redux';
 
 
 const get_auth = (state) => state.auth;

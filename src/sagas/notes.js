@@ -1,8 +1,8 @@
+import { push } from 'react-router-redux';
 import { call, put, select } from 'redux-saga/effects';
 import { createNote, fetchNote, updateNote, fetchNotes } from '../api/notes';
-import { doCreateNoteSuccess, doCreateNoteError, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
 import { doAuthUpdated } from '../actions/auth';
-import { push } from 'react-router-redux';
+import { doCreateNoteSuccess, doCreateNoteError, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
 
 
 const get_auth = (state) => state.auth;

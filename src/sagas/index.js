@@ -1,9 +1,8 @@
-// TODO: Cleanup all imports in all files, organize consistently by type of import
-import { takeEvery, all } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { takeEvery, all } from 'redux-saga/effects';
 import { NOTE_CREATE, NOTE_FETCH, NOTE_UPDATE, NOTES_FETCH, AUTH_USER, AUTH_UPDATED, AUTH_DESTROY } from '../constants/actionTypes';
-import { handleCreateNote, handleFetchNote, handleUpdateNote, handleFetchNotes } from './notes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
+import { handleCreateNote, handleFetchNote, handleUpdateNote, handleFetchNotes } from './notes';
 import { handleLocationChange } from './general';
 
 

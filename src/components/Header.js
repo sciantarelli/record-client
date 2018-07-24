@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getOpenNotes } from '../selectors/notes';
-import { NavLink, openNoteNavLink } from './Links';
 import { withRouter } from 'react-router-dom';
+import { NavLink, openNoteNavLink } from './Links';
+import { getOpenNotes } from '../selectors/notes';
 
 
 class Header extends Component {
@@ -32,6 +32,7 @@ class Header extends Component {
     );
   }
 }
+
 
 const mapStateToProps = state => ({
   openNotesState: getOpenNotes(state.openNotesState)

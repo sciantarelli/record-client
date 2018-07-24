@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { doCreateNote, doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
-import { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
+import { doCreateNote, doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
+import { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
+
 
 class Note extends Component {
 

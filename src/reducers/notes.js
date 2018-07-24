@@ -1,5 +1,6 @@
 import { NOTE_CREATE_SUCCESS, NOTES_FETCH, NOTES_FETCH_SUCCESS, NOTES_FETCH_ERROR, NOTE_UPDATE_SUCCESS } from '../constants/actionTypes';
 
+
 const notesDefault = () => null;
 const errorDefault = () => null;
 const isFetchingDefault = () => false;

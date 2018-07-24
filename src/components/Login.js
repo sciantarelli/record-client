@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import { doAuthUser } from '../actions/auth';
 import { getIsAuthenticating, getAuthError } from '../selectors/auth';
 

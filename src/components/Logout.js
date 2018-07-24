@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getOpenNotes } from '../selectors/notes';
 import { push } from 'react-router-redux';
 import requireAuth from './requireAuth';
 import { doLogoutUser } from '../actions/auth';
+import { getOpenNotes } from '../selectors/notes';
 
 class Logout extends Component {
 

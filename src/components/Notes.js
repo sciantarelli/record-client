@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { doFetchNotes } from '../actions/notes';
-import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { AppLink } from './Links';
+import { doFetchNotes } from '../actions/notes';
+import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
+
 
 // TODO: If api call fails with an error, ideally it would retry if the error was something other than unauthorized or bad request
 class Notes extends Component {

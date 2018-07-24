@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
-import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas';
-import { routerMiddleware } from 'react-router-redux';
 
 
 const logger = createLogger();
