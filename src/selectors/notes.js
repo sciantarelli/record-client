@@ -6,6 +6,11 @@ const getNoteError = (openNotesState, id) => {
   return note && note.error && note.error.message;
 };
 
+const getNoteValidationErrors = (openNotesState, id) => {
+  const note = openNotesState[id];
+  return note && note.validationErrors;
+};
+
 const getNoteIsFetching = (openNotesState, id) =>
     openNotesState[id] && openNotesState[id].isFetching;
 
@@ -23,4 +28,4 @@ const getNotesError = notesState =>
 const getNotesIsFetching = notesState =>
     notesState.isFetching;
 
-export { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving, getOpenNotes, getNotes, getNotesError, getNotesIsFetching };
+export { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getOpenNotes, getNotes, getNotesError, getNotesIsFetching };

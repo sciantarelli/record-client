@@ -1,4 +1,4 @@
-import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
 import { deletePropertyFromObject } from '../helpers';
 
 
@@ -63,7 +63,18 @@ export default function(state = INITIAL_STATE, action) {
         }
       }
     }
+    case NOTE_CREATE_VALIDATION_ERRORS : {
+      const id = 'new';
 
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          validationErrors: action.errors,
+          isSaving: isSavingDefault()
+        }
+      }
+    }
     // TODO: Consider adding some sort of check on all these references to action.id, so not just anything can be set
     case NOTE_FETCH : {
       return {

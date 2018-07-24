@@ -5,7 +5,7 @@ import { reduxForm, Field } from 'redux-form';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { doCreateNote, doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
-import { getNote, getNoteError, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
+import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
 
 
 class Note extends Component {
@@ -17,9 +17,9 @@ class Note extends Component {
   };
 
   render() {
-    const { skipLoad, data, errorMessage, isFetching, isSaving, handleSubmit } = this.props;
+    const { skipLoad, data, errorMessage, validationErrors, isFetching, isSaving, handleSubmit } = this.props;
 
-    if (!skipLoad && (!data || errorMessage)) return null;
+    if (!skipLoad && (!data || errorMessage || validationErrors)) return null;
 
     return (
       <div>
@@ -61,6 +61,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     data,
     errorMessage: getNoteError(state.openNotesState, id),
+    validationErrors: getNoteValidationErrors(state.openNotesState, id),
     isFetching: getNoteIsFetching(state.openNotesState, id),
     isSaving: getNoteIsSaving(state.openNotesState, id),
     initialValues: data

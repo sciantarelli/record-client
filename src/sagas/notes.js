@@ -2,7 +2,7 @@ import { push } from 'react-router-redux';
 import { call, put, select } from 'redux-saga/effects';
 import { createNote, fetchNote, updateNote, fetchNotes } from '../api/notes';
 import { doAuthUpdated } from '../actions/auth';
-import { doCreateNoteSuccess, doCreateNoteError, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
+import { doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
 
 
 const get_auth = (state) => state.auth;
@@ -26,8 +26,6 @@ function* handleFetchNote(action) {
         yield put(doCloseNote(id));
         return;
       }
-
-      // TODO: Flesh this out to handle other response codes other than just 404's
 
       yield put(doFetchErrorNote(action.id, error));
       return;
@@ -55,9 +53,37 @@ function* handleCreateNote(action) {
     yield put(doCloseNote('new'));
     yield put(push(`/notes/${note.id}`))
   } catch (error) {
-    // TODO: Flesh out error handling
-    yield put(doCreateNoteError(error));
+    yield errorHandling(error);
   }
+}
+
+// TODO: This is incomplete, and just a start into refactoring. Only works for note creation, not update, etc.
+function* errorHandling(error) {
+  const { response, request } = error;
+
+  if (response) {
+    const { status, data } = response;
+
+    if (response.status === 404) {
+      yield put(push('/404'));
+      yield put(doAuthUpdated(response.headers));
+      // This shouldn't happen at all, but needs to for handleFetchNote(), etc. So, note this difference when refactoring. It could be a boolean param passed in, whether to close the component
+      // yield put(doCloseNote(id));
+      return;
+    }
+
+    if (status === 422 && data && data.errors) {
+      yield put(doCreateNoteValidationErrors(data.errors)) // Needs to be dynamic
+    }
+  }
+
+  // For now this will produce errors such as "Network Error"
+  if (request) {
+    yield put(doCreateNoteError(error));
+    return;
+  }
+
+  yield put(doCreateNoteError(error)); // Needs to be dynamic
 }
 
 function* handleUpdateNote(action) {

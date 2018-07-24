@@ -1,4 +1,4 @@
-import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
 
 
 const doNewNote = () => ({
@@ -18,6 +18,11 @@ const doCreateNoteSuccess = note => ({
 const doCreateNoteError = error => ({
   type: NOTE_CREATE_ERROR,
   error
+});
+
+const doCreateNoteValidationErrors = errors => ({
+  type: NOTE_CREATE_VALIDATION_ERRORS,
+  errors
 });
 
 const doFetchNote = id => ({
@@ -72,4 +77,4 @@ const doFetchErrorNotes = error => ({
   error,
 });
 
-export { doNewNote, doCreateNote, doCreateNoteSuccess, doCreateNoteError, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes };
+export { doNewNote, doCreateNote, doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes };
