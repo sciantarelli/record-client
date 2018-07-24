@@ -8,7 +8,9 @@ function* handleLocationChange(action) {
   switch (pathname) {
     case '/notes/new' : {
       yield put(doNewNote());
+      break;
     }
+    default : {}
   }
 }
 

@@ -78,8 +78,6 @@ function* handleUpdateNote(action) {
 
 
 function* handleFetchNotes(action) {
-  const { query } = action;
-
   try {
     const auth = yield select(get_auth);
     const result = yield call(fetchNotes, auth);

@@ -19,7 +19,7 @@ const createClientStore = (initialState, history) => {
   let auth, expiry;
 
   // TODO: Refactor once this is solid
-  if (auth = JSON.parse(localStorage.getItem('auth'))) {
+  if ((auth = JSON.parse(localStorage.getItem('auth')))) {
 
     if ((expiry = parseInt(auth.expiry, 10))
         && (Date.now() < (expiry * 1000))) {
@@ -45,7 +45,6 @@ const createClientStore = (initialState, history) => {
 const createServerStore = () => {
 
   const initialState = {};
-  let auth, expiry;
 
   const store = createStore(
       rootReducer,

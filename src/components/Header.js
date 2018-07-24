@@ -9,7 +9,6 @@ class Header extends Component {
 
   render() {
     const openNotesState = this.props.openNotesState;
-    const { pathname } = this.props.location;
 
     return (
       <div id="header">

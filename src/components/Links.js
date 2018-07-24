@@ -15,7 +15,7 @@ class AppLink extends Component {
     const currentPath = location && location.pathname;
     let className = 'app-link';
 
-    if ((currentPath == toPath)) className = `${className} active-link`;
+    if ((currentPath === toPath)) className = `${className} active-link`;
 
     return(
       <li className={className}>

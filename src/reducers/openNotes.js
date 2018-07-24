@@ -25,7 +25,7 @@ export default function(state = INITIAL_STATE, action) {
 
       return {
         ...state,
-        ['new']: DEFAULT_NOTE_STATE
+        'new': DEFAULT_NOTE_STATE
       }
     }
     case NOTE_CREATE : {
@@ -126,8 +126,6 @@ export default function(state = INITIAL_STATE, action) {
       }
     }
     case NOTE_CLOSE : {
-      const { [action.id]:value, ...newState } = state;
-
       return deletePropertyFromObject(state, action.id);
     }
 
