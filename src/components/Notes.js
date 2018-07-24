@@ -18,7 +18,7 @@ class Notes extends Component {
         <AppLink to='/notes/new' auth={true}>Create Note</AppLink>
 
         {Object.keys(data || {}).map(id =>
-          <AppLink to={`/notes/${id}`} auth={true}>{data[id].name}</AppLink>
+          <AppLink to={`/notes/${id}`} key={id} auth={true}>{data[id].name}</AppLink>
         )}
       </ul>
     )

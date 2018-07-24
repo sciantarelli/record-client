@@ -43,7 +43,7 @@ const openNoteNavLink = (openNote) => {
 
 const componentNavLink = (component, path, requireAuth=true) => {
   return (
-    <NavLink to={`${path}/${component.id}`} auth={requireAuth}>
+    <NavLink to={`${path}/${component.id}`} auth={requireAuth} key={component.id}>
       {abbrevForNavLink(component.name)}
     </NavLink>
   );

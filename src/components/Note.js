@@ -36,7 +36,7 @@ class Note extends Component {
                 name="content"
                 type="text"
                 component="textarea"
-                class="temp-textarea"
+                className="temp-textarea"
             />
           </div>
 
