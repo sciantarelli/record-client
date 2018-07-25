@@ -32,17 +32,11 @@ class Note extends Component {
 
   componentDidUpdate() {
     const { doInitializeForm } = this.props;
-
-    doInitializeForm(this.props.data);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // Note, there are some warnings in the documentation in doing this: https://reactjs.org/docs/react-component.html#shouldcomponentupdate
-    // This logic could be handled in componentDidUpdate to then determine when form should be re-initialized, but that of course will re-render, which this prevents.
-    const { formValues, data } = nextProps;
+    const { formValues, data } = this.props;
 
     if (!formValues || !data || (formValues.id !== data.id)) {
-      return true;
+      doInitializeForm(data);
+      return;
     }
 
     const compare = ['name', 'content'];
@@ -56,7 +50,15 @@ class Note extends Component {
       }
     }
 
-    return (identical !== compare.length);
+    if (identical !== compare.length) doInitializeForm(data);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { data } = this.props;
+    // Note, there are some warnings in the documentation about using shouldComponentUpdate: https://reactjs.org/docs/react-component.html#shouldcomponentupdate
+
+    // However, this check seems simple and harmless.
+    return !(data && data.id === nextProps.data.id && nextProps.data.inputChange);
   }
 
   // Currently unused, but keep. See notes in componentDidMount
@@ -81,6 +83,7 @@ class Note extends Component {
   };
 
   render() {
+    console.log('*** rendering Note *** ');
     const { skipLoad, data, errorMessage, validationErrors, isFetching, isSaving, handleSubmit } = this.props;
 
     if (!skipLoad && (!data || errorMessage || validationErrors)) return null;

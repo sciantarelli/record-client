@@ -5,6 +5,7 @@ import { deletePropertyFromObject } from '../helpers';
 const errorDefault = () => null;
 const isFetchingDefault = () => false;
 const isSavingDefault = () => false;
+const inputChangeOnlyDefault = () => false;
 
 const INITIAL_STATE = {};
 
@@ -15,6 +16,7 @@ const DEFAULT_NOTE_STATE = {
   isFetching: isFetchingDefault(),
   isSaving: isSavingDefault(),
   error: errorDefault(),
+  inputChange: inputChangeOnlyDefault()
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -24,13 +26,14 @@ export default function(state = INITIAL_STATE, action) {
 
       if (meta.form !== 'note') return state;
 
-      const id = parseInt(pathname.substr(pathname.lastIndexOf('/') + 1), 10);
+      const id = pathname.substr(pathname.lastIndexOf('/') + 1);
 
       return {
         ...state,
         [id]: {
           ...state[id],
-          [meta.field]: payload
+          [meta.field]: payload,
+          inputChangeOnly: true
         }
       };
     case NOTE_NEW : {
@@ -105,7 +108,8 @@ export default function(state = INITIAL_STATE, action) {
           ...action.note,
           error: errorDefault(),
           isFetching: isFetchingDefault(),
-          isSaving: isSavingDefault()
+          isSaving: isSavingDefault(),
+          inputChange: inputChangeOnlyDefault()
         }
       }
     }
