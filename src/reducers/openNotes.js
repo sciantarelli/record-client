@@ -1,4 +1,4 @@
-import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_FETCH_ERROR, NOTE_SYNC_WITH_FORM, NOTE_CLOSE } from '../constants/actionTypes';
 import { deletePropertyFromObject } from '../helpers';
 
 
@@ -19,7 +19,20 @@ const DEFAULT_NOTE_STATE = {
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
+    case '@@redux-form/CHANGE' :
+      const { meta, payload, pathname } = action;
 
+      if (meta.form !== 'note') return state;
+
+      const id = parseInt(pathname.substr(pathname.lastIndexOf('/') + 1), 10);
+
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          [meta.field]: payload
+        }
+      };
     case NOTE_NEW : {
       if (state['new']) return state;
 
