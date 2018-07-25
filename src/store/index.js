@@ -3,6 +3,7 @@ import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
+import { attachPathNameToAction } from '../middleware/attach_pathname';
 import rootSaga from '../sagas';
 
 
@@ -33,7 +34,7 @@ const createClientStore = (initialState, history) => {
   const store = createStore(
       rootReducer,
       initialState,
-      applyMiddleware(routerMiddleware(history), saga, logger)
+      applyMiddleware(routerMiddleware(history), attachPathNameToAction, saga, logger)
   );
 
   saga.run(rootSaga);
