@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { doCreateNote, doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
@@ -10,7 +10,71 @@ import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getN
 
 class Note extends Component {
 
-  onSubmit = formProps => {
+  componentDidMount() {
+    // TODO: The intent of this code was to perform an implicit submit every x seconds, which it did. However, I dislike the timer aspect of it. So then, thought to leave it up to componentWillUnmount, however, that doesn't fire when navigating directly from note to note. So this code is being saved for the purpose of a possible autosave feature, on a timer, etc.
+    // const { handleSubmit } = this.props;
+    // const submitter = handleSubmit(this.onImplicitSubmit);
+    //
+    // const intervalId = window.setInterval(() => {
+    //   if (this.props.data) submitter();
+    // }, 5000);
+    //
+    // this.setState({intervalId});
+  }
+
+  // TODO: See comment in componentDidMount.
+  componentWillUnmount() {
+    // const { handleSubmit } = this.props;
+    // const submitter = handleSubmit(this.onImplicitSubmit);
+    // window.clearInterval(this.state.intervalId);
+    // submitter();
+  }
+
+  componentDidUpdate() {
+    const { doInitializeForm } = this.props;
+
+    doInitializeForm(this.props.data);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Note, there are some warnings in the documentation in doing this: https://reactjs.org/docs/react-component.html#shouldcomponentupdate
+    // This logic could be handled in componentDidUpdate to then determine when form should be re-initialized, but that of course will re-render, which this prevents.
+    const { formValues, data } = nextProps;
+
+    if (!formValues || !data || (formValues.id !== data.id)) {
+      return true;
+    }
+
+    const compare = ['name', 'content'];
+    let identical = 0;
+
+    for (let i=0; i < compare.length; i++) {
+      let prop = compare[i];
+
+      if (formValues[prop] === data[prop]) {
+        identical++;
+      }
+    }
+
+    return (identical !== compare.length);
+  }
+
+  // Currently unused, but keep. See notes in componentDidMount
+  onImplicitSubmit = formProps => {
+    const { doUpdate, data } = this.props;
+    const compare = ['name', 'content'];
+
+    for (let i=0; i < compare.length; i++) {
+      let prop = compare[i];
+
+      if (formProps[prop] !== data[prop]) {
+        doUpdate(formProps);
+        break;
+      }
+    }
+  };
+
+  onExplicitSubmit = formProps => {
     const { data, doCreate, doUpdate } = this.props;
 
     (data && data.id) ? doUpdate(formProps) : doCreate(formProps);
@@ -23,7 +87,7 @@ class Note extends Component {
 
     return (
       <div>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
+        <form onSubmit={handleSubmit(this.onExplicitSubmit)}>
           <div>
             <Field
                 name="name"
@@ -58,13 +122,15 @@ const mapStateToProps = (state, ownProps) => {
   const id = getIdFromOwnProps(ownProps);
   const data = getNote(state.openNotesState, id);
 
+  // TODO: Consider condensing this. data is the same as initialValues, but data is used by Data Loader so that's probably fine. But what about all these selectors? Maybe build into data a different way?
   return {
     data,
     errorMessage: getNoteError(state.openNotesState, id),
     validationErrors: getNoteValidationErrors(state.openNotesState, id),
     isFetching: getNoteIsFetching(state.openNotesState, id),
     isSaving: getNoteIsSaving(state.openNotesState, id),
-    initialValues: data
+    initialValues: data,
+    formValues: getFormValues('note')(state)
   };
 };
 
@@ -76,7 +142,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     doFetch: () => dispatch(doFetchNote(id)),
     doCreate: (formProps) => dispatch(doCreateNote(formProps)),
     doUpdate: (formProps) => dispatch(doUpdateNote(formProps)),
-    doClose: () => dispatch(doCloseNote(id))
+    doClose: () => dispatch(doCloseNote(id)),
+    doInitializeForm: (data) => dispatch(initialize('note', data))
   };
 };
 
@@ -84,7 +151,8 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     reduxForm({
       form: 'note',
-      enableReinitialize: true
+      // Removing this in favor of manual re-initialization, which gives more control when syncing form to open notes
+      // enableReinitialize: true
     }),
     requireAuth,
     dataLoading
