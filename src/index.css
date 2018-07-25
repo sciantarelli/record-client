@@ -29,7 +29,6 @@ ul {
 }
 
 ul > .app-link {
-  margin-right: 7px;
   padding-bottom: 2px;
 }
 
@@ -37,7 +36,8 @@ ul.nav-links li {
   display: inline-block;
 }
 
-#main-nav  {
+#main-nav .app-link  {
+  margin-right: 7px;
   font-variant: small-caps;
 }
 
@@ -50,7 +50,16 @@ a {
 }
 
 .sub-nav {
-  margin-left: 8px;
+  margin-left: 4px;
+}
+
+.sub-nav li:not(:last-child) {
+  border-right: 1px solid #9d9d9d;
+  padding-right: 3px;
+}
+
+.sub-nav li:not(:first-child) {
+  margin-left: 3px;
 }
 
 .sub-nav a {
