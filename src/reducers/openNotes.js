@@ -41,7 +41,10 @@ export default function(state = INITIAL_STATE, action) {
 
       return {
         ...state,
-        'new': DEFAULT_NOTE_STATE
+        'new': {
+          ...DEFAULT_NOTE_STATE,
+          name: 'New Note'
+        }
       }
     }
     case NOTE_CREATE : {
