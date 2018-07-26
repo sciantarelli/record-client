@@ -23,7 +23,7 @@ class Header extends Component {
         <ul className="sub-nav nav-links">
           {
             Object.keys(openNotesState || {}).map(id =>
-              openNoteNavLink(openNotesState[id])
+              openNoteNavLink(openNotesState[id], id)
             )
           }
         </ul>

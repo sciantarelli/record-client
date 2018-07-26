@@ -34,16 +34,16 @@ const ConnectedAppLink = connect(mapStateToProps)(AppLink);
 const NavLink = withRouter(ConnectedAppLink);
 
 
-const openNoteNavLink = (openNote) => {
-  if (!openNote.id) return;
-
-  return componentNavLink(openNote, '/notes');
+const openNoteNavLink = (openNote, id) => {
+  return componentNavLink(openNote, '/notes', true, id);
 };
 
 
-const componentNavLink = (component, path, requireAuth=true) => {
+const componentNavLink = (component, path, requireAuth=true, idOverride=null) => {
+  const id = idOverride || component.id;
+
   return (
-    <NavLink to={`${path}/${component.id}`} auth={requireAuth} key={component.id}>
+    <NavLink to={`${path}/${id}`} auth={requireAuth} key={id}>
       {abbrevForNavLink(component.name)}
     </NavLink>
   );
