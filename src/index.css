@@ -11,6 +11,20 @@ input, select, textarea, button {
   font-size: inherit;
 }
 
+button {
+  background: none;
+  border: none;
+  color: green;
+  text-align: center;
+  display: inline-block;
+  font-variant: small-caps;
+  font-weight: 600;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
 #header {
   background: #f7f7f7;
   padding: 3px;
@@ -20,7 +34,8 @@ input, select, textarea, button {
 
 .temp-textarea {
   height: 25em;
-  width: 30em;
+  width: 100%;
+  max-width: 50em;
 }
 
 ul {

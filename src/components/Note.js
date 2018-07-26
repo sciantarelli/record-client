@@ -97,6 +97,8 @@ class Note extends Component {
                 type="text"
                 component="input"
             />
+
+            { !isFetching && !isSaving && <button>Save</button> }
           </div>
           <div>
             <Field
@@ -105,10 +107,6 @@ class Note extends Component {
                 component="textarea"
                 className="temp-textarea"
             />
-          </div>
-
-          <div>
-            { !isFetching && !isSaving && <button>Save</button> }
           </div>
         </form>
       </div>
