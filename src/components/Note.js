@@ -58,7 +58,12 @@ class Note extends Component {
     // Note, there are some warnings in the documentation about using shouldComponentUpdate: https://reactjs.org/docs/react-component.html#shouldcomponentupdate
 
     // However, this check seems simple and harmless.
-    return !(data && data.id === nextProps.data.id && nextProps.data.inputChange);
+    return !(
+        data &&
+        nextProps.data &&
+        (data.id === nextProps.data.id) &&
+        nextProps.data.inputChange
+    );
   }
 
   // Currently unused, but keep. See notes in componentDidMount
