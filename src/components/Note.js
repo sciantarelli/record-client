@@ -97,7 +97,7 @@ class Note extends Component {
     return (
       <div>
         { !isFetching && !isSaving &&
-          <span>
+          <div className='actions-bar'>
             <button onClick={handleSubmit(this.onExplicitSubmit)}>
               Save
             </button>
@@ -107,7 +107,7 @@ class Note extends Component {
             </button>
 
             <button onClick={doCloseAndRoute}>Close</button>
-          </span>
+          </div>
         }
 
         <form onSubmit={handleSubmit(this.onExplicitSubmit)}>
