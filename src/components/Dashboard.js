@@ -3,7 +3,7 @@ import requireAuth from './requireAuth';
 
 const Dashboard = () => {
   return (
-      <div>Dashboard</div>
+      <div>Some Fancy Dashboard</div>
   )
 };
 

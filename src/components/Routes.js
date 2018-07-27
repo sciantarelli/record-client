@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Notes from './Notes';
 import Note from './Note';
+import Ideas from './Ideas';
 import Login from './Login';
 import Logout from './Logout';
 import NotFound from './NotFound';
@@ -20,6 +21,7 @@ export default () => {
             }
           />
           <Route path="/notes/:id" component={Note}/>
+          <Route exact path='/ideas' component={Ideas} />
           <Route path='/404' component={NotFound} />
           <Redirect to="/404" />
         </Switch>

@@ -14,10 +14,10 @@ class Header extends Component {
       <div id="header">
         <ul id="main-nav" className="nav-links">
           <NavLink to="/login" auth={false}>Login</NavLink>
-          <NavLink to="/logout" auth={true}>Logout</NavLink>
           <NavLink to="/" auth={true}>Dashboard</NavLink>
           <NavLink to="/notes" auth={true}>Notes</NavLink>
           <NavLink to="/ideas" auth={true}>Ideas</NavLink>
+          <NavLink to="/logout" auth={true}>Logout</NavLink>
         </ul>
 
         <ul className="sub-nav nav-links">
