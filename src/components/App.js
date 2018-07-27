@@ -7,7 +7,9 @@ class App extends Component {
     return (
         <div>
           <Header />
-          <Routes />
+          <div id="main-container">
+            <Routes />
+          </div>
         </div>
     );
   }
