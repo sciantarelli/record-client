@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
+import ActionsBar from './ActionsBar';
 import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/notes';
 import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting } from '../selectors/notes';
@@ -96,7 +97,7 @@ class Note extends Component {
     return (
       <div>
         { !disabled &&
-          <div className='actions-bar'>
+          <ActionsBar>
             <button onClick={handleSubmit(this.onExplicitSubmit)}>
               Save
             </button>
@@ -107,7 +108,7 @@ class Note extends Component {
 
             <button onClick={doCloseAndRoute}>Close</button>
             <button onClick={doDelete}>Delete</button>
-          </div>
+          </ActionsBar>
         }
 
         <form onSubmit={handleSubmit(this.onExplicitSubmit)}>

@@ -4,6 +4,7 @@ import { push } from 'react-router-redux';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { AppLink } from './Links';
+import ActionsBar from './ActionsBar';
 import { doFetchNotes } from '../actions/notes';
 import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
 
@@ -16,11 +17,11 @@ class Notes extends Component {
 
     return (
         <div>
-          <div className="actions-bar">
+          <ActionsBar>
             <button onClick={doNew}>
               Create Note
             </button>
-          </div>
+          </ActionsBar>
 
           <ul>
             {Object.keys(data || {}).map(id =>
