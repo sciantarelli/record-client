@@ -5,14 +5,22 @@ const doNewNote = () => ({
   type: NOTE_NEW
 });
 
+const doSaveNote = formProps => {
+  const crudAction = formProps.id ? doUpdateNote : doCreateNote;
+
+  return crudAction(formProps);
+};
+
 const doCreateNote = formProps => ({
   type: NOTE_CREATE,
-  formProps
+  formProps,
+  waitFor: [NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR]
 });
 
 const doCreateNoteSuccess = note => ({
   type: NOTE_CREATE_SUCCESS,
-  note
+  note,
+  id: note.id
 });
 
 const doCreateNoteError = error => ({
@@ -43,7 +51,8 @@ const doFetchErrorNote = (id, error) => ({
 
 const doUpdateNote = formProps => ({
   type: NOTE_UPDATE,
-  formProps
+  formProps,
+  waitFor: [NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR]
 });
 
 const doUpdateNoteSuccess = note => ({
@@ -77,4 +86,4 @@ const doFetchErrorNotes = error => ({
   error,
 });
 
-export { doNewNote, doCreateNote, doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes };
+export { doNewNote, doSaveNote, doCreateNote, doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes };

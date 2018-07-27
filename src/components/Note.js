@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
-import { doCreateNote, doFetchNote, doUpdateNote, doCloseNote } from '../actions/notes';
+import { doSaveNote, doFetchNote, doCloseNote } from '../actions/notes';
+import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
 
 
@@ -68,33 +69,47 @@ class Note extends Component {
 
   // Currently unused, but keep. See notes in componentDidMount
   onImplicitSubmit = formProps => {
-    const { doUpdate, data } = this.props;
+    const { doSave, data } = this.props;
     const compare = ['name', 'content'];
 
     for (let i=0; i < compare.length; i++) {
       let prop = compare[i];
 
       if (formProps[prop] !== data[prop]) {
-        doUpdate(formProps);
+        doSave(formProps);
         break;
       }
     }
   };
 
   onExplicitSubmit = formProps => {
-    const { data, doCreate, doUpdate } = this.props;
+    const { data, doCreateAndRoute, doSave } = this.props;
 
-    (data && data.id) ? doUpdate(formProps) : doCreate(formProps);
+    (data && data.id) ? doSave(formProps) : doCreateAndRoute(formProps);
   };
 
   render() {
     console.log('*** rendering Note *** ');
-    const { skipLoad, data, errorMessage, validationErrors, isFetching, isSaving, handleSubmit } = this.props;
+    const { skipLoad, data, errorMessage, validationErrors, isFetching, isSaving, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute } = this.props;
 
     if (!skipLoad && (!data || errorMessage || validationErrors)) return null;
 
     return (
       <div>
+        { !isFetching && !isSaving &&
+          <span>
+            <button onClick={handleSubmit(this.onExplicitSubmit)}>
+              Save
+            </button>
+
+            <button onClick={() => doSaveCloseAndRoute(data)}>
+              Save+Close
+            </button>
+
+            <button onClick={doCloseAndRoute}>Close</button>
+          </span>
+        }
+
         <form onSubmit={handleSubmit(this.onExplicitSubmit)}>
           <div>
             <Field
@@ -102,8 +117,6 @@ class Note extends Component {
                 type="text"
                 component="input"
             />
-
-            { !isFetching && !isSaving && <button>Save</button> }
           </div>
           <div>
             <Field
@@ -146,9 +159,27 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     doFetch: () => dispatch(doFetchNote(id)),
-    doCreate: (formProps) => dispatch(doCreateNote(formProps)),
-    doUpdate: (formProps) => dispatch(doUpdateNote(formProps)),
-    doClose: () => dispatch(doCloseNote(id)),
+    doCreateAndRoute: (formProps) => {
+      dispatch(doDispatchThenRoute(
+        doSaveNote(formProps),
+        '/notes/:id',
+        true // Not really necessary, but just in case any more actions are added in this sequence
+      ));
+    },
+    doSave: (formProps) => dispatch(doSaveNote(formProps)),
+    doCloseAndRoute: () => {
+      dispatch(doDispatchThenRoute(
+        doCloseNote(id),
+        '/notes'
+      ));
+    },
+    doSaveCloseAndRoute: (data) => {
+      dispatch(doDispatchThenRoute(
+        [doSaveNote(data), doCloseNote(data.id)],
+        '/notes',
+        !Number.isInteger(data.id)
+      ));
+    },
     doInitializeForm: (data) => dispatch(initialize('note', data))
   };
 };

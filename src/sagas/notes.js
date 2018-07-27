@@ -51,7 +51,6 @@ function* handleCreateNote(action) {
     yield put(doAuthUpdated(result.headers));
     yield put(doCreateNoteSuccess(note));
     yield put(doCloseNote('new'));
-    yield put(push(`/notes/${note.id}`))
   } catch (error) {
     yield errorHandling(error);
   }
