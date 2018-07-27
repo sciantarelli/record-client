@@ -11,12 +11,13 @@ export default Entity => {
     }
 
     render() {
-      const { isFetching, isSaving, errorMessage, validationErrors } = this.props;
+      const { isFetching, isSaving, isDeleting, errorMessage, validationErrors } = this.props;
 
       return(
         <div>
           { isFetching && <div>Loading...</div> }
           { isSaving && <div>Saving...</div> }
+          { isDeleting && <div>Deleting...</div> }
           { errorMessage && !validationErrors && <p>{errorMessage}</p> }
           { validationErrors &&
             <ul>

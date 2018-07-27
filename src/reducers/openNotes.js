@@ -1,10 +1,11 @@
-import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_UPDATE_VALIDATION_ERRORS, NOTE_CLOSE } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_UPDATE_VALIDATION_ERRORS, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
 import { deletePropertyFromObject } from '../helpers';
 
 
 const errorDefault = () => null;
 const isFetchingDefault = () => false;
 const isSavingDefault = () => false;
+const isDeletingDefault = () => false;
 const inputChangeOnlyDefault = () => false;
 
 const INITIAL_STATE = {};
@@ -15,6 +16,7 @@ const DEFAULT_NOTE_STATE = {
   content: '',
   isFetching: isFetchingDefault(),
   isSaving: isSavingDefault(),
+  isDeleting: isDeletingDefault(),
   error: errorDefault(),
   inputChange: inputChangeOnlyDefault()
 };
@@ -170,6 +172,32 @@ export default function(state = INITIAL_STATE, action) {
     }
     case NOTE_CLOSE : {
       return deletePropertyFromObject(state, action.id);
+    }
+    case NOTE_DELETE : {
+      const id = action.id;
+
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          isDeleting: true
+        }
+      }
+    }
+    case NOTE_DELETE_SUCCESS : {
+      return deletePropertyFromObject(state, action.id);
+    }
+    case NOTE_DELETE_ERROR : {
+      const id = action.id;
+
+      return {
+          ...state,
+        [id]: {
+          ...state[id],
+          isDeleting: false,
+          error: action.error
+        }
+      }
     }
 
     default : return state;

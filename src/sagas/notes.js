@@ -1,8 +1,8 @@
 import { push } from 'react-router-redux';
 import { call, put, select } from 'redux-saga/effects';
-import { createNote, fetchNote, updateNote, fetchNotes } from '../api/notes';
+import { createNote, fetchNote, updateNote, deleteNote, fetchNotes } from '../api/notes';
 import { doAuthUpdated } from '../actions/auth';
-import { doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doUpdateNoteValidationErrors, doCloseNote } from '../actions/notes';
+import { doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doUpdateNoteValidationErrors, doDeleteNoteSuccess, doDeleteNoteError, doCloseNote } from '../actions/notes';
 
 
 const get_auth = (state) => state.auth;
@@ -128,6 +128,19 @@ function* handleUpdateNote(action) {
 }
 
 
+function* handleDeleteNote(action) {
+  try {
+    const auth = yield select(get_auth);
+    const result = yield call(deleteNote, action.id, auth);
+    yield put(doAuthUpdated(result.headers));
+    yield put(doDeleteNoteSuccess(action.id));
+  } catch (error) {
+    // TODO: Flesh out error handling
+    yield put(doDeleteNoteError(action.id, error))
+  }
+}
+
+
 function* handleFetchNotes(action) {
   try {
     const auth = yield select(get_auth);
@@ -140,4 +153,4 @@ function* handleFetchNotes(action) {
   }
 }
 
-export { handleCreateNote, handleFetchNote, handleUpdateNote, handleFetchNotes };
+export { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes };

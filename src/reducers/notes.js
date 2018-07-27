@@ -1,4 +1,5 @@
-import { NOTE_CREATE_SUCCESS, NOTES_FETCH, NOTES_FETCH_SUCCESS, NOTES_FETCH_ERROR, NOTE_UPDATE_SUCCESS } from '../constants/actionTypes';
+import { NOTE_CREATE_SUCCESS, NOTES_FETCH, NOTES_FETCH_SUCCESS, NOTES_FETCH_ERROR, NOTE_UPDATE_SUCCESS, NOTE_DELETE_SUCCESS } from '../constants/actionTypes';
+import { deletePropertyFromObject } from '../helpers';
 
 
 const notesDefault = () => null;
@@ -43,6 +44,14 @@ export default function(state = INITIAL_STATE, action) {
     }
     case NOTE_UPDATE_SUCCESS : {
       return notesWithReplacement(state, action.note);
+    }
+    case NOTE_DELETE_SUCCESS : {
+      if (!state.notes) return state;
+
+      return {
+        ...state,
+        notes: deletePropertyFromObject(state.notes, action.id)
+      };
     }
 
     default : return state;

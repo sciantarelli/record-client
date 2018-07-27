@@ -17,6 +17,9 @@ const getNoteIsFetching = (openNotesState, id) =>
 const getNoteIsSaving = (openNotesState, id) =>
     openNotesState[id] && openNotesState[id].isSaving;
 
+const getNoteIsDeleting = (openNotesState, id) =>
+    openNotesState[id] && openNotesState[id].isDeleting;
+
 const getOpenNotes = openNotesState => openNotesState;
 
 const getNotes = notesState =>
@@ -28,4 +31,4 @@ const getNotesError = notesState =>
 const getNotesIsFetching = notesState =>
     notesState.isFetching;
 
-export { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getOpenNotes, getNotes, getNotesError, getNotesIsFetching };
+export { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getOpenNotes, getNotes, getNotesError, getNotesIsFetching, getNoteIsDeleting };

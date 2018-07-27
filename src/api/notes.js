@@ -32,6 +32,14 @@ const updateNote = ({ id, name, content}, authState) => {
   });
 };
 
+const deleteNote = (id, authState) => {
+  return axios({
+    ...authHeaders(authState),
+    method: 'delete',
+    url: `${BASE_URL}/${id}`
+  });
+};
+
 const fetchNotes = (authState) => {
   return axios({
     ...authHeaders(authState),
@@ -41,4 +49,4 @@ const fetchNotes = (authState) => {
 };
 
 
-export { createNote, fetchNote, updateNote, fetchNotes };
+export { createNote, fetchNote, updateNote, deleteNote, fetchNotes };

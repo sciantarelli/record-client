@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
-import { doSaveNote, doFetchNote, doCloseNote } from '../actions/notes';
+import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/notes';
 import { doDispatchThenRoute } from '../actions/routing';
-import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving } from '../selectors/notes';
+import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting } from '../selectors/notes';
 
 
 class Note extends Component {
@@ -90,8 +90,8 @@ class Note extends Component {
 
   render() {
     console.log('*** rendering Note *** ');
-    const { skipLoad, data, errorMessage, validationErrors, isFetching, isSaving, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute } = this.props;
-    const disabled = (isFetching || isSaving);
+    const { data, isFetching, isSaving, isDeleting, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute, doDelete } = this.props;
+    const disabled = (isFetching || isSaving || isDeleting);
 
     return (
       <div>
@@ -106,6 +106,7 @@ class Note extends Component {
             </button>
 
             <button onClick={doCloseAndRoute}>Close</button>
+            <button onClick={doDelete}>Delete</button>
           </div>
         }
 
@@ -149,6 +150,7 @@ const mapStateToProps = (state, ownProps) => {
     validationErrors: getNoteValidationErrors(state.openNotesState, id),
     isFetching: getNoteIsFetching(state.openNotesState, id),
     isSaving: getNoteIsSaving(state.openNotesState, id),
+    isDeleting: getNoteIsDeleting(state.openNotesState, id),
     initialValues: data,
     formValues: getFormValues('note')(state)
   };
@@ -179,6 +181,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         [doSaveNote(data), doCloseNote(data.id)],
         '/notes',
         !Number.isInteger(data.id)
+      ));
+    },
+    doDelete: () =>  {
+      dispatch(doDispatchThenRoute(
+        doDeleteNote(id),
+        '/notes'
       ));
     },
     doInitializeForm: (data) => dispatch(initialize('note', data))
