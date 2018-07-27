@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { AppLink } from './Links';
@@ -11,19 +12,24 @@ import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes'
 class Notes extends Component {
 
   render() {
-    const { data } = this.props;
+    const { data, doNew } = this.props;
 
     return (
-      <ul>
-        <AppLink to='/notes/new' auth={true}>Create Note</AppLink>
+        <div>
+          <div className="actions-bar">
+            <button onClick={doNew}>
+              Create Note
+            </button>
+          </div>
 
-        {Object.keys(data || {}).map(id =>
-          <AppLink to={`/notes/${id}`} key={id} auth={true}>{data[id].name}</AppLink>
-        )}
-      </ul>
+          <ul>
+            {Object.keys(data || {}).map(id =>
+                <AppLink to={`/notes/${id}`} key={id} auth={true}>{data[id].name}</AppLink>
+            )}
+          </ul>
+        </div>
     )
   }
-
 };
 
 const mapStateToProps = state => ({
@@ -33,7 +39,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doFetch: () => dispatch(doFetchNotes())
+  doFetch: () => dispatch(doFetchNotes()),
+  doNew: () => dispatch(push('/notes/new'))
 });
 
 
