@@ -2,7 +2,7 @@ import { push } from 'react-router-redux';
 import { call, put, select } from 'redux-saga/effects';
 import { createNote, fetchNote, updateNote, fetchNotes } from '../api/notes';
 import { doAuthUpdated } from '../actions/auth';
-import { doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doCloseNote } from '../actions/notes';
+import { doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doUpdateNoteValidationErrors, doCloseNote } from '../actions/notes';
 
 
 const get_auth = (state) => state.auth;
@@ -56,7 +56,7 @@ function* handleCreateNote(action) {
   }
 }
 
-// TODO: This is incomplete, and just a start into refactoring. Only works for note creation, not update, etc.
+// TODO: This is incomplete, and just a start into refactoring. Only works for note creation, not update, etc. Eventually refactoring so it can be used by fetch, create, update, etc
 function* errorHandling(error) {
   const { response, request } = error;
 
@@ -89,13 +89,39 @@ function* handleUpdateNote(action) {
 
   // TODO: More validation here of form props?
 
+  const { id } = action.formProps;
+
   try {
     const auth = yield select(get_auth);
     const result = yield call(updateNote, action.formProps, auth);
     yield put(doAuthUpdated(result.headers));
     yield put(doUpdateNoteSuccess(action.formProps));
   } catch (error) {
-    // TODO: Flesh out error handling
+    const { response, request } = error;
+
+    if (response) {
+      const { status, data } = response;
+
+      if (response.status === 404) {
+        yield put(push('/404'));
+        yield put(doAuthUpdated(response.headers));
+
+        return;
+      }
+
+      if (status === 422 && data && data.errors) {
+        // TODO: Determine why 422 returns headers for update, but not create
+        yield put(doAuthUpdated(response.headers));
+        yield put(doUpdateNoteValidationErrors(id, data.errors));
+      }
+    }
+
+    // For now this will produce errors such as "Network Error"
+    if (request) {
+      yield put(doUpdateNoteError(action.formProps.id, error));
+      return;
+    }
+
     yield put(doUpdateNoteError(action.formProps.id, error));
   }
 
