@@ -3,6 +3,7 @@ import { deletePropertyFromObject } from '../helpers';
 
 
 const errorDefault = () => null;
+const validationErrorsDefault = () => null;
 const isFetchingDefault = () => false;
 const isSavingDefault = () => false;
 const isDeletingDefault = () => false;
@@ -18,6 +19,7 @@ const DEFAULT_NOTE_STATE = {
   isSaving: isSavingDefault(),
   isDeleting: isDeletingDefault(),
   error: errorDefault(),
+  validationErrors: validationErrorsDefault(),
   inputChange: inputChangeOnlyDefault()
 };
 
@@ -35,7 +37,9 @@ export default function(state = INITIAL_STATE, action) {
         [id]: {
           ...state[id],
           [meta.field]: payload,
-          inputChangeOnly: true
+          inputChangeOnly: true,
+          error: errorDefault(),
+          validationErrors: validationErrorsDefault()
         }
       };
     case NOTE_NEW : {
