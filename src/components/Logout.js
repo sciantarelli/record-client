@@ -12,7 +12,11 @@ class Logout extends Component {
 
     return (
       <div>
-        { (Object.keys(openNotes).length > 0) && <p>Warning, any unsaved changed to open notes will be discarded!</p> }
+        { (Object.keys(openNotes).length > 0) &&
+          <p>
+            Warning, you still have notes open. Any unsaved changes will be lost.
+          </p>
+        }
 
         <button onClick={doLogout}>Logout</button>
         <button onClick={doCancel}>Cancel</button>
