@@ -5,6 +5,7 @@ import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import ActionsBar from './ActionsBar';
+import CrudMessages from './CrudMessages';
 import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/notes';
 import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting } from '../selectors/notes';
@@ -110,6 +111,8 @@ class Note extends Component {
             <button onClick={doDelete}>Delete</button>
           </ActionsBar>
         }
+
+        <CrudMessages { ...this.props } />
 
         <form onSubmit={handleSubmit(this.onExplicitSubmit)}>
           <div>

@@ -96,3 +96,11 @@ a {
 #main-container {
   padding: 0 5px;
 }
+
+.messages-container {
+  margin: 10px 0;
+}
+
+.error-messages {
+  color: #c80000;
+}

@@ -11,22 +11,8 @@ export default Entity => {
     }
 
     render() {
-      const { isFetching, isSaving, isDeleting, errorMessage, validationErrors } = this.props;
-
       return(
-        <div>
-          { isFetching && <div>Loading...</div> }
-          { isSaving && <div>Saving...</div> }
-          { isDeleting && <div>Deleting...</div> }
-          { errorMessage && !validationErrors && <p>{errorMessage}</p> }
-          { validationErrors &&
-            <ul>
-              { validationErrors.map(error => <li>{error}</li>) }
-            </ul>
-          }
-
-          <Entity {...this.props} />
-        </div>
+        <Entity {...this.props} />
       )
     }
   }
