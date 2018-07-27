@@ -1,5 +1,7 @@
 export const STORE_RESET = 'STORE_RESET';
 
+export const DISPATCH_THEN_ROUTE = 'DISPATCH_THEN_ROUTE';
+
 export const AUTH_USER = 'AUTH_USER';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
