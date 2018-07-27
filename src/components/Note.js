@@ -91,12 +91,11 @@ class Note extends Component {
   render() {
     console.log('*** rendering Note *** ');
     const { skipLoad, data, errorMessage, validationErrors, isFetching, isSaving, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute } = this.props;
-
-    if (!skipLoad && (!data || errorMessage || validationErrors)) return null;
+    const disabled = (isFetching || isSaving);
 
     return (
       <div>
-        { !isFetching && !isSaving &&
+        { !disabled &&
           <div className='actions-bar'>
             <button onClick={handleSubmit(this.onExplicitSubmit)}>
               Save
@@ -116,6 +115,7 @@ class Note extends Component {
                 name="name"
                 type="text"
                 component="input"
+                disabled={disabled}
             />
           </div>
           <div>
@@ -124,6 +124,7 @@ class Note extends Component {
                 type="text"
                 component="textarea"
                 className="temp-textarea"
+                disabled={disabled}
             />
           </div>
         </form>
