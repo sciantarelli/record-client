@@ -1,8 +1,8 @@
-import { push } from 'react-router-redux';
 import { call, put, select } from 'redux-saga/effects';
+import { is404AndHandled, is401AndHandled, is422AndHandled, handleNoResponse, getResponseErrors } from './errors';
 import { createNote, fetchNote, updateNote, deleteNote, fetchNotes } from '../api/notes';
 import { doAuthUpdated } from '../actions/auth';
-import { doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doUpdateNoteValidationErrors, doDeleteNoteSuccess, doDeleteNoteError, doCloseNote } from '../actions/notes';
+import { doCreateNoteSuccess, doCreateNoteError, doNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doDeleteNoteSuccess, doDeleteNoteError, doCloseNote } from '../actions/notes';
 
 
 const get_auth = (state) => state.auth;
@@ -20,70 +20,42 @@ function* handleFetchNote(action) {
     const { response, request } = error;
 
     if (response) {
-      if (response.status === 404) {
-        yield put(push('/404'));
-        yield put(doAuthUpdated(response.headers));
-        yield put(doCloseNote(id));
-        return;
-      }
+      if (yield* is401AndHandled(response)) return;
+      if (yield* is404AndHandled(response, doCloseNote(id))) return;
 
+      // TODO: Do something more generic here, perhaps. There's a response, but something went wrong. This case exists for other handle methods below as well.
       yield put(doFetchErrorNote(action.id, error));
       return;
     }
 
-    // For now this will produce errors such as "Network Error"
-    if (request) {
-      yield put(doFetchErrorNote(action.id, error));
-      return;
-    }
-
-    // At this point, there's probably an error in the application itself
-    yield put(doFetchErrorNote(action.id, error));
+    yield* handleNoResponse(request, doFetchErrorNote(action.id, error));
   }
 }
 
 function* handleCreateNote(action) {
+  const id = 'new';
+
   try {
     const auth = yield select(get_auth);
     const result = yield call(createNote, action.formProps, auth);
-    const note = result.data;
-
     yield put(doAuthUpdated(result.headers));
-    yield put(doCreateNoteSuccess(note));
-    yield put(doCloseNote('new'));
+    yield put(doCreateNoteSuccess(result.data));
+    yield put(doCloseNote(id));
   } catch (error) {
-    yield errorHandling(error);
-  }
-}
+    const { response, request } = error;
 
-// TODO: This is incomplete, and just a start into refactoring. Only works for note creation, not update, etc. Eventually refactoring so it can be used by fetch, create, update, etc
-function* errorHandling(error) {
-  const { response, request } = error;
+    if (response) {
+      if (yield* is401AndHandled(response)) return;
+      if (yield* is422AndHandled(response, doNoteValidationErrors(id, getResponseErrors(response)))) return;
 
-  if (response) {
-    const { status, data } = response;
-
-    if (response.status === 404) {
-      yield put(push('/404'));
-      yield put(doAuthUpdated(response.headers));
-      // This shouldn't happen at all, but needs to for handleFetchNote(), etc. So, note this difference when refactoring. It could be a boolean param passed in, whether to close the component
-      // yield put(doCloseNote(id));
+      yield put(doCreateNoteError(error));
       return;
     }
 
-    if (status === 422 && data && data.errors) {
-      yield put(doCreateNoteValidationErrors(data.errors)) // Needs to be dynamic
-    }
+    yield* handleNoResponse(request, doCreateNoteError(error));
   }
-
-  // For now this will produce errors such as "Network Error"
-  if (request) {
-    yield put(doCreateNoteError(error));
-    return;
-  }
-
-  yield put(doCreateNoteError(error)); // Needs to be dynamic
 }
+
 
 function* handleUpdateNote(action) {
 
@@ -100,43 +72,39 @@ function* handleUpdateNote(action) {
     const { response, request } = error;
 
     if (response) {
-      const { status, data } = response;
+      if (yield* is401AndHandled(response)) return;
+      if (yield* is422AndHandled(response, doNoteValidationErrors(id, getResponseErrors(response)))) return;
 
-      if (response.status === 404) {
-        yield put(push('/404'));
-        yield put(doAuthUpdated(response.headers));
-
-        return;
-      }
-
-      if (status === 422 && data && data.errors) {
-        // TODO: Determine why 422 returns headers for update, but not create
-        yield put(doAuthUpdated(response.headers));
-        yield put(doUpdateNoteValidationErrors(id, data.errors));
-      }
-    }
-
-    // For now this will produce errors such as "Network Error"
-    if (request) {
-      yield put(doUpdateNoteError(action.formProps.id, error));
+      yield put(doUpdateNoteError(id, error));
       return;
     }
 
-    yield put(doUpdateNoteError(action.formProps.id, error));
+    yield* handleNoResponse(request, doUpdateNoteError(id, error));
   }
 
 }
 
 
 function* handleDeleteNote(action) {
+  const { id } = action;
+
   try {
     const auth = yield select(get_auth);
-    const result = yield call(deleteNote, action.id, auth);
+    const result = yield call(deleteNote, id, auth);
     yield put(doAuthUpdated(result.headers));
-    yield put(doDeleteNoteSuccess(action.id));
+    yield put(doDeleteNoteSuccess(id));
   } catch (error) {
-    // TODO: Flesh out error handling
-    yield put(doDeleteNoteError(action.id, error))
+    const { response, request } = error;
+
+    if (response) {
+      if (yield* is401AndHandled(response)) return;
+      if (yield* is422AndHandled(response, doNoteValidationErrors(id, getResponseErrors(response)))) return;
+
+      yield put(doDeleteNoteError(id, error));
+      return;
+    }
+
+    yield* handleNoResponse(request, doDeleteNoteError(id, error));
   }
 }
 
@@ -148,9 +116,18 @@ function* handleFetchNotes(action) {
     yield put(doAuthUpdated(result.headers));
     yield put(doFetchNotesSuccess(result.data));
   } catch (error) {
-    // TODO: Flesh out error handling
-    yield put(doFetchErrorNotes(error));
+    const { response, request } = error;
+
+    if (response) {
+      if (yield* is401AndHandled(response)) return;
+
+      yield put(doFetchErrorNotes(error));
+      return;
+    }
+
+    yield* handleNoResponse(request, doFetchErrorNotes(error));
   }
 }
+
 
 export { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes };
