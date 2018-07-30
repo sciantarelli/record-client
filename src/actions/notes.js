@@ -1,4 +1,4 @@
-import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_CREATE_VALIDATION_ERRORS, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_UPDATE_VALIDATION_ERRORS, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
+import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_VALIDATION_ERRORS, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
 
 
 const doNewNote = () => ({
@@ -26,11 +26,6 @@ const doCreateNoteSuccess = note => ({
 const doCreateNoteError = error => ({
   type: NOTE_CREATE_ERROR,
   error
-});
-
-const doCreateNoteValidationErrors = errors => ({
-  type: NOTE_CREATE_VALIDATION_ERRORS,
-  errors
 });
 
 const doFetchNote = id => ({
@@ -66,10 +61,10 @@ const doUpdateNoteError = (id, error) => ({
   error
 });
 
-const doUpdateNoteValidationErrors = (id, errors) => ({
-  type: NOTE_UPDATE_VALIDATION_ERRORS,
+const doNoteValidationErrors = (id, errors) => ({
+  type: NOTE_VALIDATION_ERRORS,
   id,
-  errors
+  errors: ( Array.isArray(errors) ? errors : [errors] )
 });
 
 const doCloseNote = id => ({
@@ -109,4 +104,4 @@ const doDeleteNoteError = (id, error) => ({
   error
 });
 
-export { doNewNote, doSaveNote, doCreateNote, doCreateNoteSuccess, doCreateNoteError, doCreateNoteValidationErrors, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doUpdateNoteValidationErrors, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes, doDeleteNote, doDeleteNoteSuccess, doDeleteNoteError };
+export { doNewNote, doSaveNote, doCreateNote, doCreateNoteSuccess, doCreateNoteError, doFetchNote, doFetchNoteSuccess, doFetchErrorNote, doUpdateNote, doUpdateNoteSuccess, doUpdateNoteError, doNoteValidationErrors, doCloseNote, doFetchNotesSuccess, doFetchNotes, doFetchErrorNotes, doDeleteNote, doDeleteNoteSuccess, doDeleteNoteError };
