@@ -15,7 +15,9 @@ function* handleLocationChange(action) {
   }
 }
 
+
 // TODO: Refactor this when solid
+// In lieu of this function, another idea is to add an argument to doUpdate and doCreate that allows for an optional redirect. However, this allows for many actions to be handled in sequence before the redirect, and may continue to expand in functionality. Also, this keeps the push calls out of other sagas, centralized to be handled here.
 function* handleDispatchThenRoute(action) {
   const { actions, replaceId } = action;
   let { path } = action;
@@ -60,6 +62,7 @@ function* handleDispatchThenRoute(action) {
     yield put(push(path));
 
   } catch (error) {
+    // TODO: Consider something here for general error handling
     console.log(error);
   }
 }
