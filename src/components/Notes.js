@@ -5,6 +5,7 @@ import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { AppLink } from './Links';
 import ActionsBar from './ActionsBar';
+import CrudMessages from './CrudMessages';
 import { doFetchNotes } from '../actions/notes';
 import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
 
@@ -22,6 +23,8 @@ class Notes extends Component {
               Create Note
             </button>
           </ActionsBar>
+
+          <CrudMessages { ...this.props } />
 
           <ul>
             {Object.keys(data || {}).map(id =>
