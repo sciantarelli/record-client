@@ -26,10 +26,11 @@ function* handleAuthUser(action) {
 function* handleAuthUpdated(action) {
   let { headers } = action;
 
-  // This happens when the server deems requests came in batches
-  if (tokenNotRefreshed(headers)) {
-    return;
-  }
+
+  // If the server determines requests are coming in batches it doesn't refresh the token or expiry
+  // TODO: And sometimes, for at least 422 responses, it doesn't send anything at all. Not sure why, seems to happen for create but not update
+
+  if (!authWasRefreshed(headers)) return;
 
   try {
     yield put(doAuthSuccess(headers));
@@ -54,11 +55,11 @@ function* handleAuthDestroy(action) {
   }
 }
 
-
-function tokenNotRefreshed(headers) {
+function authWasRefreshed(headers) {
   const { client, expiry, uid } = headers;
+  const access_token = headers['access-token'];
 
-  return client && uid && !expiry && !headers['access-token'];
+  return (access_token && client && uid && expiry) ? true : false;
 }
 
 
