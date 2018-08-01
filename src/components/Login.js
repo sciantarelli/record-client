@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
+import MessagesContainer from './MessagesContainer';
+import ErrorMessages from './ErrorMessages';
 import { doAuthUser } from '../actions/auth';
 import { getIsAuthenticating, getAuthError } from '../selectors/auth';
 
@@ -17,8 +19,15 @@ class Login extends Component {
 
     return (
       <div>
-        { authError && <p>{authError.message}</p> }
-        { isAuthenticating && <p>Logging In...</p> }
+        <MessagesContainer>
+          { isAuthenticating && <p>Logging In...</p> }
+
+          <ErrorMessages>
+            { authError && <p>{authError.message}</p> }
+          </ErrorMessages>
+
+        </MessagesContainer>
+
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <fieldset>
             <label>Email</label>

@@ -1,14 +1,16 @@
 import React from 'react';
+import MessagesContainer from './MessagesContainer';
+import ErrorMessages from './ErrorMessages';
 
 const CrudMessages = ({ isFetching, isSaving, isDeleting, errorMessage, validationErrors }) => {
 
   return (
-    <div className="messages-container">
+    <MessagesContainer>
       { isFetching && <div>Loading...</div> }
       { isSaving && <div>Saving...</div> }
       { isDeleting && <div>Deleting...</div> }
 
-      <div className="error-messages">
+      <ErrorMessages>
         { errorMessage && !validationErrors && <p>{errorMessage}</p> }
 
         { validationErrors &&
@@ -17,8 +19,8 @@ const CrudMessages = ({ isFetching, isSaving, isDeleting, errorMessage, validati
             { validationErrors.map(error => <li>{error}</li>) }
           </ul>
         }
-      </div>
-    </div>
+      </ErrorMessages>
+    </MessagesContainer>
   );
 };
 
