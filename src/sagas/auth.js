@@ -15,10 +15,20 @@ function* handleAuthUser(action) {
     const result = yield call(postAuthUser, formProps);
     yield put(doAuthSuccess(result.headers));
     setAuthToLocalStorage(result.headers);
-    yield put(push('/notes')); // TODO: Eventually change this to '/'
+    yield put(push('/notes')); // TODO: Eventually change this to '/' and switch to using doDispatchThenRoute if it still exists
   } catch (error) {
-    yield put(doAuthError(error));
+    const { response} = error;
+
     clearAuthFromLocalStorage();
+
+    if (response) {
+      if (response.status === 401) {
+        yield put(doAuthError(new Error(response.data.errors)));
+        return;
+      }
+    }
+
+    yield put(doAuthError(error));
   }
 }
 
@@ -37,8 +47,10 @@ function* handleAuthUpdated(action) {
     setAuthToLocalStorage(headers);
   } catch (error) {
     yield put(doAuthError(error));
-    // TODO: Since we're doing this, should auth info also be cleared from the store? Hmm...
+    // TODO: This really shouldn't produce an error condition unless it's in the application itself. For now, output message to user until a better solution is in place.
     clearAuthFromLocalStorage();
+    yield put(doStoreReset());
+    yield put(doAuthError(new Error('Authentication update failed. Please report to site administrator!')));
   }
 }
 
