@@ -9,6 +9,7 @@ import CrudMessages from './CrudMessages';
 import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/notes';
 import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting, getNoteIsDirty } from '../selectors/notes';
+import { propertiesDoMatch } from '../helpers';
 
 
 class Note extends Component {
@@ -58,14 +59,14 @@ class Note extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { data } = this.props;
+    const matchProps = ['id', 'isDirty', 'error', 'validationErrors'];
     // Note, there are some warnings in the documentation about using shouldComponentUpdate: https://reactjs.org/docs/react-component.html#shouldcomponentupdate
 
     // However, this check seems simple and harmless.
     return !(
         data &&
         nextProps.data &&
-        (data.id === nextProps.data.id) &&
-        (data.isDirty === nextProps.data.isDirty) &&
+        propertiesDoMatch(data, nextProps.data, matchProps) &&
         nextProps.data.inputChangeOnly
     );
   }
