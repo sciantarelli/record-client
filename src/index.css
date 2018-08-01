@@ -28,6 +28,11 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  color: grey;
+  cursor: not-allowed;
+}
+
 #header {
   background: #f7f7f7;
   padding: 3px;

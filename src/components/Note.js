@@ -8,7 +8,7 @@ import ActionsBar from './ActionsBar';
 import CrudMessages from './CrudMessages';
 import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/notes';
 import { doDispatchThenRoute } from '../actions/routing';
-import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting } from '../selectors/notes';
+import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting, getNoteIsDirty } from '../selectors/notes';
 
 
 class Note extends Component {
@@ -65,6 +65,7 @@ class Note extends Component {
         data &&
         nextProps.data &&
         (data.id === nextProps.data.id) &&
+        (data.isDirty === nextProps.data.isDirty) &&
         nextProps.data.inputChangeOnly
     );
   }
@@ -92,23 +93,31 @@ class Note extends Component {
 
   render() {
     console.log('*** rendering Note *** ');
-    const { data, isFetching, isSaving, isDeleting, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute, doDelete } = this.props;
+    const { data, isFetching, isSaving, isDeleting, isDirty, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute, doDelete } = this.props;
     const disabled = (isFetching || isSaving || isDeleting);
 
     return (
       <div>
         { !disabled &&
           <ActionsBar>
-            <button onClick={handleSubmit(this.onExplicitSubmit)}>
+
+            <button disabled={!isDirty}
+                    onClick={handleSubmit(this.onExplicitSubmit)}>
               Save
             </button>
 
-            <button onClick={() => doSaveCloseAndRoute(data)}>
+            <button disabled={!isDirty}
+                    onClick={() => doSaveCloseAndRoute(data)}>
               Save+Close
             </button>
 
             <button onClick={doCloseAndRoute}>Close</button>
-            <button onClick={doDelete}>Delete</button>
+
+            <button disabled={!data || !data.id}
+                    onClick={doDelete}>
+              Delete
+            </button>
+
           </ActionsBar>
         }
 
@@ -155,6 +164,7 @@ const mapStateToProps = (state, ownProps) => {
     isFetching: getNoteIsFetching(state.openNotesState, id),
     isSaving: getNoteIsSaving(state.openNotesState, id),
     isDeleting: getNoteIsDeleting(state.openNotesState, id),
+    isDirty: getNoteIsDirty(state.openNotesState, id),
     initialValues: data,
     formValues: getFormValues('note')(state)
   };
