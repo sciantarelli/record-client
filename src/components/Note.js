@@ -65,7 +65,7 @@ class Note extends Component {
         data &&
         nextProps.data &&
         (data.id === nextProps.data.id) &&
-        nextProps.data.inputChange
+        nextProps.data.inputChangeOnly
     );
   }
 

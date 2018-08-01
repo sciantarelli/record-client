@@ -6,19 +6,20 @@ import { getIsAuthenticated } from '../selectors/auth';
 
 class AppLink extends Component {
   render() {
-    const { location, children, auth, isAuthed } = this.props;
+    const { location, children, auth, isAuthed, addClasses } = this.props;
 
     if (auth && !isAuthed) return null;
     if ((auth === false) && isAuthed) return null;
 
     const toPath = this.props.to;
     const currentPath = location && location.pathname;
-    let className = 'app-link';
+    let classes = 'app-link';
 
-    if ((currentPath === toPath)) className = `${className} active-link`;
+    if ((currentPath === toPath)) classes = `${classes} active-link`;
+    if (addClasses) classes = `${classes} ${addClasses}`;
 
     return(
-      <li className={className}>
+      <li className={classes}>
         <Link to={toPath}>{children}</Link>
       </li>
     );
@@ -43,7 +44,11 @@ const componentNavLink = (component, path, requireAuth=true, idOverride=null) =>
   const id = idOverride || component.id;
 
   return (
-    <NavLink to={`${path}/${id}`} auth={requireAuth} key={id}>
+    <NavLink to={`${path}/${id}`}
+             auth={requireAuth}
+             key={id}
+             addClasses={component.isDirty ? 'unsaved' : null}>
+
       {abbrevForNavLink(component.name)}
     </NavLink>
   );

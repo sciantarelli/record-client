@@ -55,6 +55,10 @@ ul.nav-links li {
   display: inline-block;
 }
 
+ul li.unsaved a {
+  color: #c80000;
+}
+
 #main-nav .app-link  {
   margin-right: 7px;
   font-variant: small-caps;
@@ -86,7 +90,7 @@ a {
 }
 
 .active-link a {
-  border-bottom: 1px solid black;
+  border-bottom: 1pt solid black;
 }
 
 .actions-bar {

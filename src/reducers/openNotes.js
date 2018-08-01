@@ -1,26 +1,33 @@
 import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
 import { deletePropertyFromObject } from '../helpers';
 
-
+const nameDefault = () => '';
+const contentDefault = () => '';
 const errorDefault = () => null;
 const validationErrorsDefault = () => null;
 const isFetchingDefault = () => false;
 const isSavingDefault = () => false;
 const isDeletingDefault = () => false;
 const inputChangeOnlyDefault = () => false;
+const startingValuesDefault = () => (
+    { name: nameDefault(), content: contentDefault() }
+);
+const isDirtyDefault = () => false;
 
 const INITIAL_STATE = {};
 
 const DEFAULT_NOTE_STATE = {
   id: null,
-  name: '',
-  content: '',
+  name: nameDefault(),
+  content: contentDefault(),
   isFetching: isFetchingDefault(),
   isSaving: isSavingDefault(),
   isDeleting: isDeletingDefault(),
   error: errorDefault(),
   validationErrors: validationErrorsDefault(),
-  inputChange: inputChangeOnlyDefault()
+  inputChangeOnly: inputChangeOnlyDefault(),
+  startingValues: startingValuesDefault(),
+  isDirty: isDirtyDefault()
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -31,6 +38,8 @@ export default function(state = INITIAL_STATE, action) {
       if (meta.form !== 'note') return state;
 
       const id = pathname.substr(pathname.lastIndexOf('/') + 1);
+      const note = state[id];
+      const isDirty = note.startingValues[meta.field] !== payload;
 
       return {
         ...state,
@@ -39,7 +48,8 @@ export default function(state = INITIAL_STATE, action) {
           [meta.field]: payload,
           inputChangeOnly: true,
           error: errorDefault(),
-          validationErrors: validationErrorsDefault()
+          validationErrors: validationErrorsDefault(),
+          isDirty
         }
       };
     case NOTE_NEW : {
@@ -49,7 +59,8 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         'new': {
           ...DEFAULT_NOTE_STATE,
-          name: 'New Note'
+          name: 'New Note',
+          isDirty: true
         }
       }
     }
@@ -72,7 +83,9 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         [id]: {
           ...DEFAULT_NOTE_STATE,
-          id, name, content
+          id, name, content,
+          startingValues: { name, content },
+          isDirty: isDirtyDefault()
         }
       }
     }
@@ -112,14 +125,17 @@ export default function(state = INITIAL_STATE, action) {
       }
     }
     case NOTE_FETCH_SUCCESS : {
+      const { id, name, content } = action.note;
+
       return {
         ...state,
-        [action.note.id]: {
+        [id]: {
           ...action.note,
           error: errorDefault(),
           isFetching: isFetchingDefault(),
           isSaving: isSavingDefault(),
-          inputChange: inputChangeOnlyDefault()
+          inputChangeOnly: inputChangeOnlyDefault(),
+          startingValues: { name, content }
         }
       }
     }
@@ -145,11 +161,15 @@ export default function(state = INITIAL_STATE, action) {
       }
     }
     case NOTE_UPDATE_SUCCESS : {
+      const { id, name, content } = action.note;
+
       return {
         ...state,
-        [action.note.id]: {
+        [id]: {
           ...action.note,
-          isSaving: isSavingDefault()
+          isSaving: isSavingDefault(),
+          startingValues: { name, content },
+          isDirty: isDirtyDefault()
         }
       }
     }
