@@ -72,7 +72,8 @@ export default function(state = INITIAL_STATE, action) {
         [id]: {
           ...state[id],
           isSaving: true,
-          error: errorDefault()
+          error: errorDefault(),
+          inputChangeOnly: inputChangeOnlyDefault()
         }
       }
     }
@@ -156,7 +157,8 @@ export default function(state = INITIAL_STATE, action) {
         [id]: {
           ...state[id],
           isSaving: true,
-          error: errorDefault()
+          error: errorDefault(),
+          inputChangeOnly: inputChangeOnlyDefault()
         }
       }
     }
