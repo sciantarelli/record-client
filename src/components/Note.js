@@ -86,10 +86,16 @@ class Note extends Component {
     }
   };
 
-  onExplicitSubmit = formProps => {
+  onExplicitSave = formProps => {
     const { data, doCreateAndRoute, doSave } = this.props;
 
     (data && data.id) ? doSave(formProps) : doCreateAndRoute(formProps);
+  };
+
+  onExplicitSaveAndClose = formProps => {
+    const { doSaveCloseAndRoute } = this.props;
+
+    doSaveCloseAndRoute(formProps);
   };
 
   render() {
@@ -103,12 +109,12 @@ class Note extends Component {
           <ActionsBar>
 
             <button disabled={!isDirty}
-                    onClick={handleSubmit(this.onExplicitSubmit)}>
+                    onClick={handleSubmit(this.onExplicitSave)}>
               Save
             </button>
 
             <button disabled={!isDirty}
-                    onClick={() => doSaveCloseAndRoute(data)}>
+                    onClick={handleSubmit(this.onExplicitSaveAndClose)}>
               Save+Close
             </button>
 
@@ -124,7 +130,7 @@ class Note extends Component {
 
         <CrudMessages { ...this.props } />
 
-        <form onSubmit={handleSubmit(this.onExplicitSubmit)}>
+        <form onSubmit={handleSubmit(this.onExplicitSave)}>
           <div>
             <Field
                 name="name"
