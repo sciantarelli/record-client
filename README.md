@@ -27,7 +27,9 @@ This repository contains only the frontend code, with the exception of a lightwe
 - Concurrency handling (multiple clients accessing/editing same records)
 - More advanced use of local storage and/or offline functionality
 - Revisions/Snapshots, allowing the user to track changes
-- day/night themes
+- Code Splitting
+- Asset Management
+- Day/night themes
 
 ## Current Components
 
