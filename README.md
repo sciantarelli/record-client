@@ -2,7 +2,7 @@ The primary objective of this project is to provide a suite of organizational an
 
 After years of tinkering with various products, I've never found an all-in-one solution for organizing my digital existence that I'm content with. I needed a solution where components such as notes, bookmarks, research, ideas, and more could not only be captured, but additionally tagged (from a single source of tags) and cross-referenced with each other in an effective manner.
 
-This repository contains only the frontend code, with the exception of a lightweight Node server to enable server-side rendering. It is intended to be used in conjunction with my [record-api](https://github.com/sciantarelli/record-api) project, but could be modified to work with other API's with little effort.
+This repository contains only the frontend code, with the exception of a lightweight Node server to enable server-side rendering. It is intended to be used in conjunction with my [record-api](https://github.com/sciantarelli/record-api) project.
 
 
 ## Table of Contents
@@ -26,6 +26,8 @@ This repository contains only the frontend code, with the exception of a lightwe
 
 - Concurrency handling (multiple clients accessing/editing same records)
 - More advanced use of local storage and/or offline functionality
+- Revisions/Snapshots, allowing the user to track changes
+- day/night themes
 
 ## Current Components
 
