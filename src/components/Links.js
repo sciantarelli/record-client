@@ -1,38 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import { getIsAuthenticated } from '../selectors/auth';
-
-
-class AppLink extends Component {
-  render() {
-    const { location, children, auth, isAuthed, addClasses } = this.props;
-
-    if (auth && !isAuthed) return null;
-    if ((auth === false) && isAuthed) return null;
-
-    const toPath = this.props.to;
-    const currentPath = location && location.pathname;
-    let classes = 'app-link';
-
-    if ((currentPath === toPath)) classes = `${classes} active-link`;
-    if (addClasses) classes = `${classes} ${addClasses}`;
-
-    return(
-      <li className={classes}>
-        <Link to={toPath}>{children}</Link>
-      </li>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  isAuthed: getIsAuthenticated(state.auth)
-});
-
-const ConnectedAppLink = connect(mapStateToProps)(AppLink);
-
-const NavLink = withRouter(ConnectedAppLink);
+import AppLink from './AppLink';
+import NavLink from './NavLink';
 
 
 const openNoteNavLink = (openNote, id) => {
@@ -47,7 +15,7 @@ const componentNavLink = (component, path, requireAuth=true, idOverride=null) =>
     <NavLink to={`${path}/${id}`}
              auth={requireAuth}
              key={id}
-             addClasses={component.isDirty ? 'unsaved' : null}>
+             addClasses={(component.isDirty ? ['unsaved'] : [] )}>
 
       {abbrevForNavLink(component.name)}
     </NavLink>
@@ -64,4 +32,4 @@ const abbrevForNavLink = (text) => {
 };
 
 
-export { ConnectedAppLink as AppLink, NavLink, openNoteNavLink };
+export { AppLink, NavLink, openNoteNavLink };
