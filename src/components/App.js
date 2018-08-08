@@ -7,7 +7,7 @@ class App extends Component {
     return (
         <React.Fragment>
           <Header />
-          <div id="main-container">
+          <div className="container flex-fill">
             <Routes />
           </div>
         </React.Fragment>

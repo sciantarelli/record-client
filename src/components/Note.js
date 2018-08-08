@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
+import { Button, ButtonGroup } from 'reactstrap';
+import ButtonNaked from './ButtonNaked';
+import { FlexContainer, FlexFill } from './FlexComponents';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import ActionsBar from './ActionsBar';
@@ -104,52 +107,55 @@ class Note extends Component {
     const disabled = (isFetching || isSaving || isDeleting);
 
     return (
-      <div>
+      <FlexContainer>
         { !disabled &&
           <ActionsBar>
+            <ButtonGroup>
+              <ButtonNaked disabled={!isDirty}
+                           onClick={handleSubmit(this.onExplicitSave)}>
+                Save
+              </ButtonNaked>
 
-            <button disabled={!isDirty}
-                    onClick={handleSubmit(this.onExplicitSave)}>
-              Save
-            </button>
+              <ButtonNaked disabled={!isDirty}
+                           onClick={handleSubmit(this.onExplicitSaveAndClose)}>
+                Save+Close
+              </ButtonNaked>
 
-            <button disabled={!isDirty}
-                    onClick={handleSubmit(this.onExplicitSaveAndClose)}>
-              Save+Close
-            </button>
+              <ButtonNaked onClick={doCloseAndRoute}>Close</ButtonNaked>
 
-            <button onClick={doCloseAndRoute}>Close</button>
-
-            <button disabled={!data || !data.id}
-                    onClick={doDelete}>
-              Delete
-            </button>
-
+              <ButtonNaked disabled={!data || !data.id}
+                      onClick={doDelete}>
+                Delete
+              </ButtonNaked>
+            </ButtonGroup>
           </ActionsBar>
         }
 
         <CrudMessages { ...this.props } />
 
-        <form onSubmit={handleSubmit(this.onExplicitSave)}>
-          <div>
-            <Field
-                name="name"
-                type="text"
-                component="input"
-                disabled={disabled}
-            />
-          </div>
-          <div>
-            <Field
-                name="content"
-                type="text"
-                component="textarea"
-                className="temp-textarea"
-                disabled={disabled}
-            />
-          </div>
-        </form>
-      </div>
+        <FlexFill>
+          <form onSubmit={handleSubmit(this.onExplicitSave)}
+                className="h-100">
+            <FlexContainer>
+                <Field
+                    name="name"
+                    type="text"
+                    component="input"
+                    disabled={disabled}
+                />
+                <div className="flex-fill">
+                <Field
+                    name="content"
+                    type="text"
+                    component="textarea"
+                    className="temp-textarea"
+                    disabled={disabled}
+                />
+                </div>
+            </FlexContainer>
+          </form>
+        </FlexFill>
+      </FlexContainer>
     )
   }
 }
