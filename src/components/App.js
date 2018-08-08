@@ -5,12 +5,12 @@ import Routes from './Routes';
 class App extends Component {
   render() {
     return (
-        <div>
+        <React.Fragment>
           <Header />
           <div id="main-container">
             <Routes />
           </div>
-        </div>
+        </React.Fragment>
     );
   }
 }

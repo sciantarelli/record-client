@@ -11,7 +11,7 @@ import ComingSoon from './ComingSoon';
 
 export default () => {
   return (
-      <div>
+      <React.Fragment>
         <Switch>
           <Route path='/' exact component={Dashboard} />
           <Route path='/login' component={Login} />
@@ -29,6 +29,6 @@ export default () => {
           <Route path='/404' component={NotFound} />
           <Redirect to="/404" />
         </Switch>
-      </div>
+      </React.Fragment>
   );
 };
