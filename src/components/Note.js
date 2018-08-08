@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import { Button, ButtonGroup } from 'reactstrap';
 import ButtonNaked from './ButtonNaked';
-import { FlexContainer, FlexFill } from './FlexComponents';
+import { FlexFillContainer } from './FlexComponents';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import ActionsBar from './ActionsBar';
@@ -107,7 +107,7 @@ class Note extends Component {
     const disabled = (isFetching || isSaving || isDeleting);
 
     return (
-      <FlexContainer>
+      <React.Fragment>
         { !disabled &&
           <ActionsBar>
             <ButtonGroup>
@@ -133,29 +133,26 @@ class Note extends Component {
 
         <CrudMessages { ...this.props } />
 
-        <FlexFill>
-          <form onSubmit={handleSubmit(this.onExplicitSave)}
-                className="h-100">
-            <FlexContainer>
-                <Field
-                    name="name"
-                    type="text"
-                    component="input"
-                    disabled={disabled}
-                />
-                <div className="flex-fill">
-                <Field
-                    name="content"
-                    type="text"
-                    component="textarea"
-                    className="temp-textarea"
-                    disabled={disabled}
-                />
-                </div>
-            </FlexContainer>
-          </form>
-        </FlexFill>
-      </FlexContainer>
+        <FlexFillContainer component='form'
+                           onSubmit={handleSubmit(this.onExplicitSave)}>
+
+          <Field
+              name="name"
+              type="text"
+              component="input"
+              disabled={disabled}
+          />
+
+          <Field
+              name="content"
+              type="text"
+              component="textarea"
+              className="temp-textarea flex-fill"
+              disabled={disabled}
+          />
+
+        </FlexFillContainer>
+      </React.Fragment>
     )
   }
 }

@@ -6364,11 +6364,6 @@ input, textarea {
 .error-messages {
   color: #c80000; }
 
-.temp-textarea {
-  width: 100%;
-  height: 99%;
-  overflow: auto; }
-
 /*ul {*/
 /*padding: 0;*/
 /*margin: 0;*/
