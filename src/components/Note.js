@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
 import { Button, ButtonGroup } from 'reactstrap';
-import ButtonNaked from './ButtonNaked';
+import { ButtonNaked } from './Buttons';
 import { FlexFillContainer } from './FlexComponents';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';

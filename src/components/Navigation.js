@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ButtonNaked from './ButtonNaked';
 import { Nav, Navbar, NavbarToggler, Collapse } from 'reactstrap';
 import { NavLink, openNoteNavLink } from './Links';
+import { ButtonNavToggle } from './Buttons';
 import { getOpenNotes } from '../selectors/notes';
 
 
@@ -36,45 +36,42 @@ class Navigation extends Component {
     const openNotesState = this.props.openNotesState;
 
     return (
-      <div>
-        <div class="bg-secondary">
-          <Collapse isOpen={!this.state.mainCollapsed}>
+      <React.Fragment>
+        <Collapse isOpen={!this.state.mainCollapsed}>
+          <Nav id="main-nav" className="justify-content-center">
+            <NavLink to="/login" auth={false} addClasses={['testing']}>Login</NavLink>
+            <NavLink to="/" auth={true}>Dashboard</NavLink>
+            <NavLink to="/tags" auth={true}>Tags</NavLink>
+            <NavLink to="/notes" auth={true}>Notes</NavLink>
+            <NavLink to="/ideas" auth={true}>Ideas</NavLink>
+            <NavLink to="/bookmarks" auth={true}>Bookmarks</NavLink>
+            <NavLink to="/alerts" auth={true}>Alerts</NavLink>
+            <NavLink to="/logout" auth={true}>Logout</NavLink>
+          </Nav>
+        </Collapse>
 
-          {/*<ul id="main-nav" className="nav-links">*/}
-            <Nav id="main-nav" className="justify-content-center">
-              <NavLink to="/login" auth={false} addClasses={['testing']}>Login</NavLink>
-              <NavLink to="/" auth={true}>Dashboard</NavLink>
-              <NavLink to="/tags" auth={true}>Tags</NavLink>
-              <NavLink to="/notes" auth={true}>Notes</NavLink>
-              <NavLink to="/ideas" auth={true}>Ideas</NavLink>
-              <NavLink to="/bookmarks" auth={true}>Bookmarks</NavLink>
-              <NavLink to="/alerts" auth={true}>Alerts</NavLink>
-              <NavLink to="/logout" auth={true}>Logout</NavLink>
-            </Nav>
-          {/*</ul>*/}
-          </Collapse>
+        <Collapse isOpen={!this.state.subCollapsed}>
+          <Nav className="sub-nav nav-links justify-content-center">
+            {
+              Object.keys(openNotesState || {}).map(id =>
+                openNoteNavLink(openNotesState[id], id)
+              )
+            }
+          </Nav>
+        </Collapse>
 
-          <Collapse isOpen={!this.state.subCollapsed}>
-            <Nav className="sub-nav nav-links justify-content-center">
-              {
-                Object.keys(openNotesState || {}).map(id =>
-                  openNoteNavLink(openNotesState[id], id)
-                )
-              }
-            </Nav>
-          </Collapse>
+        <div id="nav-toggle-bar" className="d-flex justify-content-center">
+          <span id="nav-toggle-buttons" className="bg-secondary">
+            <ButtonNavToggle onClick={this.toggleMainNavbar}>
+              Nav
+            </ButtonNavToggle>
+
+            <ButtonNavToggle onClick={this.toggleSubNavbar}>
+              Open
+            </ButtonNavToggle>
+          </span>
         </div>
-
-        <div className="d-flex justify-content-center">
-          <ButtonNaked onClick={this.toggleMainNavbar}>
-            Nav
-          </ButtonNaked>
-
-          <ButtonNaked onClick={this.toggleSubNavbar}>
-            Open
-          </ButtonNaked>
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

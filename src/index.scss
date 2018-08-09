@@ -1,6 +1,9 @@
-$body-bg: #fff7e5;
+$body-bg: #434343;
+$body-color: #c2c2c2;
 // $primary: #fff7e5;
-$secondary: #fbf3e1;
+$secondary: #3a3a3a;
+$red: #be3444;
+$green: #28b446;
 $container-max-widths: (
   sm: 718px,
   md: 942px,
@@ -9,19 +12,9 @@ $container-max-widths: (
 ) !default;
 @import "node_modules/bootstrap/scss/bootstrap";
 
-/*body {*/
-  /*margin: 0;*/
-  /*padding: 0;*/
-  /*font-family: sans-serif;*/
-  /*font-size: 16px;*/
-  /*background: #fafafa;*/
-/*}*/
-
-/*input, select, textarea, button {*/
-  /*font-family:inherit;*/
-  /*font-size: inherit;*/
-/*}*/
-
+a {
+  color: $red;
+}
 /*button {*/
   /*background: none;*/
   /*border: none;*/
@@ -52,8 +45,39 @@ html, body {
   padding: 0;
 }
 
+#header {
+  background: $secondary;
+}
+
+#nav-toggle-bar {
+  background: $body-bg;
+  border-top: 1pt solid $red;
+  margin-top: 10px;
+}
+
+#nav-toggle-buttons {
+  position: relative;
+  top: -12px;
+  border-left: 1px solid $red;
+  border-right: 1px solid $red;
+}
+
+.button-nav-toggle {
+  padding: 0px 7px;
+}
+
 input, textarea {
   background: $secondary;
+  color: $body-color;
+  border-color: $red;
+}
+
+input {
+  padding: 3px;
+}
+
+textarea {
+  padding: 7px;
 }
 
 .flex-container {
@@ -63,11 +87,12 @@ input, textarea {
 }
 
 .btn-link, .btn-link:hover {
-  color: green;
+  color: $green
 }
 
 .btn-link.disabled {
   cursor: not-allowed;
+  color: $gray-500;
 }
 
 .error-messages {

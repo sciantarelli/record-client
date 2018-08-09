@@ -10,5 +10,13 @@ const ButtonNaked = (props) => {
   );
 };
 
+const ButtonNavToggle = (props) => {
+  return (
+    <Button {...props} className="button-nav-toggle" size="sm" color="link">
+      { props.children }
+    </Button>
+  )
+};
 
-export default ButtonNaked;
+
+export { ButtonNaked, ButtonNavToggle };

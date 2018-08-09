@@ -6,6 +6,7 @@ import dataLoading from './dataLoading';
 import { AppLink } from './Links';
 import ActionsBar from './ActionsBar';
 import CrudMessages from './CrudMessages';
+import { ButtonNaked } from './Buttons';
 import { doFetchNotes } from '../actions/notes';
 import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
 
@@ -19,9 +20,9 @@ class Notes extends Component {
     return (
         <div>
           <ActionsBar>
-            <button onClick={doNew}>
+            <ButtonNaked onClick={doNew}>
               Create Note
-            </button>
+            </ButtonNaked>
           </ActionsBar>
 
           <CrudMessages { ...this.props } />
