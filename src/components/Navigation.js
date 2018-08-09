@@ -60,15 +60,17 @@ class Navigation extends Component {
           </Nav>
         </Collapse>
 
-        <div id="nav-toggle-bar" className="d-flex justify-content-center">
+        <div id="nav-toggle-bar" className="d-flex justify-content-md-center justify-content-end">
           <span id="nav-toggle-buttons" className="bg-secondary">
             <ButtonNavToggle onClick={this.toggleMainNavbar}>
               Nav
             </ButtonNavToggle>
 
-            <ButtonNavToggle onClick={this.toggleSubNavbar}>
-              Open
-            </ButtonNavToggle>
+            { Object.keys(openNotesState).length > 0 &&
+              <ButtonNavToggle onClick={this.toggleSubNavbar}>
+                Open
+              </ButtonNavToggle>
+            }
           </span>
         </div>
       </React.Fragment>
