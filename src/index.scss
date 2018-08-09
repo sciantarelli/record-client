@@ -1,6 +1,12 @@
 $body-bg: #fff7e5;
 // $primary: #fff7e5;
 $secondary: #fbf3e1;
+$container-max-widths: (
+  sm: 718px,
+  md: 942px,
+  lg: 1140px,
+  xl: 1140px
+) !default;
 @import "node_modules/bootstrap/scss/bootstrap";
 
 /*body {*/
