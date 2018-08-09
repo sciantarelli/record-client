@@ -6348,7 +6348,9 @@ html, body {
     padding-right: 2px; }
 
 .button-nav-toggle {
-  padding: 0px 0px; }
+  padding: 0px;
+  font-variant: small-caps;
+  font-weight: 600; }
 
 input, textarea {
   background: #292929;
