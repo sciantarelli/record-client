@@ -40,7 +40,7 @@ class Navigation extends Component {
         <Collapse isOpen={!this.state.mainCollapsed}>
           <Nav id="main-nav" className="justify-content-center">
             <NavLink to="/login" auth={false} addClasses={['testing']}>Login</NavLink>
-            <NavLink to="/" auth={true}>Dashboard</NavLink>
+            <NavLink to="/" auth={true}>Dash</NavLink>
             <NavLink to="/tags" auth={true}>Tags</NavLink>
             <NavLink to="/notes" auth={true}>Notes</NavLink>
             <NavLink to="/ideas" auth={true}>Ideas</NavLink>
@@ -51,7 +51,7 @@ class Navigation extends Component {
         </Collapse>
 
         <Collapse isOpen={!this.state.subCollapsed}>
-          <Nav className="sub-nav nav-links justify-content-center">
+          <Nav className="sub-nav justify-content-center">
             {
               Object.keys(openNotesState || {}).map(id =>
                 openNoteNavLink(openNotesState[id], id)

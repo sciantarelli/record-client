@@ -137,6 +137,7 @@ class Note extends Component {
                            onSubmit={handleSubmit(this.onExplicitSave)}>
 
           <Field
+              className="component-name"
               name="name"
               type="text"
               component="input"
@@ -144,10 +145,10 @@ class Note extends Component {
           />
 
           <Field
+              className="component-content flex-fill"
               name="content"
               type="text"
               component="textarea"
-              className="temp-textarea flex-fill"
               disabled={disabled}
           />
 

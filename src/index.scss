@@ -1,12 +1,14 @@
-$body-bg: #434343;
-$body-color: #c2c2c2;
+$body-bg: #323232;
+$body-color: #a5a5a5;
 // $primary: #fff7e5;
-$secondary: #3a3a3a;
-$red: #be3444;
-$green: #28b446;
+$secondary: #292929;
+$red: #a73646;
+$green: #518a28;
+$yellow: #cea513;
+$orange: #cf6814;
 $container-max-widths: (
-  sm: 718px,
-  md: 942px,
+  sm: 768px,
+  md: 992px,
   lg: 1140px,
   xl: 1140px
 ) !default;
@@ -15,27 +17,11 @@ $container-max-widths: (
 a {
   color: $red;
 }
-/*button {*/
-  /*background: none;*/
-  /*border: none;*/
-  /*padding: 0;*/
-  /*margin: 0 5px;*/
-  /*color: green;*/
-  /*text-align: center;*/
-  /*display: inline-block;*/
-  /*font-variant: small-caps;*/
-  /*font-weight: 600;*/
-  /*font-size: .85em;*/
-/*}*/
 
-/*button:hover {*/
-  /*cursor: pointer;*/
-/*}*/
+.container {
+  padding: 0 7px 0 7px;
+}
 
-/*button:disabled {*/
-  /*color: grey;*/
-  /*cursor: not-allowed;*/
-/*}*/
 
 
 
@@ -52,18 +38,33 @@ html, body {
 #nav-toggle-bar {
   background: $body-bg;
   border-top: 1pt solid $red;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 #nav-toggle-buttons {
   position: relative;
-  top: -12px;
-  border-left: 1px solid $red;
-  border-right: 1px solid $red;
+  top: -1px;
+  padding: 0 5px;
+  border: 1px solid $red;
+  border-radius: 0 0 5px 5px;
+  border-top: none;
+
+  button:after {
+    color: $gray-600;
+    content: " \2022";
+  }
+
+  button:last-child:after {
+    content: none;
+  }
+
+  button:not(:last-child) {
+    padding-right: 2px;
+  }
 }
 
 .button-nav-toggle {
-  padding: 0px 7px;
+  padding: 0px 0px;
 }
 
 input, textarea {
@@ -78,6 +79,16 @@ input {
 
 textarea {
   padding: 7px;
+}
+
+.component-name {
+  text-align: center;
+  margin-bottom: 5px;
+  border-bottom: none;
+}
+
+.component-content {
+  border-top: none;
 }
 
 .flex-container {
@@ -96,27 +107,15 @@ textarea {
 }
 
 .error-messages {
-  color: #c80000;
+  color: $orange;
 }
-
-//.temp-textarea {
-//  width: 100%;
-//  height: 99%;
-//  overflow: auto;
-//}
-
-/*ul {*/
-  /*padding: 0;*/
-  /*margin: 0;*/
-  /*list-style: none;*/
-/*}*/
 
 ul > .app-link {
 
 }
 
-li.active-link {
-  border-bottom: 1pt solid black;
+li.active-link a {
+  border-bottom: 2pt solid $red;
 }
 
 li.nav-link {
@@ -125,7 +124,7 @@ li.nav-link {
 }
 
 li.unsaved a {
-  color: #c80000;
+  color: $yellow;
 }
 
 #main-nav {
@@ -143,13 +142,24 @@ a {
   text-decoration: none;
 }
 
-.sub-nav li:not(:last-child) {
-  border-right: 1px solid #9d9d9d;
-  padding-right: 3px;
-}
+.sub-nav {
+  li:after {
+    color: $gray-600;
+    content: " \2022";
+  }
 
-.sub-nav li:not(:first-child) {
-  margin-left: 3px;
+  li:last-child:after {
+    content: none
+  }
+
+  li:not(:last-child) {
+    padding-right: 5px;
+  }
+
+}
+.sub-nav li:not(:last-child) {
+  //border-right: 1px solid #9d9d9d;
+  // padding-right: 3px;
 }
 
 .sub-nav a {
