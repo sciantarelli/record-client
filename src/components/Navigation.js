@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavbarToggler, Collapse } from 'reactstrap';
 import { NavLink, openNoteNavLink } from './Links';
-import { ButtonNavToggle } from './Buttons';
+import { ButtonNaked } from './Buttons';
 import { getOpenNotes } from '../selectors/notes';
 
 
@@ -33,11 +33,27 @@ class Navigation extends Component {
 
 
   render() {
+    const { mainCollapsed, subCollapsed } = this.state;
     const openNotesState = this.props.openNotesState;
+    const openRecordsExist = Object.keys(openNotesState).length > 0;
+
+    // TODO: Refactor this to a helper or something
+    const dirtyRecordsExist = () => {
+      if (!openRecordsExist) return false;
+
+      for (let id in openNotesState) {
+        // skip loop if the property is from prototype
+        if (!openNotesState.hasOwnProperty(id)) continue;
+
+        if (openNotesState[id].isDirty) return true;
+      }
+
+      return false;
+    };
 
     return (
       <React.Fragment>
-        <Collapse isOpen={!this.state.mainCollapsed}>
+        <Collapse isOpen={!mainCollapsed}>
           <Nav id="main-nav" className="justify-content-center">
             <NavLink to="/login" auth={false} addClasses={['testing']}>Login</NavLink>
             <NavLink to="/" auth={true}>Dash</NavLink>
@@ -50,8 +66,8 @@ class Navigation extends Component {
           </Nav>
         </Collapse>
 
-        <Collapse isOpen={!this.state.subCollapsed}>
-          <Nav className="sub-nav justify-content-center">
+        <Collapse isOpen={!subCollapsed}>
+          <Nav className="container sub-nav justify-content-left">
             {
               Object.keys(openNotesState || {}).map(id =>
                 openNoteNavLink(openNotesState[id], id)
@@ -62,14 +78,15 @@ class Navigation extends Component {
 
         <div id="nav-toggle-bar" className="d-flex justify-content-md-center justify-content-end">
           <span id="nav-toggle-buttons" className="bg-secondary">
-            <ButtonNavToggle onClick={this.toggleMainNavbar}>
+            <ButtonNaked onClick={this.toggleMainNavbar}>
               Nav
-            </ButtonNavToggle>
+            </ButtonNaked>
 
-            { Object.keys(openNotesState).length > 0 &&
-              <ButtonNavToggle onClick={this.toggleSubNavbar}>
+            { openRecordsExist &&
+              <ButtonNaked onClick={this.toggleSubNavbar}
+                           className={ dirtyRecordsExist() ? 'unsaved' : false }>
                 Open
-              </ButtonNavToggle>
+              </ButtonNaked>
             }
           </span>
         </div>
