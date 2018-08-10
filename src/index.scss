@@ -1,7 +1,9 @@
+// Bootstrap Variable Overrides
 $body-bg: #323232;
 $body-color: #a5a5a5;
 // $primary: #fff7e5;
 $secondary: #292929;
+$blue: #0067ce;
 $red: #a73646;
 $green: #518a28;
 $yellow: #cea513;
@@ -12,18 +14,11 @@ $container-max-widths: (
   lg: 1140px,
   xl: 1140px
 ) !default;
+
+// Import Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
 
-a {
-  color: $red;
-}
-
-.container {
-  padding: 0 7px 0 7px;
-}
-
-
-
+// Bootstrap & Basic Element Overrides
 
 html, body {
   height: 100%;
@@ -31,8 +26,88 @@ html, body {
   padding: 0;
 }
 
+a, a:hover {
+  color: $red;
+}
+
+a, a:active, a:focus {
+  outline: none;
+}
+
+input, textarea {
+  background: $secondary;
+  color: $body-color;
+  border-color: $red;
+}
+
+input {
+  padding: 3px;
+}
+
+textarea {
+  padding: 7px;
+}
+
+.container {
+  padding: 0 7px 0 7px;
+}
+
+
+// APP CSS
+
+.flex-container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
 #header {
   background: $secondary;
+}
+
+// Navigation
+
+li.nav-link {
+  display: inline-block;
+  padding: 0 0 2px 0;
+}
+
+li.active-link a {
+  border-bottom: 2pt solid $red;
+}
+
+li.unsaved a, button.unsaved, button.unsaved:hover {
+  color: $yellow;
+}
+
+#main-nav {
+  a {
+    font-weight: $font-weight-bold;
+  }
+
+  .app-link  {
+    margin-right: 7px;
+    font-variant: small-caps;
+  }
+}
+
+.sub-nav {
+  a {
+    font-size: $font-size-sm;
+  }
+
+  li:after {
+    color: $gray-600;
+    content: " \2022"; // Puts a bullet between links
+  }
+
+  li:last-child:after {
+    content: none
+  }
+
+  li:not(:last-child) {
+    padding-right: 5px;
+  }
 }
 
 #nav-toggle-bar {
@@ -50,6 +125,12 @@ html, body {
   border-radius: 0 0 5px 5px;
   border-top: none;
 
+  button {
+    padding: 0px;
+    font-variant: small-caps;
+    font-weight: 600;
+  }
+
   button:after {
     color: $gray-600;
     content: " \2022";
@@ -64,41 +145,7 @@ html, body {
   }
 }
 
-.button-nav-toggle {
-  padding: 0px;
-  font-variant: small-caps;
-  font-weight: 600;
-}
-
-input, textarea {
-  background: $secondary;
-  color: $body-color;
-  border-color: $red;
-}
-
-input {
-  padding: 3px;
-}
-
-textarea {
-  padding: 7px;
-}
-
-.component-name {
-  text-align: center;
-  margin-bottom: 5px;
-  border-bottom: none;
-}
-
-.component-content {
-  border-top: none;
-}
-
-.flex-container {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-}
+// Buttons - Bootstrap Overrides
 
 .btn-link, .btn-link:hover {
   color: $green
@@ -109,62 +156,18 @@ textarea {
   color: $gray-500;
 }
 
+// Forms
+
 .error-messages {
-  color: $orange;
-}
-
-ul > .app-link {
-
-}
-
-li.active-link a {
-  border-bottom: 2pt solid $red;
-}
-
-li.nav-link {
-  display: inline-block;
-  padding: 0 0 2px 0;
-}
-
-li.unsaved a {
   color: $yellow;
 }
 
-#main-nav {
-  a {
-    font-weight: 600;
-  }
-
-  .app-link  {
-    margin-right: 7px;
-    font-variant: small-caps;
-  }
+input.component-name {
+  text-align: center;
+  margin-bottom: 5px;
+  border-bottom: none;
 }
 
-a {
-  text-decoration: none;
-}
-
-.sub-nav {
-  li:after {
-    color: $gray-600;
-    content: " \2022";
-  }
-
-  li:last-child:after {
-    content: none
-  }
-
-  li:not(:last-child) {
-    padding-right: 5px;
-  }
-
-}
-.sub-nav li:not(:last-child) {
-  //border-right: 1px solid #9d9d9d;
-  // padding-right: 3px;
-}
-
-.sub-nav a {
-  font-size: .85em;
+input.component-content {
+  border-top: none;
 }
