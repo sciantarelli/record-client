@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
+import { ButtonNaked } from './Buttons';
 import MessagesContainer from './MessagesContainer';
 import ErrorMessages from './ErrorMessages';
 import { doAuthUser } from '../actions/auth';
@@ -18,7 +19,7 @@ class Login extends Component {
     const { handleSubmit, authError, isAuthenticating } = this.props;
 
     return (
-      <div>
+      <div class="flex-container justify-content-center align-items-center">
         <MessagesContainer>
           { isAuthenticating && <p>Logging In...</p> }
 
@@ -28,26 +29,25 @@ class Login extends Component {
 
         </MessagesContainer>
 
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <fieldset>
-            <label>Email</label>
+        <form class="d-flex flex-column" onSubmit={handleSubmit(this.onSubmit)}>
+            <label class="offscreen">Email</label>
             <Field
                 name="email"
                 type="text"
                 component="input"
                 autoComplete="none"
+                placeholder="Email"
             />
-          </fieldset>
-          <fieldset>
-            <label>Password</label>
+
+            <label class="offscreen">Password</label>
             <Field
                 name="password"
                 type="password"
                 component="input"
                 autoComplete="none"
+                placeholder="Password"
             />
-          </fieldset>
-          <button>Login</button>
+          <ButtonNaked>Login</ButtonNaked>
         </form>
       </div>
     );
