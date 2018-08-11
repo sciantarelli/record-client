@@ -39,6 +39,8 @@ class Navigation extends Component {
     const { mainCollapsed, subCollapsed } = this.state;
     const openNotesState = this.props.openNotesState;
     const openRecordsExist = Object.keys(openNotesState).length > 0;
+    const upArrow = '\u25b2';
+    const downArrow = '\u25bc';
 
     // TODO: Refactor this to a helper or something
     const dirtyRecordsExist = () => {
@@ -81,13 +83,13 @@ class Navigation extends Component {
         <div id="nav-toggle-bar" className="d-flex justify-content-md-center justify-content-end">
           <span id="nav-toggle-buttons" className="bg-secondary">
             <ButtonNaked onClick={this.toggleMainNavbar}>
-              Nav
+              Nav{mainCollapsed ? downArrow : upArrow}
             </ButtonNaked>
 
             { openRecordsExist &&
               <ButtonNaked onClick={this.toggleSubNavbar}
                            className={ dirtyRecordsExist() ? 'unsaved' : false }>
-                Open
+                Open{subCollapsed ? downArrow : upArrow}
               </ButtonNaked>
             }
           </span>
