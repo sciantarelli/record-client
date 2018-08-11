@@ -5,6 +5,7 @@ import { Nav, Navbar, NavbarToggler, Collapse } from 'reactstrap';
 import { NavLink, openNoteNavLink } from './Links';
 import { ButtonNaked } from './Buttons';
 import { getOpenNotes } from '../selectors/notes';
+import { getIsAuthenticated } from '../selectors/auth';
 
 
 class Navigation extends Component {
@@ -33,6 +34,8 @@ class Navigation extends Component {
 
 
   render() {
+    if (!this.props.isAuthed) return null;
+
     const { mainCollapsed, subCollapsed } = this.state;
     const openNotesState = this.props.openNotesState;
     const openRecordsExist = Object.keys(openNotesState).length > 0;
@@ -55,7 +58,6 @@ class Navigation extends Component {
       <React.Fragment>
         <Collapse isOpen={!mainCollapsed}>
           <Nav id="main-nav" className="justify-content-center">
-            <NavLink to="/login" auth={false} addClasses={['testing']}>Login</NavLink>
             <NavLink to="/" auth={true}>Dash</NavLink>
             <NavLink to="/tags" auth={true}>Tags</NavLink>
             <NavLink to="/notes" auth={true}>Notes</NavLink>
@@ -97,7 +99,8 @@ class Navigation extends Component {
 
 
 const mapStateToProps = state => ({
-  openNotesState: getOpenNotes(state.openNotesState)
+  openNotesState: getOpenNotes(state.openNotesState),
+  isAuthed: getIsAuthenticated(state.auth)
 });
 
 
