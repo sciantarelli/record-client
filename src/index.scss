@@ -148,7 +148,11 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
 // Buttons - Bootstrap Overrides
 
 .btn-link, .btn-link:hover {
-  color: $green
+  color: $green;
+}
+
+.btn-link:focus {
+  text-decoration: none;
 }
 
 .btn-link.disabled {

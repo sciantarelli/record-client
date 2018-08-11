@@ -6403,6 +6403,9 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
 .btn-link, .btn-link:hover {
   color: #518a28; }
 
+.btn-link:focus {
+  text-decoration: none; }
+
 .btn-link.disabled {
   cursor: not-allowed;
   color: #adb5bd; }
