@@ -6,6 +6,7 @@ import { NavLink, openNoteNavLink } from './Links';
 import { ButtonNaked } from './Buttons';
 import { getOpenNotes } from '../selectors/notes';
 import { getIsAuthenticated } from '../selectors/auth';
+import { isEmptyObject, dirtyRecordsExist } from '../helpers';
 
 
 class Navigation extends Component {
@@ -38,23 +39,8 @@ class Navigation extends Component {
 
     const { mainCollapsed, subCollapsed } = this.state;
     const openNotesState = this.props.openNotesState;
-    const openRecordsExist = Object.keys(openNotesState).length > 0;
     const upArrow = '\u25b2';
     const downArrow = '\u25bc';
-
-    // TODO: Refactor this to a helper or something
-    const dirtyRecordsExist = () => {
-      if (!openRecordsExist) return false;
-
-      for (let id in openNotesState) {
-        // skip loop if the property is from prototype
-        if (!openNotesState.hasOwnProperty(id)) continue;
-
-        if (openNotesState[id].isDirty) return true;
-      }
-
-      return false;
-    };
 
     return (
       <React.Fragment>
@@ -86,9 +72,9 @@ class Navigation extends Component {
               Nav{mainCollapsed ? downArrow : upArrow}
             </ButtonNaked>
 
-            { openRecordsExist &&
+            { !isEmptyObject(openNotesState) &&
               <ButtonNaked onClick={this.toggleSubNavbar}
-                           className={ dirtyRecordsExist() ? 'unsaved' : false }>
+                           className={ dirtyRecordsExist(openNotesState) ? 'unsaved' : false }>
                 Open{subCollapsed ? downArrow : upArrow}
               </ButtonNaked>
             }

@@ -13,4 +13,25 @@ const propertiesDoMatch = (a, b, props) => {
   return true;
 };
 
-export { deletePropertyFromObject, propertiesDoMatch };
+const isEmptyObject = (obj) =>
+  Object.keys(obj).length === 0;
+
+const dirtyRecordsExist = (records) => {
+  if (isEmptyObject(records)) return false;
+
+  for (let id in records) {
+    // skip loop if the property is from prototype
+    if (!records.hasOwnProperty(id)) continue;
+
+    if (records[id].isDirty) return true;
+  }
+
+  return false;
+};
+
+export {
+  deletePropertyFromObject,
+  propertiesDoMatch,
+  isEmptyObject,
+  dirtyRecordsExist
+};
