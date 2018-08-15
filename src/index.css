@@ -6413,6 +6413,9 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
 .error-messages {
   color: #cea513; }
 
+.warning-messages {
+  color: #cf6814; }
+
 input.component-name {
   text-align: center;
   margin-bottom: 5px;
