@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { put } from 'redux-saga/effects';
 import { doActions } from './helpers';
 import { doAuthUpdated } from '../actions/auth';

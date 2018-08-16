@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { put, take } from 'redux-saga/effects';
 import { doNewNote } from '../actions/notes';
 

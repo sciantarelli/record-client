@@ -1,5 +1,7 @@
-import { createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+// import { routerMiddleware } from 'react-router-redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router'
+
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
@@ -32,9 +34,16 @@ const createClientStore = (initialState, history) => {
   }
 
   const store = createStore(
-      rootReducer,
+      connectRouter(history)(rootReducer),
       initialState,
-      applyMiddleware(routerMiddleware(history), attachPathNameToAction, saga, logger)
+      compose(
+        applyMiddleware(
+          routerMiddleware(history),
+          attachPathNameToAction,
+          saga,
+          logger
+        )
+      )
   );
 
   saga.run(rootSaga);
