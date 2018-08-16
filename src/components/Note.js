@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
-import { Button, ButtonGroup } from 'reactstrap';
+import { ButtonGroup } from 'reactstrap';
 import { ButtonNaked } from './Buttons';
 import { FlexFillContainer } from './FlexComponents';
 import requireAuth from './requireAuth';
@@ -103,7 +103,7 @@ class Note extends Component {
 
   render() {
     console.log('*** rendering Note *** ');
-    const { data, isFetching, isSaving, isDeleting, isDirty, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute, doDelete } = this.props;
+    const { data, isFetching, isSaving, isDeleting, isDirty, handleSubmit, doCloseAndRoute, doDelete } = this.props;
     const disabled = (isFetching || isSaving || isDeleting);
 
     return (

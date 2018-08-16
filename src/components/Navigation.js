@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Nav, Navbar, NavbarToggler, Collapse } from 'reactstrap';
+import { Nav, Collapse } from 'reactstrap';
 import { NavLink, openNoteNavLink } from './Links';
 import { ButtonNaked } from './Buttons';
 import { getOpenNotes } from '../selectors/notes';
