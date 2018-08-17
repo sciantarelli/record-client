@@ -4,7 +4,7 @@ import { doNewNote } from '../actions/notes';
 
 
 function* handleLocationChange(action) {
-  const { pathname } = action.payload;
+  const pathname = action.payload.location.pathname;
 
   switch (pathname) {
     case '/notes/new' : {
