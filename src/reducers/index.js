@@ -10,8 +10,7 @@ const appReducer = combineReducers({
   form: formReducer,
   notesState: notesReducer,
   openNotesState: openNotesReducer,
-  auth: authReducer,
-  router: routerReducer
+  auth: authReducer
 });
 
 
