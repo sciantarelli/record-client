@@ -19,7 +19,7 @@ class Login extends Component {
     const { handleSubmit, authError, isAuthenticating } = this.props;
 
     return (
-      <div class="flex-container justify-content-center align-items-center">
+      <div className="flex-container justify-content-center align-items-center">
         <MessagesContainer>
           { isAuthenticating && <p>Logging In...</p> }
 
@@ -29,8 +29,8 @@ class Login extends Component {
 
         </MessagesContainer>
 
-        <form class="d-flex flex-column" onSubmit={handleSubmit(this.onSubmit)}>
-            <label class="offscreen">Email</label>
+        <form className="d-flex flex-column" onSubmit={handleSubmit(this.onSubmit)}>
+            <label className="offscreen">Email</label>
             <Field
                 name="email"
                 type="text"
@@ -39,7 +39,7 @@ class Login extends Component {
                 placeholder="Email"
             />
 
-            <label class="offscreen">Password</label>
+            <label className="offscreen">Password</label>
             <Field
                 name="password"
                 type="password"
