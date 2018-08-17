@@ -33,16 +33,20 @@ const createClientStore = (initialState, history) => {
     }
   }
 
+  const middleware = [
+    routerMiddleware(history),
+    attachPathNameToAction,
+    saga
+  ];
+
+
+  if (isDevelopment()) middleware.push(logger);
+
   const store = createStore(
       connectRouter(history)(rootReducer),
       initialState,
       compose(
-        applyMiddleware(
-          routerMiddleware(history),
-          attachPathNameToAction,
-          saga,
-          logger
-        )
+        applyMiddleware(...middleware)
       )
   );
 
@@ -55,11 +59,14 @@ const createClientStore = (initialState, history) => {
 const createServerStore = () => {
 
   const initialState = {};
+  const middleware = [ saga ];
+
+  if (isDevelopment()) middleware.push(logger);
 
   const store = createStore(
       rootReducer,
       initialState,
-      applyMiddleware(saga, logger)
+      applyMiddleware(...middleware)
   );
 
   saga.run(rootSaga);
@@ -68,5 +75,6 @@ const createServerStore = () => {
 };
 
 
+const isDevelopment = () => process.env.NODE_ENV === `development`;
 
 export { createClientStore, createServerStore };
