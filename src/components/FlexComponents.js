@@ -19,22 +19,14 @@ const FlexFill = (props) => {
 };
 
 const FlexFillContainer = (props) => {
-  const Component = props.component || 'div';
-  let addClasses = props.addClasses;
+  const { component, addClasses, ...subProps } = props;
+  const Component = component || 'div';
   let classes = ['flex-container', 'flex-fill'];
 
-  const subProps = {
-    ...props,
-    component: undefined,
-    addClasses: undefined
-  };
-
   if (addClasses) {
-    if (!Array.isArray(addClasses)) {
-      addClasses = [addClasses];
-    }
-
-    classes = classes.concat(addClasses);
+    classes = classes.concat(
+      Array.isArray(addClasses) ? addClasses : [ addClasses ]
+    );
   }
 
   return React.createElement(
