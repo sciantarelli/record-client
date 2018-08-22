@@ -10,7 +10,7 @@ const doAuthUser = (formProps) => ({
 
 const doAuthSuccess = headers => ({
   type: AUTH_SUCCESS,
-  headers
+  headers: cleanHeaders(headers)
 });
 
 const doAuthError = error => ({
@@ -18,23 +18,29 @@ const doAuthError = error => ({
   error,
 });
 
-const doAuthUpdated = headers => {
-  const accessToken = headers['access-token'];
-  const cleanedHeaders =
-      deletePropertyFromObject(headers, 'access-token');
-
-
-  return {
-    type: AUTH_UPDATED,
-    headers: {
-      ...cleanedHeaders,
-      accessToken
-    }
-  }
-};
+const doAuthUpdated = headers => ({
+  type: AUTH_UPDATED,
+  headers: cleanHeaders(headers)
+});
 
 const doLogoutUser = () => ({
   type: AUTH_DESTROY
 });
+
+
+const cleanHeaders = (headers) => {
+  if (!headers.hasOwnProperty('access-token')) {
+    return headers;
+  }
+
+  const accessToken = headers['access-token'];
+  const cleanedHeaders =
+      deletePropertyFromObject(headers, 'access-token');
+
+  return {
+    ...cleanedHeaders,
+    accessToken
+  };
+};
 
 export { doAuthUser, doAuthSuccess, doAuthError, doAuthUpdated, doLogoutUser };

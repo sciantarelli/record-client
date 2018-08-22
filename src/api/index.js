@@ -3,7 +3,7 @@ const authHeaders = authState => {
 
   return {
     headers: {
-      accessToken,
+      'access-token': accessToken,
       client,
       expiry,
       uid
