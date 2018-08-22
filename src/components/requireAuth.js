@@ -29,7 +29,7 @@ export default Entity => {
 
   function mapStateToProps(state) {
     // TODO: Change to a selector, consider adding method isAuthenticated or something that checks this property
-    return { auth: state.auth.access_token };
+    return { auth: state.auth.accessToken };
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(ComposedComponent);

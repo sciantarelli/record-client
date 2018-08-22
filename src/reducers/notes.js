@@ -7,7 +7,7 @@ const errorDefault = () => null;
 const isFetchingDefault = () => false;
 
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   notes: notesDefault(),
   error: errorDefault(),
   isFetching: isFetchingDefault()

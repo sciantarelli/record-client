@@ -68,21 +68,20 @@ function* handleAuthDestroy(action) {
 }
 
 function authWasRefreshed(headers) {
-  const { client, expiry, uid } = headers;
-  const access_token = headers['access-token'];
+  const { accessToken, client, expiry, uid } = headers;
 
-  return (access_token && client && uid && expiry) ? true : false;
+  return (accessToken && client && uid && expiry) ? true : false;
 }
 
 
 function setAuthToLocalStorage(headers) {
-  const { client, expiry, uid } = headers;
+  const { accessToken, client, expiry, uid } = headers;
 
   const auth = {
-    access_token: headers['access-token'],
+    accessToken,
     client,
     expiry,
-    uid,
+    uid
   };
 
   localStorage.setItem('auth', JSON.stringify(auth));

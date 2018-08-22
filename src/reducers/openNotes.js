@@ -12,9 +12,9 @@ const inputChangeOnlyDefault = () => false;
 const changedDefault = () => ({});
 const isDirtyDefault = () => false;
 
-const INITIAL_STATE = {};
+export const INITIAL_STATE = {};
 
-const DEFAULT_NOTE_STATE = {
+export const DEFAULT_NOTE_STATE = {
   id: null,
   name: nameDefault(),
   content: contentDefault(),
