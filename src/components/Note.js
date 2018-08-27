@@ -13,6 +13,7 @@ import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/n
 import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting, getNoteIsDirty } from '../selectors/notes';
 import { propertiesDoMatch } from '../helpers';
+import { NOTES_PATH } from '../constants';
 
 
 class Note extends Component {
@@ -190,7 +191,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     doCreateAndRoute: (formProps) => {
       dispatch(doDispatchThenRoute(
         doSaveNote(formProps),
-        '/notes/:id',
+        `${NOTES_PATH}/:id`,
         true // Not really necessary, but just in case any more actions are added in this sequence
       ));
     },
@@ -198,20 +199,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     doCloseAndRoute: () => {
       dispatch(doDispatchThenRoute(
         doCloseNote(id),
-        '/notes'
+        NOTES_PATH
       ));
     },
     doSaveCloseAndRoute: (data) => {
       dispatch(doDispatchThenRoute(
         [doSaveNote(data), doCloseNote(data.id)],
-        '/notes',
+        NOTES_PATH,
         !Number.isInteger(data.id)
       ));
     },
     doDelete: () =>  {
       dispatch(doDispatchThenRoute(
         doDeleteNote(id),
-        '/notes'
+        NOTES_PATH
       ));
     },
     doInitializeForm: (data) => dispatch(initialize('note', data))

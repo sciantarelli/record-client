@@ -8,21 +8,22 @@ import Login from './Login';
 import Logout from './Logout';
 import NotFound from './NotFound';
 import ComingSoon from './ComingSoon';
+import { LOGIN_PATH, LOGOUT_PATH, NOTES_PATH } from '../constants';
 
 export default () => {
   return (
       <React.Fragment>
         <Switch>
           <Route path='/' exact component={Dashboard} />
-          <Route path='/login' component={Login} />
-          <Route path='/logout' component={Logout} />
+          <Route path={LOGIN_PATH} component={Login} />
+          <Route path={LOGOUT_PATH} component={Logout} />
           <Route exact path='/tags' component={ComingSoon} />
-          <Route exact path='/notes' component={Notes} />
-          <Route exact path='/notes/new' render={()=>
+          <Route exact path={NOTES_PATH} component={Notes} />
+          <Route exact path={`${NOTES_PATH}/new`} render={()=>
               <Note skipLoad={true} id={'new'} />
             }
           />
-          <Route path="/notes/:id" component={Note}/>
+          <Route path={`${NOTES_PATH}/:id`} component={Note}/>
           <Route exact path='/ideas' component={Ideas} />
           <Route exact path='/bookmarks' component={ComingSoon} />
           <Route exact path='/alerts' component={ComingSoon} />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import { LOGIN_PATH } from '../constants';
 
 export default Entity => {
   class ComposedComponent extends Component {
@@ -24,7 +25,7 @@ export default Entity => {
   }
 
   const mapDispatchToProps = (dispatch) => ({
-    navigateAway: () => dispatch(push('/login'))
+    navigateAway: () => dispatch(push(LOGIN_PATH))
   });
 
   function mapStateToProps(state) {

@@ -3,6 +3,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { postAuthUser, deleteAuthUser } from '../api/auth';
 import { doAuthSuccess, doAuthError } from '../actions/auth';
 import { doStoreReset } from '../actions/store';
+import { NOTES_PATH } from '../constants';
 
 
 const get_auth = (state) => state.auth;
@@ -15,7 +16,7 @@ function* handleAuthUser(action) {
     const result = yield call(postAuthUser, formProps);
     yield put(doAuthSuccess(result.headers));
     setAuthToLocalStorage(result.headers);
-    yield put(push('/notes')); // TODO: Eventually change this to '/' and switch to using doDispatchThenRoute if it still exists
+    yield put(push(NOTES_PATH)); // TODO: Eventually change this to '/' and switch to using doDispatchThenRoute if it still exists
   } catch (error) {
     const { response} = error;
 

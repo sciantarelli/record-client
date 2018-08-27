@@ -9,6 +9,7 @@ import CrudMessages from './CrudMessages';
 import { ButtonNaked } from './Buttons';
 import { doFetchNotes } from '../actions/notes';
 import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
+import { NOTES_PATH } from '../constants';
 
 
 // TODO: If api call fails with an error, ideally it would retry if the error was something other than unauthorized or bad request
@@ -29,7 +30,7 @@ class Notes extends Component {
 
           <ul>
             {Object.keys(data || {}).map(id =>
-                <AppLink to={`/notes/${id}`} key={id} auth={true}>{data[id].name}</AppLink>
+                <AppLink to={`${NOTES_PATH}/${id}`} key={id} auth={true}>{data[id].name}</AppLink>
             )}
           </ul>
         </div>
@@ -45,7 +46,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
   doFetch: () => dispatch(doFetchNotes()),
-  doNew: () => dispatch(push('/notes/new'))
+  doNew: () => dispatch(push(`${NOTES_PATH}/new`))
 });
 
 
