@@ -8,7 +8,7 @@ import Login from './Login';
 import Logout from './Logout';
 import NotFound from './NotFound';
 import ComingSoon from './ComingSoon';
-import { LOGIN_PATH, LOGOUT_PATH, NOTES_PATH } from '../constants';
+import { NEW_ID, LOGIN_PATH, LOGOUT_PATH, NOTES_PATH, NEW_NOTE_PATH } from '../constants';
 
 export default () => {
   return (
@@ -19,8 +19,8 @@ export default () => {
           <Route path={LOGOUT_PATH} component={Logout} />
           <Route exact path='/tags' component={ComingSoon} />
           <Route exact path={NOTES_PATH} component={Notes} />
-          <Route exact path={`${NOTES_PATH}/new`} render={()=>
-              <Note skipLoad={true} id={'new'} />
+          <Route exact path={NEW_NOTE_PATH} render={()=>
+              <Note skipLoad={true} id={NEW_ID} />
             }
           />
           <Route path={`${NOTES_PATH}/:id`} component={Note}/>

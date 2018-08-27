@@ -3,6 +3,7 @@ import { is404AndHandled, is401AndHandled, is422AndHandled, handleNoResponse, ge
 import { createNote, fetchNote, updateNote, deleteNote, fetchNotes } from '../api/notes';
 import { doAuthUpdated } from '../actions/auth';
 import { doCreateNoteSuccess, doCreateNoteError, doNoteValidationErrors, doFetchNoteSuccess, doFetchErrorNote, doFetchNotesSuccess, doFetchErrorNotes, doUpdateNoteSuccess, doUpdateNoteError, doDeleteNoteSuccess, doDeleteNoteError, doCloseNote } from '../actions/notes';
+import { NEW_ID } from '../constants';
 
 
 const get_auth = (state) => state.auth;
@@ -33,20 +34,18 @@ function* handleFetchNote(action) {
 }
 
 function* handleCreateNote(action) {
-  const id = 'new';
-
   try {
     const auth = yield select(get_auth);
     const result = yield call(createNote, action.formProps, auth);
     yield put(doAuthUpdated(result.headers));
     yield put(doCreateNoteSuccess(result.data));
-    yield put(doCloseNote(id));
+    yield put(doCloseNote(NEW_ID));
   } catch (error) {
     const { response, request } = error;
 
     if (response) {
       if (yield* is401AndHandled(response)) return;
-      if (yield* is422AndHandled(response, doNoteValidationErrors(id, getResponseErrors(response)))) return;
+      if (yield* is422AndHandled(response, doNoteValidationErrors(NEW_ID, getResponseErrors(response)))) return;
 
       yield put(doCreateNoteError(error));
       return;
