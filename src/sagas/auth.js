@@ -75,10 +75,10 @@ function authWasRefreshed(headers) {
 
 
 function setAuthToLocalStorage(headers) {
-  const { accessToken, client, expiry, uid } = headers;
+  const { client, expiry, uid } = headers;
 
   const auth = {
-    accessToken,
+    accessToken: headers['access-token'],
     client,
     expiry,
     uid
