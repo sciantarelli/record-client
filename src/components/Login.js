@@ -24,9 +24,10 @@ class Login extends Component {
           { isAuthenticating && <p>Logging In...</p> }
 
           <ErrorMessages>
-            { authError && <p>{authError.message}</p> }
+            { authError &&
+              <li>{authError.message}</li>
+            }
           </ErrorMessages>
-
         </MessagesContainer>
 
         <form className="d-flex flex-column" onSubmit={handleSubmit(this.onSubmit)}>

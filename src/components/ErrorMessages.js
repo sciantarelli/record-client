@@ -2,9 +2,9 @@ import React from 'react';
 
 const ErrorMessages = ({ children }) => {
   return (
-    <div className="error-messages">
+    <ul className="error-messages">
       { children }
-    </div>
+    </ul>
   );
 };
 
