@@ -1,5 +1,5 @@
 import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
-import { NEW_ID } from '../constants';
+import { NEW_ID, NEW_NOTE_NAME } from '../constants';
 import { deletePropertyFromObject, isEmptyObject } from '../helpers';
 
 const nameDefault = () => '';
@@ -69,7 +69,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         [NEW_ID]: {
           ...DEFAULT_NOTE_STATE,
-          name: 'New Note',
+          name: NEW_NOTE_NAME,
           isDirty: true
         }
       }
