@@ -1,20 +1,23 @@
 import { Selector } from 'testcafe';
 import { reseed, login, logout, currentPath, localStorageGet } from './support/helpers';
 import { LOGIN_PATH, NOTES_PATH, AUTH_STORAGE } from '../../constants';
+import config from './support/config';
 
-fixture `Authentication`// declare the fixture
+fixture('Authentication')
     .before(reseed())
-    .page(`http://localhost:3000`); // start page
+    .page(config.app_url);
 
 test('Login and Logout', async t => {
   await login();
   await t.expect(await currentPath()).eql(NOTES_PATH);
 
   let auth = await localStorageGet('auth');
-  await t.expect(auth.client.length).gt(0);
-  await t.expect(auth.accessToken.length).gt(0);
-  await t.expect(auth.uid.length).gt(0);
-  await t.expect(auth.expiry).gt(0);
+
+  await t
+    .expect(auth.client.length).gt(0)
+    .expect(auth.accessToken.length).gt(0)
+    .expect(auth.uid.length).gt(0)
+    .expect(auth.expiry).gt(0);
 
   await logout();
   await t.expect(await currentPath()).eql(LOGIN_PATH);
@@ -25,8 +28,10 @@ test('Login and Logout', async t => {
 
 test('Incorrect Login', async t => {
   await login('wrong-email@test.com', 'password');
-  await t.expect(await currentPath()).eql(LOGIN_PATH);
-  await t.expect(Selector('.error-messages').exists).ok();
+
+  await t
+    .expect(await currentPath()).eql(LOGIN_PATH)
+    .expect(Selector('.error-messages').exists).ok();
 });
 
 

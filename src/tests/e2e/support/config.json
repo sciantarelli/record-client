@@ -1,4 +1,5 @@
 {
-  "api_host": "http://localhost:3002/v1",
+  "app_url": "http://localhost:3000",
+  "api_url": "http://localhost:3002/v1",
   "api_reseed_path": "/reseed"
 }
