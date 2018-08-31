@@ -4,6 +4,7 @@ import { postAuthUser, deleteAuthUser } from '../api/auth';
 import { doAuthSuccess, doAuthError } from '../actions/auth';
 import { doStoreReset } from '../actions/store';
 import { NOTES_PATH } from '../constants';
+import { cleanHeaders } from '../helpers';
 
 
 const get_auth = (state) => state.auth;
@@ -69,17 +70,17 @@ function* handleAuthDestroy(action) {
 }
 
 function authWasRefreshed(headers) {
-  const { accessToken, client, expiry, uid } = headers;
+  const { accessToken, client, expiry, uid } = cleanHeaders(headers);
 
   return (accessToken && client && uid && expiry) ? true : false;
 }
 
 
 function setAuthToLocalStorage(headers) {
-  const { client, expiry, uid } = headers;
+  const { accessToken, client, expiry, uid } = cleanHeaders(headers);
 
   const auth = {
-    accessToken: headers['access-token'],
+    accessToken,
     client,
     expiry,
     uid

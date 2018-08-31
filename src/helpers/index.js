@@ -29,9 +29,25 @@ const dirtyRecordsExist = (records) => {
   return false;
 };
 
+const cleanHeaders = (headers) => {
+  if (!headers.hasOwnProperty('access-token')) {
+    return headers;
+  }
+
+  const accessToken = headers['access-token'];
+  const cleanedHeaders =
+      deletePropertyFromObject(headers, 'access-token');
+
+  return {
+    ...cleanedHeaders,
+    accessToken
+  };
+};
+
 export {
   deletePropertyFromObject,
   propertiesDoMatch,
   isEmptyObject,
-  dirtyRecordsExist
+  dirtyRecordsExist,
+  cleanHeaders
 };
