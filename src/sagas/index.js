@@ -6,6 +6,7 @@ import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, 
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
+// TODO: Go through these and change necessary ones to takeLatest, etc.
 function *watchAll() {
   yield all([
     takeEvery(DISPATCH_THEN_ROUTE, handleDispatchThenRoute),

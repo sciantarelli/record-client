@@ -4,6 +4,7 @@ import { NOTES_PATH, NEW_NOTE_PATH, NEW_NOTE_NAME } from '../../constants';
 import config from './support/config';
 
 const buttons = Selector('button');
+// TODO: Refactor button names into constants, including 'Create Note' below. And, make all these reusable, including name and content inputs
 const saveButton = buttons.withExactText('Save');
 const closeButton = buttons.withExactText('Close');
 const deleteButton = buttons.withExactText('Delete');
