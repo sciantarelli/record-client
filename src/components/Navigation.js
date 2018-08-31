@@ -7,7 +7,7 @@ import { ButtonNaked } from './Buttons';
 import { getOpenNotes } from '../selectors/notes';
 import { getIsAuthenticated } from '../selectors/auth';
 import { isEmptyObject, dirtyRecordsExist } from '../helpers';
-import { LOGOUT_PATH, NOTES_PATH } from '../constants';
+import { LOGOUT_PATH, NOTES_PATH, IDEAS_PATH, DASHBOARD_PATH, TAGS_PATH, ALERTS_PATH, BOOKMARKS_PATH } from '../constants';
 
 
 class Navigation extends Component {
@@ -47,12 +47,12 @@ class Navigation extends Component {
       <React.Fragment>
         <Collapse isOpen={!mainCollapsed}>
           <Nav id="main-nav" className="justify-content-center">
-            <NavLink to="/" auth={true}>Dash</NavLink>
-            <NavLink to="/tags" auth={true}>Tags</NavLink>
+            <NavLink to={DASHBOARD_PATH} auth={true}>Dash</NavLink>
+            <NavLink to={TAGS_PATH} auth={true}>Tags</NavLink>
             <NavLink to={NOTES_PATH} auth={true}>Notes</NavLink>
-            <NavLink to="/ideas" auth={true}>Ideas</NavLink>
-            <NavLink to="/bookmarks" auth={true}>Bookmarks</NavLink>
-            <NavLink to="/alerts" auth={true}>Alerts</NavLink>
+            <NavLink to={IDEAS_PATH} auth={true}>Ideas</NavLink>
+            <NavLink to={BOOKMARKS_PATH} auth={true}>Bookmarks</NavLink>
+            <NavLink to={ALERTS_PATH} auth={true}>Alerts</NavLink>
             <NavLink to={LOGOUT_PATH} auth={true}>Logout</NavLink>
           </Nav>
         </Collapse>
