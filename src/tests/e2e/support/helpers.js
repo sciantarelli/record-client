@@ -3,12 +3,26 @@ import { t, ClientFunction, Role } from 'testcafe';
 import { LOGIN_PATH, LOGOUT_PATH } from '../../../constants';
 import config from './config';
 
-
-const reseed = () => async ctx => {
-  await axios({method: 'get', url: `${config.api_url}${config.api_reseed_path}`});
+const testUser = {
+  email: 'testy@test.com',
+  password: 'I am testy!'
 };
 
-const login = async (email='test@test.com', password='password') => {
+const reseed = (data={}) => async ctx => {
+  await axios({
+    method: 'get',
+    url: `${config.api_url}${config.api_reseed_path}`,
+    data: {
+      ...data,
+      user: testUser
+    }
+  });
+};
+
+const login = async (
+    email=testUser.email,
+    password=testUser.password) => {
+
   await t
       .typeText('form input[name=email]', email)
       .typeText('form input[name=password', password)
