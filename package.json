@@ -24,7 +24,7 @@
     "redux-form": "^7.4.2",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
-    "testcafe": "^0.21.1"
+    "testcafe": "^0.22.0-alpha.3"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
