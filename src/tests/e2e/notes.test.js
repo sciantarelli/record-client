@@ -34,24 +34,23 @@ test('Create Note', async t => {
     .expect(nameInput.value).eql(NEW_NOTE_NAME)
     .selectText(nameInput)
     .pressKey('delete')
-    .click(saveButton);
-  await t.expect(errorMessages.child().count).eql(2);
+    .click(saveButton)
+    .expect(errorMessages.child().count).eql(2)
 
   // Fix note, validate it, save and close
-  await t
     .typeText(nameInput, 'Note 1', { replace: true })
     .typeText(contentInput, 'Content for Note 1')
-    .click(saveButton);
-  await t.expect(errorMessages.child().count).eql(0);
-  await t.click(closeButton);
+    .click(saveButton)
+    .expect(errorMessages.child().count).eql(0)
+    .click(closeButton);
 
   // Validate path and note count in list
   await t
     .expect(await currentPath()).eql(NOTES_PATH)
-    .expect(notesList.child().count).eql(1);
+    .expect(notesList.child().count).eql(1)
 
   // Create another valid note and validate path
-  await t.click(createButton);
+    .click(createButton);
   await t
     .expect(await currentPath()).eql(NEW_NOTE_PATH)
     .expect(nameInput.value).eql(NEW_NOTE_NAME)
@@ -71,23 +70,21 @@ test('Update Note', async t => {
   // Open the first note and validate path
   await t.click(firstNoteLink);
   await t
-    .expect(await currentPath()).eql(`${NOTES_PATH}/1`);
+    .expect(await currentPath()).eql(`${NOTES_PATH}/1`)
 
   // Make note invalid and validate
-  await t
-      .selectText(nameInput)
-      .pressKey('delete')
-      .click(saveButton);
-  await t.expect(errorMessages.child().count).eql(1);
+    .selectText(nameInput)
+    .pressKey('delete')
+    .click(saveButton)
+    .expect(errorMessages.child().count).eql(1)
 
   // Fix note and validate
-  await t
-      .typeText(nameInput, 'Note 1 Updated')
-      .click(saveButton);
-  await t.expect(errorMessages.child().count).eql(0);
+    .typeText(nameInput, 'Note 1 Updated')
+    .click(saveButton)
+    .expect(errorMessages.child().count).eql(0)
 
   // Close note, validate path and note count in list
-  await t.click(closeButton);
+    .click(closeButton);
   await t
     .expect(await currentPath()).eql(NOTES_PATH)
     .expect(notesList.child().count).eql(2);
@@ -100,10 +97,10 @@ test('Delete Note', async t => {
   // Open the first note and validate path
   await t.click(firstNoteLink);
   await t
-    .expect(await currentPath()).eql(`${NOTES_PATH}/1`);
+    .expect(await currentPath()).eql(`${NOTES_PATH}/1`)
 
   // Delete the note, and validate note count in list
-  await t.click(deleteButton);
+    .click(deleteButton);
   await t
     .expect(await currentPath()).eql(NOTES_PATH)
     .expect(notesList.child().count).eql(1);
