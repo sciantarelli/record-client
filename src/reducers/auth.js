@@ -8,7 +8,7 @@ const expiryDefault = () => '';
 const uidDefault = () => '';
 
 
-export const INITIAL_STATE = {
+export const INITIAL_AUTH_STATE = {
   error: errorDefault(),
   isAuthenticating: isAuthenticatingDefault(),
   accessToken: accessTokenDefault(),
@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
 };
 
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_AUTH_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
       return {
