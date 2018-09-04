@@ -24,8 +24,8 @@ const login = async (
     password=testUser.password) => {
 
   await t
-      .typeText('form input[name=email]', email)
-      .typeText('form input[name=password', password)
+      .typeText('form input[name=email]', email, { paste: true })
+      .typeText('form input[name=password', password, { paste: true })
       .click('form button');
 };
 
