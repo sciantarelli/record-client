@@ -17,8 +17,14 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type === 'STORE_RESET') {
     const { router, form } = state;
-    state = { router, form };
+
+    if (typeof router != 'undefined') {
+      state = { router, form };
+    } else {
+      state = { form };
+    }
   }
+
   return appReducer(state, action)
 };
 
