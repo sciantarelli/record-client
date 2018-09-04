@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 import { reseed, currentPath, user } from './support/helpers';
-import { DASHBOARD_PATH, IDEAS_PATH, BOOKMARKS_PATH, TAGS_PATH, NOTES_PATH, ALERTS_PATH } from '../../constants';
+import { DASHBOARD_PATH, IDEAS_PATH, BOOKMARKS_PATH, TAGS_PATH, NOTES_PATH, ALERTS_PATH, NOT_FOUND_PATH } from '../../constants';
 import config from './support/config';
 
 
@@ -150,4 +150,10 @@ test('Navigation Toggle', async t => {
   // Test expanding nav
     .click(mainNavToggle)
     .expect(mainNav.visible).ok();
+});
+
+
+test('404 Redirect', async t => {
+  await t.navigateTo('/some-wrong-path');
+  await t.expect(await currentPath()).eql(NOT_FOUND_PATH);
 });
