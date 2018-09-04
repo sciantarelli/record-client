@@ -37,7 +37,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build",
-    "testcafe": "testcafe Firefox src/tests/e2e",
+    "testcafe": "testcafe chrome src/tests/e2e",
     "testcafe-iphone": "testcafe 'chrome:emulation:device=iphone 6' src/tests/e2e"
   },
   "devDependencies": {
