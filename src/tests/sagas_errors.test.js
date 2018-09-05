@@ -3,11 +3,10 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import { call } from 'redux-saga-test-plan/matchers';
 import watchAll from '../sagas';
 import rootReducer from '../reducers';
-import { doNewNote, doCreateNote, doFetchNote } from '../actions/notes';
 import { doAuthSuccess } from '../actions/auth';
+import { doNewNote, doCreateNote, doFetchNote } from '../actions/notes';
 import { createNote, fetchNote } from '../api/notes';
 import { INITIAL_STATE, START_HEADERS, END_HEADERS } from './support/constants';
-import { INITIAL_NOTES_STATE } from '../reducers/notes';
 import { INITIAL_AUTH_STATE } from '../reducers/auth';
 import { DEFAULT_NOTE_STATE, INITIAL_OPEN_NOTES_STATE } from '../reducers/openNotes';
 import { NEW_ID, NEW_NOTE_NAME } from '../constants';
@@ -90,10 +89,10 @@ describe('Sagas for Error Handling', () => {
         END_HEADERS;
 
     return expectSagaSetup()
-      .dispatch(doNewNote())
       .provide([
         [call.fn(createNote), throwError(error422)]
       ])
+      .dispatch(doNewNote())
       .dispatch(doCreateNote({ name: NEW_NOTE_NAME, content: ''}))
       .hasFinalState({
         ...INITIAL_STATE,
