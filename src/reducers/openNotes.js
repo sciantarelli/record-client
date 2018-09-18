@@ -1,5 +1,6 @@
 import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_VALIDATION_ERRORS, NOTE_FETCH, NOTE_FETCH_SUCCESS, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
-import { deletePropertyFromObject } from '../helpers';
+import { NEW_ID, NEW_NOTE_NAME } from '../constants';
+import { deletePropertyFromObject, isEmptyObject } from '../helpers';
 
 const nameDefault = () => '';
 const contentDefault = () => '';
@@ -9,14 +10,12 @@ const isFetchingDefault = () => false;
 const isSavingDefault = () => false;
 const isDeletingDefault = () => false;
 const inputChangeOnlyDefault = () => false;
-const startingValuesDefault = () => (
-    { name: nameDefault(), content: contentDefault() }
-);
+const changedDefault = () => ({});
 const isDirtyDefault = () => false;
 
-const INITIAL_STATE = {};
+export const INITIAL_STATE = {};
 
-const DEFAULT_NOTE_STATE = {
+export const DEFAULT_NOTE_STATE = {
   id: null,
   name: nameDefault(),
   content: contentDefault(),
@@ -26,7 +25,7 @@ const DEFAULT_NOTE_STATE = {
   error: errorDefault(),
   validationErrors: validationErrorsDefault(),
   inputChangeOnly: inputChangeOnlyDefault(),
-  startingValues: startingValuesDefault(),
+  changed: changedDefault(),
   isDirty: isDirtyDefault()
 };
 
@@ -34,12 +33,22 @@ export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case '@@redux-form/CHANGE' :
       const { meta, payload, pathname } = action;
+      const prop = meta.field;
 
       if (meta.form !== 'note') return state;
 
       const id = pathname.substr(pathname.lastIndexOf('/') + 1);
       const note = state[id];
-      const isDirty = note.startingValues[meta.field] !== payload;
+      const noteChanged = note.changed;
+      let changed;
+
+      if (!noteChanged.hasOwnProperty(prop)) {
+        changed = { ...noteChanged, [prop]: note[prop] };
+      } else if (noteChanged[prop] === payload) {
+        changed = deletePropertyFromObject(noteChanged, prop);
+      } else {
+        changed = { ...noteChanged };
+      }
 
       return {
         ...state,
@@ -49,28 +58,27 @@ export default function(state = INITIAL_STATE, action) {
           inputChangeOnly: true,
           error: errorDefault(),
           validationErrors: validationErrorsDefault(),
-          isDirty
+          changed,
+          isDirty: !isEmptyObject(changed)
         }
       };
     case NOTE_NEW : {
-      if (state['new']) return state;
+      if (state[NEW_ID]) return state;
 
       return {
         ...state,
-        'new': {
+        [NEW_ID]: {
           ...DEFAULT_NOTE_STATE,
-          name: 'New Note',
+          name: NEW_NOTE_NAME,
           isDirty: true
         }
       }
     }
     case NOTE_CREATE : {
-      const id = 'new';
-
       return {
         ...state,
-        [id]: {
-          ...state[id],
+        [NEW_ID]: {
+          ...state[NEW_ID],
           isSaving: true,
           error: errorDefault(),
           inputChangeOnly: inputChangeOnlyDefault()
@@ -85,18 +93,16 @@ export default function(state = INITIAL_STATE, action) {
         [id]: {
           ...DEFAULT_NOTE_STATE,
           id, name, content,
-          startingValues: { name, content },
+          changed: changedDefault(),
           isDirty: isDirtyDefault()
         }
       }
     }
     case NOTE_CREATE_ERROR : {
-      const id = 'new';
-
       return {
         ...state,
-        [id]: {
-          ...state[id],
+        [NEW_ID]: {
+          ...state[NEW_ID],
           error: action.error,
           isSaving: isSavingDefault()
         }
@@ -131,12 +137,9 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         [id]: {
-          ...action.note,
-          error: errorDefault(),
-          isFetching: isFetchingDefault(),
-          isSaving: isSavingDefault(),
-          inputChangeOnly: inputChangeOnlyDefault(),
-          startingValues: { name, content }
+          ...state[id],
+          id, name, content,
+          isFetching: false
         }
       }
     }
@@ -163,14 +166,14 @@ export default function(state = INITIAL_STATE, action) {
       }
     }
     case NOTE_UPDATE_SUCCESS : {
-      const { id, name, content } = action.note;
+      const { id } = action.note;
 
       return {
         ...state,
         [id]: {
           ...action.note,
           isSaving: isSavingDefault(),
-          startingValues: { name, content },
+          changed: changedDefault(),
           isDirty: isDirtyDefault()
         }
       }

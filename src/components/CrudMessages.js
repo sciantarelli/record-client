@@ -11,13 +11,11 @@ const CrudMessages = ({ isFetching, isSaving, isDeleting, errorMessage, validati
       { isDeleting && <div>Deleting...</div> }
 
       <ErrorMessages>
-        { errorMessage && !validationErrors && <p>{errorMessage}</p> }
+        { errorMessage && !validationErrors && <li>{errorMessage}</li> }
 
         { validationErrors &&
 
-          <ul>
-            { validationErrors.map(error => <li>{error}</li>) }
-          </ul>
+          validationErrors.map(error => <li>{error}</li>)
         }
       </ErrorMessages>
     </MessagesContainer>

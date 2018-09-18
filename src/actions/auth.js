@@ -1,5 +1,7 @@
 import { AUTH_USER, AUTH_SUCCESS, AUTH_ERROR, AUTH_UPDATED, AUTH_DESTROY }from '../constants/actionTypes';
 
+import { deletePropertyFromObject, cleanHeaders } from '../helpers';
+
 
 const doAuthUser = (formProps) => ({
   type: AUTH_USER,
@@ -8,7 +10,7 @@ const doAuthUser = (formProps) => ({
 
 const doAuthSuccess = headers => ({
   type: AUTH_SUCCESS,
-  headers
+  headers: cleanHeaders(headers)
 });
 
 const doAuthError = error => ({
@@ -18,11 +20,12 @@ const doAuthError = error => ({
 
 const doAuthUpdated = headers => ({
   type: AUTH_UPDATED,
-  headers
+  headers: cleanHeaders(headers)
 });
 
 const doLogoutUser = () => ({
   type: AUTH_DESTROY
 });
+
 
 export { doAuthUser, doAuthSuccess, doAuthError, doAuthUpdated, doLogoutUser };

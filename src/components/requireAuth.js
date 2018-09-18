@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
+import { LOGIN_PATH } from '../constants';
 
 export default Entity => {
   class ComposedComponent extends Component {
@@ -24,12 +25,12 @@ export default Entity => {
   }
 
   const mapDispatchToProps = (dispatch) => ({
-    navigateAway: () => dispatch(push('/login'))
+    navigateAway: () => dispatch(push(LOGIN_PATH))
   });
 
   function mapStateToProps(state) {
     // TODO: Change to a selector, consider adding method isAuthenticated or something that checks this property
-    return { auth: state.auth.access_token };
+    return { auth: state.auth.accessToken };
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(ComposedComponent);

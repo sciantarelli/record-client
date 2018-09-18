@@ -1,8 +1,10 @@
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { call, put, select } from 'redux-saga/effects';
 import { postAuthUser, deleteAuthUser } from '../api/auth';
 import { doAuthSuccess, doAuthError } from '../actions/auth';
 import { doStoreReset } from '../actions/store';
+import { NOTES_PATH } from '../constants';
+import { cleanHeaders } from '../helpers';
 
 
 const get_auth = (state) => state.auth;
@@ -15,7 +17,7 @@ function* handleAuthUser(action) {
     const result = yield call(postAuthUser, formProps);
     yield put(doAuthSuccess(result.headers));
     setAuthToLocalStorage(result.headers);
-    yield put(push('/notes')); // TODO: Eventually change this to '/' and switch to using doDispatchThenRoute if it still exists
+    yield put(push(NOTES_PATH)); // TODO: Eventually change this to '/' and switch to using doDispatchThenRoute if it still exists
   } catch (error) {
     const { response} = error;
 
@@ -68,21 +70,20 @@ function* handleAuthDestroy(action) {
 }
 
 function authWasRefreshed(headers) {
-  const { client, expiry, uid } = headers;
-  const access_token = headers['access-token'];
+  const { accessToken, client, expiry, uid } = cleanHeaders(headers);
 
-  return (access_token && client && uid && expiry) ? true : false;
+  return (accessToken && client && uid && expiry) ? true : false;
 }
 
 
 function setAuthToLocalStorage(headers) {
-  const { client, expiry, uid } = headers;
+  const { accessToken, client, expiry, uid } = cleanHeaders(headers);
 
   const auth = {
-    access_token: headers['access-token'],
+    accessToken,
     client,
     expiry,
-    uid,
+    uid
   };
 
   localStorage.setItem('auth', JSON.stringify(auth));

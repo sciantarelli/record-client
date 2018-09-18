@@ -1,13 +1,14 @@
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { put, take } from 'redux-saga/effects';
 import { doNewNote } from '../actions/notes';
+import { NEW_NOTE_PATH } from '../constants';
 
 
 function* handleLocationChange(action) {
-  const { pathname } = action.payload;
+  const pathname = action.payload.location.pathname;
 
   switch (pathname) {
-    case '/notes/new' : {
+    case NEW_NOTE_PATH : {
       yield put(doNewNote());
       break;
     }

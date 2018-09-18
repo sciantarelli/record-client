@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Routes from './Routes';
+import { FlexFillContainer } from './FlexComponents';
 
 class App extends Component {
   render() {
     return (
-        <div>
+        <React.Fragment>
           <Header />
-          <div id="main-container">
+          <FlexFillContainer addClasses="container">
             <Routes />
-          </div>
-        </div>
+          </FlexFillContainer>
+        </React.Fragment>
     );
   }
 }

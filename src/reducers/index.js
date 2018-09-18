@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { routerReducer } from 'connected-react-router';
 import { reducer as formReducer } from 'redux-form';
 import authReducer from './auth';
 import notesReducer from './notes';
@@ -10,8 +10,7 @@ const appReducer = combineReducers({
   form: formReducer,
   notesState: notesReducer,
   openNotesState: openNotesReducer,
-  auth: authReducer,
-  router: routerReducer
+  auth: authReducer
 });
 
 

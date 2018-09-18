@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues, initialize } from 'redux-form';
+import { ButtonGroup } from 'reactstrap';
+import { ButtonNaked } from './Buttons';
+import { FlexFillContainer } from './FlexComponents';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import ActionsBar from './ActionsBar';
@@ -10,6 +13,7 @@ import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/n
 import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting, getNoteIsDirty } from '../selectors/notes';
 import { propertiesDoMatch } from '../helpers';
+import { NOTES_PATH } from '../constants';
 
 
 class Note extends Component {
@@ -100,56 +104,57 @@ class Note extends Component {
 
   render() {
     console.log('*** rendering Note *** ');
-    const { data, isFetching, isSaving, isDeleting, isDirty, handleSubmit, doCloseAndRoute, doSaveCloseAndRoute, doDelete } = this.props;
+    const { data, isFetching, isSaving, isDeleting, isDirty, handleSubmit, doCloseAndRoute, doDelete } = this.props;
     const disabled = (isFetching || isSaving || isDeleting);
 
     return (
-      <div>
+      <React.Fragment>
         { !disabled &&
           <ActionsBar>
+            <ButtonGroup>
+              <ButtonNaked disabled={!isDirty}
+                           onClick={handleSubmit(this.onExplicitSave)}>
+                Save
+              </ButtonNaked>
 
-            <button disabled={!isDirty}
-                    onClick={handleSubmit(this.onExplicitSave)}>
-              Save
-            </button>
+              <ButtonNaked disabled={!isDirty}
+                           onClick={handleSubmit(this.onExplicitSaveAndClose)}>
+                Save+Close
+              </ButtonNaked>
 
-            <button disabled={!isDirty}
-                    onClick={handleSubmit(this.onExplicitSaveAndClose)}>
-              Save+Close
-            </button>
+              <ButtonNaked onClick={doCloseAndRoute}>Close</ButtonNaked>
 
-            <button onClick={doCloseAndRoute}>Close</button>
-
-            <button disabled={!data || !data.id}
-                    onClick={doDelete}>
-              Delete
-            </button>
-
+              <ButtonNaked disabled={!data || !data.id}
+                      onClick={doDelete}>
+                Delete
+              </ButtonNaked>
+            </ButtonGroup>
           </ActionsBar>
         }
 
         <CrudMessages { ...this.props } />
 
-        <form onSubmit={handleSubmit(this.onExplicitSave)}>
-          <div>
-            <Field
-                name="name"
-                type="text"
-                component="input"
-                disabled={disabled}
-            />
-          </div>
-          <div>
-            <Field
-                name="content"
-                type="text"
-                component="textarea"
-                className="temp-textarea"
-                disabled={disabled}
-            />
-          </div>
-        </form>
-      </div>
+        <FlexFillContainer component='form'
+                           onSubmit={handleSubmit(this.onExplicitSave)}>
+
+          <Field
+              className="component-name"
+              name="name"
+              type="text"
+              component="input"
+              disabled={disabled}
+          />
+
+          <Field
+              className="component-content flex-fill"
+              name="content"
+              type="text"
+              component="textarea"
+              disabled={disabled}
+          />
+
+        </FlexFillContainer>
+      </React.Fragment>
     )
   }
 }
@@ -186,7 +191,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     doCreateAndRoute: (formProps) => {
       dispatch(doDispatchThenRoute(
         doSaveNote(formProps),
-        '/notes/:id',
+        `${NOTES_PATH}/:id`,
         true // Not really necessary, but just in case any more actions are added in this sequence
       ));
     },
@@ -194,20 +199,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     doCloseAndRoute: () => {
       dispatch(doDispatchThenRoute(
         doCloseNote(id),
-        '/notes'
+        NOTES_PATH
       ));
     },
     doSaveCloseAndRoute: (data) => {
       dispatch(doDispatchThenRoute(
         [doSaveNote(data), doCloseNote(data.id)],
-        '/notes',
+        NOTES_PATH,
         !Number.isInteger(data.id)
       ));
     },
     doDelete: () =>  {
       dispatch(doDispatchThenRoute(
         doDeleteNote(id),
-        '/notes'
+        NOTES_PATH
       ));
     },
     doInitializeForm: (data) => dispatch(initialize('note', data))

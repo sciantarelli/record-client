@@ -1,4 +1,4 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { LOCATION_CHANGE } from 'connected-react-router';
 import { takeEvery, all } from 'redux-saga/effects';
 import { DISPATCH_THEN_ROUTE, NOTE_CREATE, NOTE_FETCH, NOTE_UPDATE, NOTE_DELETE, NOTES_FETCH, AUTH_USER, AUTH_UPDATED, AUTH_DESTROY } from '../constants/actionTypes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
@@ -6,6 +6,7 @@ import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, 
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
+// TODO: Go through these and change necessary ones to takeLatest, etc.
 function *watchAll() {
   yield all([
     takeEvery(DISPATCH_THEN_ROUTE, handleDispatchThenRoute),

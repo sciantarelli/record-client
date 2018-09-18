@@ -8,10 +8,10 @@ const expiryDefault = () => '';
 const uidDefault = () => '';
 
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   error: errorDefault(),
   isAuthenticating: isAuthenticatingDefault(),
-  access_token: accessTokenDefault(),
+  accessToken: accessTokenDefault(),
   client: clientDefault(),
   expiry: expiryDefault(),
   uid: uidDefault()
@@ -27,12 +27,11 @@ export default function(state = INITIAL_STATE, action) {
         error: errorDefault()
       };
     case AUTH_SUCCESS:
-      const headers = action.headers;
-      const { client, expiry, uid } = headers;
+      const { accessToken, client, expiry, uid } = action.headers;
 
       return {
         ...state,
-        access_token: headers['access-token'],
+        accessToken,
         client,
         expiry,
         uid,
