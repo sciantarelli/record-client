@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { CancelToken } from 'axios';
 import { BASE_API_URL } from '../constants';
-import { authHeaders } from './index';
+import { authHeaders, cancelable } from './index';
 
 const BASE_URL = `${BASE_API_URL}/notes`;
 const baseIdUrl = id => `${BASE_URL}/${id}`;
@@ -15,6 +15,7 @@ const createNote = ({ name, content }, authState) => {
   })
 };
 
+
 const fetchNote = (id, authState) => {
   return axios({
     ...authHeaders(authState),
@@ -22,6 +23,7 @@ const fetchNote = (id, authState) => {
     url: baseIdUrl(id)
   });
 };
+
 
 const updateNote = ({ id, name, content}, authState) => {
   return axios({
@@ -32,6 +34,7 @@ const updateNote = ({ id, name, content}, authState) => {
   });
 };
 
+
 const deleteNote = (id, authState) => {
   return axios({
     ...authHeaders(authState),
@@ -40,12 +43,15 @@ const deleteNote = (id, authState) => {
   });
 };
 
+
 const fetchNotes = (authState) => {
-  return axios({
+  const request = axios.create({
     ...authHeaders(authState),
     method: 'get',
     url: BASE_URL
   });
+
+  return cancelable(request);
 };
 
 
