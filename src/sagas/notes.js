@@ -66,7 +66,7 @@ function* handleUpdateNote(action) {
     const auth = yield select(get_auth);
     const result = yield call(updateNote, action.formProps, auth);
     yield put(doAuthUpdated(result.headers));
-    yield put(doUpdateNoteSuccess(action.formProps));
+    yield put(doUpdateNoteSuccess(result.data));
   } catch (error) {
     const { response, request } = error;
 
