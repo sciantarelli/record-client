@@ -90,10 +90,10 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
 
       return {
         ...state,
-        [id]: { // TODO: These assignments may not make sense changed and isDirty are part of defaults, to start with. And I'm not sure Default note state should even be used here!
-          ...DEFAULT_NOTE_STATE,
+        [id]: {
+          ...state[NEW_ID],
           id, name, content,
-          changed: changedDefault(),
+          isSaving: false,
           isDirty: isDirtyDefault()
         }
       }
@@ -166,12 +166,13 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
       }
     }
     case NOTE_UPDATE_SUCCESS : {
-      const { id } = action.note;
+      const { id, name, content } = action.note;
 
       return {
         ...state,
         [id]: {
-          ...action.note,
+          ...state[id],
+          id, name, content,
           isSaving: isSavingDefault(),
           changed: changedDefault(),
           isDirty: isDirtyDefault()
