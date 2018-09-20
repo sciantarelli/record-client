@@ -45,6 +45,7 @@ const doFetchErrorNote = (id, error) => ({
 });
 
 const doUpdateNote = formProps => ({
+  id: formProps.id,
   type: NOTE_UPDATE,
   formProps,
   waitFor: [NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR]
