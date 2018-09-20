@@ -7,14 +7,14 @@ const errorDefault = () => null;
 const isFetchingDefault = () => false;
 
 
-export const INITIAL_STATE = {
+export const INITIAL_NOTES_STATE = {
   notes: notesDefault(),
   error: errorDefault(),
   isFetching: isFetchingDefault()
 };
 
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_NOTES_STATE, action) {
   switch(action.type) {
     case NOTES_FETCH : {
       return {

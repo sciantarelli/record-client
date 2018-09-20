@@ -9,7 +9,7 @@ import { attachPathNameToAction } from '../middleware/attach_pathname';
 import rootSaga from '../sagas';
 
 
-const logger = createLogger();
+const logger = createLogger({ collapsed: true });
 const saga = createSagaMiddleware();
 
 

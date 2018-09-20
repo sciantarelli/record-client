@@ -1,12 +1,13 @@
 // TODO: Refactor common axios into config type setup
 import axios from 'axios';
 import { BASE_API_URL } from '../constants';
-import { authHeaders } from './index';
+import { authHeaders, cancelable } from './index';
 
 const BASE_URL = `${BASE_API_URL}/auth`;
 
+
 const postAuthUser = ({ email='', password=''}) => {
-  return axios({
+  const request = axios.create({
     method: 'post',
     url: `${BASE_URL}/sign_in`,
     data: {
@@ -14,14 +15,19 @@ const postAuthUser = ({ email='', password=''}) => {
       password
     }
   });
+
+  return cancelable(request);
 };
 
+
 const deleteAuthUser = authState => {
-  return axios({
+  const request = axios.create({
     ...authHeaders(authState),
     method: 'delete',
     url: `${BASE_URL}/sign_out`
-  })
+  });
+
+  return cancelable(request);
 };
 
 export { postAuthUser, deleteAuthUser };
