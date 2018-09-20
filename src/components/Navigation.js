@@ -59,6 +59,10 @@ class Navigation extends Component {
 
         <Collapse isOpen={!subCollapsed}>
           <Nav className="container sub-nav justify-content-left">
+            { !isEmptyObject(openNotesState) &&
+              <NavLink to={NOTES_PATH} auth={true}>Notes</NavLink>
+            }
+
             {
               Object.keys(openNotesState || {}).map(id =>
                 openNoteNavLink(openNotesState[id], id)
