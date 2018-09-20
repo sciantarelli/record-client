@@ -3,8 +3,8 @@ import * as matchers from 'redux-saga-test-plan/matchers';
 import watchAll from '../sagas';
 import notesReducer, { INITIAL_NOTES_STATE } from '../reducers/notes';
 import openNotesReducer, { DEFAULT_NOTE_STATE } from '../reducers/openNotes';
-import { fetchNote, fetchNotes, createNote, updateNote } from '../api/notes';
-import { doFetchNote, doFetchNotes, doNewNote, doCreateNote, doUpdateNote } from '../actions/notes';
+import { fetchNote, fetchNotes, createNote, updateNote, deleteNote } from '../api/notes';
+import { doFetchNote, doFetchNotes, doNewNote, doCreateNote, doUpdateNote, doDeleteNote } from '../actions/notes';
 import { END_HEADERS } from './support/constants';
 
 
@@ -33,7 +33,6 @@ const expectSagaSetup = (reducer = openNotesReducer) =>
       .withReducer(reducer);
 
 
-// TODO: What about auth state here? Should it be involved at all? Maybe that should be a separate test suite? It's somewhat tested in sagas_errors too, but that's probably proper there as well
 it('Fetches a note', () => {
 
   return expectSagaSetup()
@@ -123,7 +122,23 @@ it('Updates a note', () => {
       .silentRun();
 });
 
-// TODO: Add test for deleting note
-// TODO: Test updating of notes via @@redux-form/CHANGE perhaps
-// TODO: Seems like some step tests would be useful here, especially if state can be tested along the way
+
+it('Deletes a note', () => {
+
+  return expectSagaSetup()
+      .provide([
+        [matchers.call.fn(createNote), {
+          data: fakeNote1,
+          headers: END_HEADERS
+        }],
+        [matchers.call.fn(deleteNote), {
+          headers: END_HEADERS
+        }]
+      ])
+      .dispatch(doNewNote())
+      .dispatch(doCreateNote(fakeNote1))
+      .dispatch(doDeleteNote(fakeNote1.id))
+      .hasFinalState({})
+      .silentRun();
+});
 
