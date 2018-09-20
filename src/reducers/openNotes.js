@@ -90,7 +90,7 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
 
       return {
         ...state,
-        [id]: {
+        [id]: { // TODO: These assignments may not make sense changed and isDirty are part of defaults, to start with. And I'm not sure Default note state should even be used here!
           ...DEFAULT_NOTE_STATE,
           id, name, content,
           changed: changedDefault(),
