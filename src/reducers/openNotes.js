@@ -13,7 +13,7 @@ const inputChangeOnlyDefault = () => false;
 const changedDefault = () => ({});
 const isDirtyDefault = () => false;
 
-export const INITIAL_STATE = {};
+export const INITIAL_OPEN_NOTES_STATE = {};
 
 export const DEFAULT_NOTE_STATE = {
   id: null,
@@ -29,7 +29,7 @@ export const DEFAULT_NOTE_STATE = {
   isDirty: isDirtyDefault()
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
   switch(action.type) {
     case '@@redux-form/CHANGE' :
       const { meta, payload, pathname } = action;
@@ -91,9 +91,9 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         [id]: {
-          ...DEFAULT_NOTE_STATE,
+          ...state[NEW_ID],
           id, name, content,
-          changed: changedDefault(),
+          isSaving: false,
           isDirty: isDirtyDefault()
         }
       }
@@ -166,12 +166,13 @@ export default function(state = INITIAL_STATE, action) {
       }
     }
     case NOTE_UPDATE_SUCCESS : {
-      const { id } = action.note;
+      const { id, name, content } = action.note;
 
       return {
         ...state,
         [id]: {
-          ...action.note,
+          ...state[id],
+          id, name, content,
           isSaving: isSavingDefault(),
           changed: changedDefault(),
           isDirty: isDirtyDefault()

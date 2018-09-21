@@ -6355,17 +6355,18 @@ li.active-link a {
 li.unsaved a, button.unsaved, button.unsaved:hover {
   color: #cea513; }
 
-#main-nav a {
-  font-weight: 700; }
-
-#main-nav .app-link {
-  margin-right: 7px;
-  font-variant: small-caps; }
+#main-nav {
+  padding-top: 5px; }
+  #main-nav .app-link {
+    margin-right: 7px; }
 
 .sub-nav a {
   font-size: 0.875rem; }
 
-.sub-nav li:after {
+.sub-nav li:first-child:after {
+  content: " \25ba"; }
+
+.sub-nav li:not(:first-child):after {
   color: #6c757d;
   content: " \2022"; }
 
@@ -6389,9 +6390,7 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
   border-radius: 0 0 5px 5px;
   border-top: none; }
   #nav-toggle-buttons button {
-    padding: 0px;
-    font-variant: small-caps;
-    font-weight: 600; }
+    padding: 0px; }
   #nav-toggle-buttons button:after {
     color: #6c757d;
     content: " \2022"; }

@@ -81,13 +81,10 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
 }
 
 #main-nav {
-  a {
-    font-weight: $font-weight-bold;
-  }
+  padding-top: 5px;
 
   .app-link  {
     margin-right: 7px;
-    font-variant: small-caps;
   }
 }
 
@@ -96,7 +93,11 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
     font-size: $font-size-sm;
   }
 
-  li:after {
+  li:first-child:after {
+    content: " \25ba";
+  }
+
+  li:not(:first-child):after {
     color: $gray-600;
     content: " \2022"; // Puts a bullet between links
   }
@@ -127,8 +128,6 @@ li.unsaved a, button.unsaved, button.unsaved:hover {
 
   button {
     padding: 0px;
-    font-variant: small-caps;
-    font-weight: 600;
   }
 
   button:after {
