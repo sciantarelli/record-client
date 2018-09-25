@@ -44,10 +44,31 @@ const cleanHeaders = (headers) => {
   };
 };
 
+const sortObjectsBy = (list, attr) => {
+
+  if (typeof list === 'object') {
+    list = Object.values(list);
+  }
+
+  const compare = (a, b) => {
+    const aVal = a[attr];
+    const bVal = b[attr];
+
+    if ((typeof(aVal) === 'string' || typeof(bVal) === 'string')) {
+      return aVal.localeCompare(bVal);
+    }
+
+    return aVal - bVal;
+  };
+
+  return (list && list.sort(compare)) || [];
+};
+
 export {
   deletePropertyFromObject,
   propertiesDoMatch,
   isEmptyObject,
   dirtyRecordsExist,
-  cleanHeaders
+  cleanHeaders,
+  sortObjectsBy
 };

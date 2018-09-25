@@ -4,7 +4,7 @@ import NavLink from './NavLink';
 import { NOTES_PATH } from '../constants';
 
 
-const openNoteNavLink = (openNote, note, id) => {
+const openNoteNavLink = (openNote, id) => {
   if (!openNote.name) return;
 
   return componentNavLink(openNote, NOTES_PATH, true, id);

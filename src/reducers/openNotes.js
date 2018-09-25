@@ -12,6 +12,7 @@ const isDeletingDefault = () => false;
 const inputChangeOnlyDefault = () => false;
 const changedDefault = () => ({});
 const isDirtyDefault = () => false;
+const openedAtDefault = () => null;
 
 export const INITIAL_OPEN_NOTES_STATE = {};
 
@@ -26,7 +27,8 @@ export const DEFAULT_NOTE_STATE = {
   validationErrors: validationErrorsDefault(),
   inputChangeOnly: inputChangeOnlyDefault(),
   changed: changedDefault(),
-  isDirty: isDirtyDefault()
+  isDirty: isDirtyDefault(),
+  openedAt: openedAtDefault()
 };
 
 export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
@@ -70,7 +72,8 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
         [NEW_ID]: {
           ...DEFAULT_NOTE_STATE,
           name: NEW_NOTE_NAME,
-          isDirty: true
+          isDirty: true,
+          openedAt: Date.now()
         }
       }
     }
@@ -139,6 +142,7 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
         [id]: {
           ...state[id],
           id, name, content,
+          openedAt: Date.now(),
           isFetching: false
         }
       }
