@@ -51,24 +51,24 @@ test('Sub Nav Adds/Removes Links', async t => {
     .click(noteLinks.nth(0))
     .click(notesNavLink)
     .click(noteLinks.nth(1))
-    .expect(subNavLinks.count).eql(2)
+    .expect(subNavLinks.count).eql(3)
 
   // Ensure correct paths
-    .click(subNavLinks.nth(0));
+    .click(subNavLinks.nth(1));
   await t
     .expect(await currentPath()).eql(`${NOTES_PATH}/1`);
   await t
-    .click(subNavLinks.nth(1));
+    .click(subNavLinks.nth(2));
   await t
     .expect(await currentPath()).eql(`${NOTES_PATH}/2`);
 
   // Close Note 2
   await t
     .click(closeButton)
-    .expect(subNavLinks.count).eql(1)
+    .expect(subNavLinks.count).eql(2)
 
   // Go to Note 1 and Close
-    .click(subNavLinks.nth(0))
+    .click(subNavLinks.nth(1))
     .click(closeButton)
     .expect(subNavLinks.count).eql(0);
 
@@ -79,8 +79,8 @@ test('Sub Nav Adds/Removes Links', async t => {
 test('Sub Nav Reacts to Updates', async t => {
   const note1 = seedData.notes[0];
   const note2 = seedData.notes[1];
-  const note1SubNavLink = subNavLinks.nth(0);
-  const note2SubNavLink = subNavLinks.nth(1);
+  const note1SubNavLink = subNavLinks.nth(1);
+  const note2SubNavLink = subNavLinks.nth(2);
   const note1SubNavListItem = note1SubNavLink.parent('li');
   const note2SubNavListItem = note2SubNavLink.parent('li');
 
