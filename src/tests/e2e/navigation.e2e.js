@@ -1,3 +1,4 @@
+// TODO: Somehow, when running the tests (individually) with a lower speed now they are failing about halfway through. This started before updating the package, but still persists
 import { Selector } from 'testcafe';
 import { reseed, currentPath, user } from './support/helpers';
 import { DASHBOARD_PATH, IDEAS_PATH, BOOKMARKS_PATH, TAGS_PATH, NOTES_PATH, ALERTS_PATH, NOT_FOUND_PATH } from '../../constants';

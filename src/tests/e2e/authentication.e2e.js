@@ -19,7 +19,7 @@ test('Login and Logout', async t => {
     .expect(auth.client.length).gt(0)
     .expect(auth.accessToken.length).gt(0)
     .expect(auth.uid.length).gt(0)
-    .expect(auth.expiry).gt(0);
+    .expect(auth.expiry.length).gt(0);
 
   await logout();
   await t.expect(await currentPath()).eql(LOGIN_PATH);

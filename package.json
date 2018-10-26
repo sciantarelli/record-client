@@ -43,6 +43,6 @@
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
     "redux-saga-test-plan": "^3.7.0",
-    "testcafe": "^0.22.0-alpha.3"
+    "testcafe": "^0.22.1-alpha.3"
   }
 }
