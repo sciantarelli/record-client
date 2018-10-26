@@ -8,7 +8,7 @@ import ActionsBar from './ActionsBar';
 import CrudMessages from './CrudMessages';
 import { ButtonNaked } from './Buttons';
 import { doFetchNotes } from '../actions/notes';
-import { getNotes, getNotesError, getNotesIsFetching } from '../selectors/notes';
+import { getNotesArray, getNotesError, getNotesIsFetching } from '../selectors/notes';
 import { NOTES_PATH, NEW_NOTE_PATH } from '../constants';
 
 
@@ -29,8 +29,8 @@ class Notes extends Component {
           <CrudMessages { ...this.props } />
 
           <ul id="notes-list">
-            {Object.keys(data || {}).map(id =>
-                <AppLink to={`${NOTES_PATH}/${id}`} key={id} auth={true}>{data[id].name}</AppLink>
+            {(data || []).map(note =>
+                <AppLink to={`${NOTES_PATH}/${note.id}`} key={note.id} auth={true}>{note.name}</AppLink>
             )}
           </ul>
         </div>
@@ -39,7 +39,7 @@ class Notes extends Component {
 };
 
 const mapStateToProps = state => ({
-  data: getNotes(state.notesState),
+  data: getNotesArray(state.notesState),
   errorMessage: getNotesError(state.notesState),
   isFetching: getNotesIsFetching(state.notesState)
 });

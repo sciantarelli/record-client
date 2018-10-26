@@ -61,13 +61,13 @@ export default function(state = INITIAL_NOTES_STATE, action) {
 const notesWithReplacement = (state, note) => {
   if (!state.notes) return state;
 
-  const { id, name, content } = note;
+  const { id, name, content, updatedAt } = note;
 
   return {
     ...state,
     notes: {
       ...state.notes,
-      [id]: { id, name, content }
+      [id]: { id, name, content, updatedAt }
     }
   }
 };
