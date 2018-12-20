@@ -1,11 +1,7 @@
-*** Original Record build (w/ just Rails, not React) appears to have been built and was last running in UbuntuHome
-
-```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
-```
+**Original Record build (w/ just Rails, not React) appears to have been built and was last running in UbuntuHome**
 
 * [To Do List](#to-do-list)
+* [Feature List](#feature-list)
 * [Frontend](#frontend)
   * [Commands](#commands)
   * [Node Server and SSR](#node-server-and-ssr)
@@ -23,22 +19,26 @@ alert(s);
     * [e2e Tests](#e2e-tests)
     * [Integration Tests](#integration-tests)
 * [Backend](#backend)
+  * [Authentication](#authentication)
+* [Components](#components)
 * [Deployment](#deployment)
+* [Friends and Family](#friends-and-family)
+* [Code Snippets](#code-snippets)
 
 
-## To Do List
+# To Do List
 
-* Convert this to markdown
+* Consider record-api notes, and whether to consolidate here or do something else
+* Finish handling notes.txt
 * Consolidate notes_data_syncing_and_ui_state into this note
 * Explore the idea of using indexed-db, maybe with redux-persist
-* Consider a feature list, and issue tracking
+* Consider issue tracking
 
 
-#### What's Next
+# Feature List
 
-* encryption
-* data syncing
-* offline
+* encryption, either just backend or fully frontend possibly
+* offline storage / data sync (with redux offline, probably)
 * adding ideas component (this isn't super flashy for showing off)
 * adding tagging to notes and ideas (ideas must be done before this). Need to think through how tags are applied on desktop and mobile
 * capturing ui state, better local storage handling and maybe database storing as well
@@ -46,6 +46,15 @@ alert(s);
 * multiple new notes
 * UI Improvements
 * CSS overhaul, determine strategy (this depends on how much I can optimize the Node server)
+* i18n
+* themes, at least light and dark
+* revisions, or explicit snapshots (save would just overwrite, but perhaps a separate button for snapshot?)
+* back / forward functionality
+* handling multiple clients (one user) editing same notes
+* iframe for viewing different websites side by side with note
+* markdown formatting
+* Edit many notes as if it were a single doc. (Not sure about this. Maybe a combine function instead?)
+* ability to share with another user. Collaborating may be difficult, could implement a lock down scheme instead or something.
 
 
 
@@ -129,6 +138,8 @@ Theming tutorial from [getbootstrap.com](https://getbootstrap.com/docs/4.0/getti
 
 ### Layout
 
+**See Legal Pad Notes!!!**
+
 **Centered Container**
 * ">= lg(?)" set a max width, and consider allow the user to change it. Perhaps they can select the percentage of screen width they'd like. Should be persistent across sessions, at least someday.
 
@@ -136,6 +147,12 @@ Theming tutorial from [getbootstrap.com](https://getbootstrap.com/docs/4.0/getti
 * ">= md(?)"
   * consider a folder-like structure, with the highest level directories being the main components
   * or, just recreate the same main nav links at the top and display records below them when clicked
+  * favorite/most-used tags, expanding for selection of tagged items (perhaps)
+  * Quick Search (maybe, I hate quick searches)
+  * Advanced Search Link
+  * Collections
+  * Open Notes, Ideas, etc
+
 
 **Split Views**
 * the idea here is to mimic an IDE, like Rubymine, allowing multiple open records on each side
@@ -236,18 +253,156 @@ Would like to do this at some point, not sure what the implementation would look
 # Backend
 
 
+## Tests
+
+There are none at this point, add some once things start getting fleshed out
 
 
+## API Best Practices
+
+Need to research API best practices. Here's a fairly long tutorial that may have some of that. [Rails JSON API Tutorial](https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-one)
 
 
+## Configuration
+
+This explains the shift from using Rails secrets to credentials: [Goodbye Secrets Welcome Credentials](https://medium.com/@wintermeyer/goodbye-secrets-welcome-credentials-f4709d9f4698)
 
 
+## Authentication
+
+* Currently using Devise and devise_token_auth for API. It's multi-client, and refreshes token on each request.
+* Was using simple_token_authentication, replaced it for better security
+
+**Other options once considered:**
+
+* jwt-ruby
+  * allows encoding and decoding of jwt.
+  * with just using this gem and nothing else, no way to refresh tokens. Must set expiration
+* devise-jwt
+  * integration of jwt into devise
+  * has some revocation strategies and such
+  * tutorial: https://medium.com/@mazik.wyry/rails-5-api-jwt-setup-in-minutes-using-devise-71670fd4ed03
+* doorkeeper
+  * provides OAuth2 functionality, which has refresh token capabilities
+  * using w/ devise: https://scotch.io/@jiggs/rails-api-doorkeeper-devise
 
 
+# Components
 
 
+### Tags
+
+Leaning toward having a flat structure, with no hierarchies. Records may have more tags this way, but saved searches and templates should help.
+
+**Considered these strategies**
+
+* hierarchy
+* straight connections (not sure what this even meant)
+* Directed Acyclic Graphs (multiple inheritance) http://www.codeproject.com/Articles/22824/A-Model-to-Represent-Directed-Acyclic-Graphs-DAG-o
+  * Navigation would look something like this:
+    * Parent Tag 1
+      * Child Tag 1
+    * Parent Tag 2
+      * Child Tag 1
+      * Child Tag 2
+    * Parent Tag 3
+      * Child Tag 2
+* Adjacency List Model (single parent, non-recursive querying)
+
+**Functionality**
+
+* rename (this could mess up saved queries though)
+
+### Todo Items
+
+Undecided whether "Todos" need to exist at all. Maybe it would be nice if they could be embedded in other components, like adding Todos in code or something. They could be searched for, and made into Collections or something.
+
+### Notes
+
+Nothing new at this time
+
+### Ideas
+
+* ratings from 1-100 per factor
+* factors, like complexity, cost, development time, marketability, passion level, fun factor, monetary potential, how realistic, time factor
+
+### Bookmarks
+
+* import from Firefox. Is there a universal standard export format between browsers? Doubt it.
+* functions to help keep organized and cleanup dated bookmarks, etc
+* expiration dates, and daily warnings of those expiring
+* provisioned bookmarks, don't save everything for good
+* bookmark rankings, with stars
+* ability to quickly bookmark something (maybe in header/nav area). Browser extensions could be cool, but difficult and time consuming if even possible (because of authentication issues)
+* embed them in other components
+
+### Alerts
+
+* ability to set an event and be alerted via browser, email, and/or sms.
+* may be embedded into other Components, or linked up somehow
+
+### Search
+
+* search by text, including ability to enter tags into text field
+* search by simply clicking a tag (but there could be so many of these)
+* search by multiple tags
+* remember that and/or functionality will be needed for everything (ie, these two tags, or this one tag, etc)
+* ability to save search as a "Collection"
+* look at MacOS "option" searching for inspiration, and scrivener advanced search as well
+
+### Collections (aka Saved Searches)
+
+* smart by nature, meaning they will always be pulling current records
+
+### Journals
+
+* multiple journals, for different purposes, such as "What I Did Today", "Health", "Vacation"
+* each journal will allow multiple entries, each timestamped
+
+### Research
+
+No concrete ideas for this, may just be Notes with a research tag or something
+
+### Compositions
+
+I think the idea here was something like what Scrivener does, giving the ability to compose from multiple notes. Not sure about this, considering the complexity.
 
 
+# Deployment
+
+Currently deployed to Digital Ocean via Nanobox (see record-api notes)
+
+
+# Friends and Family
+
+* reload the browser before each testing session. I'm constantly adding and fixing things in the code, and reloading gets the latest code
+* pay no attention to the styling, I've done nothing but the absolute minimum. Functionality is all I care about right now
+* if you get an error message containing 401, make a note of the last action or two you performed. To fix it, logout then login again
+* Here's your task: Create at least 3 new notes. Get comfortable with the interface. Now do some editing of the notes, and save your progress.
+
+# Code Snippets
+
+### control+s to save
+```
+window.addEventListener('keydown', function(event) {
+  if (event.ctrlKey || event.metaKey) {
+    switch (String.fromCharCode(event.which).toLowerCase()) {
+      case 's':
+        event.preventDefault();
+        alert('ctrl-s');
+        break;
+      case 'f':
+        event.preventDefault();
+        alert('ctrl-f');
+        break;
+      case 'g':
+        event.preventDefault();
+        alert('ctrl-g');
+        break;
+    }
+  }
+});
+```
 
 
 
