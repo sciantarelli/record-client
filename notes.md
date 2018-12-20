@@ -28,6 +28,8 @@
 
 # To Do List
 
+* Legal pad notes, consolidate
+* record_notes_revised.txt on Mac, finish consolidating that as well
 * Consider record-api notes, and whether to consolidate here or do something else
 * Finish handling notes.txt
 * Consolidate notes_data_syncing_and_ui_state into this note
