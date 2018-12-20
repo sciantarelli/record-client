@@ -17,7 +17,7 @@ function *watchAll() {
     takeLatest(AUTH_DESTROY, handleAuthDestroy),
     channelRequests({
       [NOTES_FETCH]: handleFetchNotes,
-      [NOTE_FETCH]: handleFetchNote,
+      // [NOTE_FETCH]: handleFetchNote,
       [NOTE_CREATE]: handleCreateNote,
       [NOTE_UPDATE]: handleUpdateNote,
       [NOTE_DELETE]: handleDeleteNote

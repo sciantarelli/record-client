@@ -135,7 +135,9 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
       }
     }
     case NOTE_FETCH_SUCCESS : {
-      const { id, name, content } = action.note;
+      console.log('success fired');
+      console.log(action);
+      const { id, name, content } = action.payload;
 
       return {
         ...state,
@@ -148,6 +150,8 @@ export default function(state = INITIAL_OPEN_NOTES_STATE, action) {
       }
     }
     case NOTE_FETCH_ERROR : {
+      console.log('error fired');
+      console.log(action);
       return {
         ...state,
         [action.id]: {

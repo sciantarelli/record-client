@@ -1,5 +1,7 @@
 import { NOTE_NEW, NOTE_CREATE, NOTE_CREATE_SUCCESS, NOTE_CREATE_ERROR, NOTE_VALIDATION_ERRORS, NOTE_FETCH_SUCCESS, NOTE_FETCH, NOTE_FETCH_ERROR, NOTE_UPDATE, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_ERROR, NOTES_FETCH_SUCCESS, NOTES_FETCH, NOTES_FETCH_ERROR, NOTE_CLOSE, NOTE_DELETE, NOTE_DELETE_SUCCESS, NOTE_DELETE_ERROR } from '../constants/actionTypes';
 
+import { BASE_API_URL } from '../constants';
+
 
 const doNewNote = () => ({
   type: NOTE_NEW
@@ -30,7 +32,17 @@ const doCreateNoteError = error => ({
 
 const doFetchNote = id => ({
   type: NOTE_FETCH,
-  id
+  id,
+  meta: {
+    offline: {
+      // the network action to execute:
+      effect: { url: `${BASE_API_URL}/notes/${id}`, method: 'GET' },
+      // action to dispatch when effect succeeds:
+      commit: { type: NOTE_FETCH_SUCCESS, meta: { id: id } },
+      // action to dispatch if network action fails permanently:
+      rollback: { type: NOTE_FETCH_ERROR, id: id, error: new Error('testing') }
+    }
+  }
 });
 
 const doFetchNoteSuccess = note => ({

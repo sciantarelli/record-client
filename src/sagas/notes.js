@@ -10,6 +10,7 @@ const get_auth = (state) => state.auth;
 
 
 function* handleFetchNote(action) {
+  console.log('handleFetchNote fired');
   const { id } = action;
 
   try {

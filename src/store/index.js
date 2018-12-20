@@ -4,9 +4,16 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
+
+import { offline, createOffline } from '@redux-offline/redux-offline';
+import offlineConfig from '@redux-offline/redux-offline/lib/defaults' ;
+
 import rootReducer from '../reducers';
 import { attachPathNameToAction } from '../middleware/attach_pathname';
 import rootSaga from '../sagas';
+
+import localForage from 'localforage';
+
 
 
 const logger = createLogger({ collapsed: true });
@@ -46,9 +53,12 @@ const createClientStore = (initialState, history) => {
       connectRouter(history)(rootReducer),
       initialState,
       compose(
-        applyMiddleware(...middleware)
+        applyMiddleware(...middleware),
+        offline(offlineConfig)
       )
   );
+
+  offlineConfig.persist(store, {storage: localForage});
 
   saga.run(rootSaga);
 
@@ -56,6 +66,7 @@ const createClientStore = (initialState, history) => {
 };
 
 
+// TODO: Does anything need to happen here for Redux offline? Thinking not...
 const createServerStore = () => {
 
   const initialState = {};
