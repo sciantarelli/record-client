@@ -70,7 +70,7 @@ test('Update Note', async t => {
   // Open the first note and validate path
   await t.click(firstNoteLink);
   await t
-    .expect(await currentPath()).eql(`${NOTES_PATH}/1`)
+    .expect(await currentPath()).eql(`${NOTES_PATH}/2`)
 
   // Make note invalid and validate
     .selectText(nameInput)
@@ -97,7 +97,7 @@ test('Delete Note', async t => {
   // Open the first note and validate path
   await t.click(firstNoteLink);
   await t
-    .expect(await currentPath()).eql(`${NOTES_PATH}/1`)
+    .expect(await currentPath()).eql(`${NOTES_PATH}/2`)
 
   // Delete the note, and validate note count in list
     .click(deleteButton);

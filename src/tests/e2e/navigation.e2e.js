@@ -1,3 +1,4 @@
+// TODO: Somehow, when running the tests (individually) with a lower speed now they are failing about halfway through. This started before updating the package, but still persists
 import { Selector } from 'testcafe';
 import { reseed, currentPath, user } from './support/helpers';
 import { DASHBOARD_PATH, IDEAS_PATH, BOOKMARKS_PATH, TAGS_PATH, NOTES_PATH, ALERTS_PATH, NOT_FOUND_PATH } from '../../constants';
@@ -51,24 +52,24 @@ test('Sub Nav Adds/Removes Links', async t => {
     .click(noteLinks.nth(0))
     .click(notesNavLink)
     .click(noteLinks.nth(1))
-    .expect(subNavLinks.count).eql(2)
+    .expect(subNavLinks.count).eql(3)
 
   // Ensure correct paths
-    .click(subNavLinks.nth(0));
-  await t
-    .expect(await currentPath()).eql(`${NOTES_PATH}/1`);
-  await t
     .click(subNavLinks.nth(1));
   await t
     .expect(await currentPath()).eql(`${NOTES_PATH}/2`);
+  await t
+    .click(subNavLinks.nth(2));
+  await t
+    .expect(await currentPath()).eql(`${NOTES_PATH}/3`);
 
   // Close Note 2
   await t
     .click(closeButton)
-    .expect(subNavLinks.count).eql(1)
+    .expect(subNavLinks.count).eql(2)
 
   // Go to Note 1 and Close
-    .click(subNavLinks.nth(0))
+    .click(subNavLinks.nth(1))
     .click(closeButton)
     .expect(subNavLinks.count).eql(0);
 
@@ -77,12 +78,12 @@ test('Sub Nav Adds/Removes Links', async t => {
 
 
 test('Sub Nav Reacts to Updates', async t => {
-  const note1 = seedData.notes[0];
   const note2 = seedData.notes[1];
-  const note1SubNavLink = subNavLinks.nth(0);
+  const note3 = seedData.notes[2];
   const note2SubNavLink = subNavLinks.nth(1);
-  const note1SubNavListItem = note1SubNavLink.parent('li');
+  const note3SubNavLink = subNavLinks.nth(2);
   const note2SubNavListItem = note2SubNavLink.parent('li');
+  const note3SubNavListItem = note3SubNavLink.parent('li');
 
   await t
   // Open first 2 notes
@@ -96,9 +97,9 @@ test('Sub Nav Reacts to Updates', async t => {
     .expect(note2SubNavLink.textContent).eql(note2.name + updated)
     .expect(note2SubNavListItem.hasClass('unsaved')).ok()
 
-  // Ensure Note 1 link hasn't changed
-    .expect(note1SubNavLink.textContent).eql(note1.name)
-    .expect(note1SubNavListItem.hasClass('unsaved')).notOk()
+  // Ensure Note 3 link hasn't changed
+    .expect(note3SubNavLink.textContent).eql(note3.name)
+    .expect(note3SubNavListItem.hasClass('unsaved')).notOk()
 
   // Revert Note 2
     .selectText(nameInput)
@@ -115,7 +116,7 @@ test('Navigation Toggle', async t => {
   const openNavToggle = navToggleButtons.withText('Open');
   const mainNav = Selector('#main-nav');
   const subNav = Selector('.sub-nav');
-  const note1 = seedData.notes[0];
+  const note3 = seedData.notes[2];
 
   // Ensure only Nav toggle exists to start
   await t
@@ -140,7 +141,7 @@ test('Navigation Toggle', async t => {
   // Revert note changes and ensure Open toggle recognizes there aren't any unsaved notes
     .selectText(nameInput)
     .pressKey('delete')
-    .typeText(nameInput, note1.name)
+    .typeText(nameInput, note3.name)
     .expect(openNavToggle.hasClass('unsaved')).notOk()
 
   // Close note and ensure Open toggle is removed

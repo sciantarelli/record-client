@@ -64,7 +64,7 @@ class Navigation extends Component {
             }
 
             {
-              sortObjectsBy({...openNotesState}, 'openedAt').map(note =>
+              sortObjectsBy({...openNotesState}, 'openedAt').reverse().map(note =>
                 openNoteNavLink(note, (note.id || NEW_ID))
               )
             }

@@ -1,3 +1,5 @@
+import { sortObjectsBy } from '../helpers';
+
 const getNote = (openNotesState, id) =>
     openNotesState[id];
 
@@ -28,10 +30,22 @@ const getOpenNotes = openNotesState => openNotesState;
 const getNotes = notesState =>
     notesState.notes;
 
+const getNotesArray = (notesState, order) => {
+  if (notesState.notes === null) return;
+
+  if (!['updatedAt', 'name'].includes(order)) {
+    order = 'updatedAt';
+  }
+
+  const sorted = sortObjectsBy({...notesState.notes}, order);
+
+  return order === 'updatedAt' ? sorted.reverse() : sorted;
+};
+
 const getNotesError = notesState =>
     notesState.error && notesState.error.message;
 
 const getNotesIsFetching = notesState =>
     notesState.isFetching;
 
-export { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getOpenNotes, getNotes, getNotesError, getNotesIsFetching, getNoteIsDeleting, getNoteIsDirty };
+export { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getOpenNotes, getNotes, getNotesArray, getNotesError, getNotesIsFetching, getNoteIsDeleting, getNoteIsDirty };
