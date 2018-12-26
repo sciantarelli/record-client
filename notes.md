@@ -28,6 +28,15 @@
 
 # To Do List
 
+* optimize SSR, assets, code splitting, css solutions
+
+* try to get Node server w/ ssr running for devel
+    * this may not be possible, it was suggested it's pointless anyway. I'm not sure about pointless, but maybe it's not vital, yeah.
+    * testing should be done in production though with SSR I think...
+    * see if I can get hot reloading working somehow
+    * missing webpack stuff, hot reloading
+    * for production, what about gzip?
+
 * Legal pad notes, consolidate
 * record_notes_revised.txt on Mac, finish consolidating that as well
 * Consider record-api notes, and whether to consolidate here or do something else
@@ -111,7 +120,12 @@ Here's another tutorial for [SSR data fetching w/ API](https://www.sitepoint.com
 
 
 ### Code Splitting and Cache Busting
-[Udemy discussion](https://www.udemy.com/server-side-rendering-with-react-and-redux/learn/v4/questions/2997916)
+* **Simple examples around the internet don't usually include SSR considerations**
+* [Udemy discussion](https://www.udemy.com/server-side-rendering-with-react-and-redux/learn/v4/questions/2997916)
+* [upgrade create-react-app with ssr and code splitting](https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a)
+* demonstrated in Udemy Webpack course
+* demonstrated here in conjunction [with React Router](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html)
+
 
 
 ## Ajax Calls to API
