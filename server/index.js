@@ -1,5 +1,6 @@
 import express from 'express';
 import serverRenderer from './middleware/renderer';
+import Loadable from 'react-loadable';
 
 console.log(process.env.PORT);
 const PORT = process.env.PORT || 3000;
@@ -24,11 +25,14 @@ router.use('*', serverRenderer);
 // tell the app to use the above rules
 app.use(router);
 
-// start the app
-app.listen(PORT, (error) => {
-  if (error) {
-    return console.log('something bad happened', error);
-  }
+Loadable.preloadAll().then(() => {
+  // start the app
+  app.listen(PORT, (error) => {
+    if (error) {
+      return console.log('Server Error: ', error);
+    }
 
-  console.log("listening on " + PORT + "...");
+    console.log("listening on " + PORT + "...");
+  });
 });
+
