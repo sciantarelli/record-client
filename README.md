@@ -25,6 +25,7 @@ This repository contains only the frontend code, with the exception of a lightwe
 - Higher Order Components
 - e2e Testing w/ Testcafe
 - Integration Testing w/ Redux Saga Test Plan
+- gzipped js and css files for production
 
 ## Future Architecture
 
