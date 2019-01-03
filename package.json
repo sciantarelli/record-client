@@ -25,7 +25,8 @@
     "redux": "^4.0.0",
     "redux-form": "^7.4.2",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
@@ -34,7 +35,7 @@
     "start": "npm-run-all -p watch-css start-js",
     "start-for-test": "env-cmd .env.test npm run start",
     "build-js": "react-scripts build",
-    "build-gzip": "find .\/build \\( -name '*.css' -o -name '*.js' \\) -exec gzip --verbose --keep {} \\;",
+    "build-gzip": "find ./build \\( -name '*.css' -o -name '*.js' \\) -exec gzip --verbose --keep {} \\;",
     "build": "npm-run-all build-css build-js build-gzip",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
