@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Dashboard from './Dashboard';
-// import Notes from './Notes';
-import Note from './Note';
+import { Note, Notes } from './async';
 import Ideas from './Ideas';
 import Login from './Login';
 import Logout from './Logout';
@@ -10,13 +9,6 @@ import NotFound from './NotFound';
 import ComingSoon from './ComingSoon';
 import { NEW_ID, LOGIN_PATH, LOGOUT_PATH, NOTES_PATH, NEW_NOTE_PATH, IDEAS_PATH, DASHBOARD_PATH, TAGS_PATH, ALERTS_PATH, BOOKMARKS_PATH, NOT_FOUND_PATH } from '../constants';
 
-import Loadable from 'react-loadable';
-
-const Notes = Loadable({
-  loader: () => import(/* webpackChunkName: "notes" */ "./Notes"),
-  loading: () => <div>Change This Loading Message</div>,
-  modules: ['notes']
-});
 
 export default () => {
   return (

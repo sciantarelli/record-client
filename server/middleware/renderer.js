@@ -43,7 +43,7 @@ export default (req, res, next) => {
 
     const reduxState = JSON.stringify(store.getState());
     const extraChunks = extractAssets(manifest, modules)
-        .map(c => `<script type="text/javascript" src="/${c}"></script>`);
+        .map(c => `<script src="${c}"></script>`);
 
     // console.log(extraChunks);
 

@@ -5,7 +5,7 @@ import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import { AppLink } from './Links';
 import ActionsBar from './ActionsBar';
-import CrudMessages from './CrudMessages';
+import { CrudMessages } from './async';
 import { ButtonNaked } from './Buttons';
 import { doFetchNotes } from '../actions/notes';
 import { getNotesArray, getNotesError, getNotesIsFetching } from '../selectors/notes';
