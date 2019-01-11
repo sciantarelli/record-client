@@ -8,7 +8,7 @@ import { FlexFillContainer } from './FlexComponents';
 import requireAuth from './requireAuth';
 import dataLoading from './dataLoading';
 import ActionsBar from './ActionsBar';
-import CrudMessages from './CrudMessages';
+import { CrudMessages } from './async';
 import { doSaveNote, doFetchNote, doCloseNote, doDeleteNote } from '../actions/notes';
 import { doDispatchThenRoute } from '../actions/routing';
 import { getNote, getNoteError, getNoteValidationErrors, getNoteIsFetching, getNoteIsSaving, getNoteIsDeleting, getNoteIsDirty } from '../selectors/notes';

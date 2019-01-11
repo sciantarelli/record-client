@@ -3,8 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { ButtonNaked } from './Buttons';
-import MessagesContainer from './MessagesContainer';
-import ErrorMessages from './ErrorMessages';
+import { MessagesContainer, ErrorMessages } from './async';
 import { doAuthUser } from '../actions/auth';
 import { getIsAuthenticating, getAuthError } from '../selectors/auth';
 

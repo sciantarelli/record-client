@@ -17,6 +17,7 @@
     "npm-run-all": "^4.1.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-loadable": "^5.5.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.2",
@@ -24,21 +25,23 @@
     "redux": "^4.0.0",
     "redux-form": "^7.4.2",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "start-for-test": "env-cmd .env.test npm run start",
-    "build-js": "react-scripts build",
-    "build-gzip": "find .\/build \\( -name '*.css' -o -name '*.js' \\) -exec gzip --verbose --keep {} \\;",
     "build": "npm-run-all build-css build-js build-gzip",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "start-js": "react-scripts start",
+    "build-js": "react-scripts build",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-production": "npm run build && node server/bootstrap",
+    "start-test": "env-cmd .env.test npm run start-production",
     "testcafe": "testcafe chrome src/tests/e2e",
-    "testcafe-iphone": "testcafe 'chrome:emulation:device=iphone 6' src/tests/e2e"
+    "testcafe-iphone": "testcafe 'chrome:emulation:device=iphone 6' src/tests/e2e",
+    "build-gzip": "find ./build \\( -name '*.css' -o -name '*.js' \\) -exec gzip --verbose --keep {} \\;"
   },
   "devDependencies": {
     "enzyme": "^3.4.2",
