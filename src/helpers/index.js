@@ -64,11 +64,20 @@ const sortObjectsBy = (list, attr) => {
   return (list && list.sort(compare)) || [];
 };
 
+const abbrevForNavLink = (text) => {
+  const maxLength = 15;
+
+  if (text.length <= maxLength) return text;
+
+  return `${text.substring(0, maxLength)}...`;
+};
+
 export {
   deletePropertyFromObject,
   propertiesDoMatch,
   isEmptyObject,
   dirtyRecordsExist,
   cleanHeaders,
-  sortObjectsBy
+  sortObjectsBy,
+  abbrevForNavLink
 };

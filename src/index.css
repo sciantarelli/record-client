@@ -6317,12 +6317,6 @@ html, body {
   margin: 0;
   padding: 0; }
 
-a, a:hover {
-  color: #a73646; }
-
-a, a:active, a:focus {
-  outline: none; }
-
 input, textarea {
   background: #292929;
   color: #a5a5a5;
