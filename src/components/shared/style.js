@@ -23,6 +23,8 @@ export const RecordNavLI = styled(RecordNavLink)`
 `;
 
 // TODO: layout-changes Hardcoded color
+// TODO: layout-changes <a> font size should be bootstrap $font-size-sm
+// TODO: layout-changes bullets between <li> tags should be bootstrap $gray-600;
 export const RecordNavUL = styled.ul`
   
   > ${ComponentNavLI}
