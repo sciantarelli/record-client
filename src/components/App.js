@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import Routes from './Routes';
 import { FlexFillContainer } from './FlexComponents';
 
 import Media from 'react-media';
@@ -36,7 +35,6 @@ class App extends Component {
               matches ? <LayoutCompact /> : <LayoutFull />
             }
           </Media>
-          <Routes />
         </React.Fragment>
     );
   }
