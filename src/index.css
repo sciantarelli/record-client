@@ -6336,39 +6336,13 @@ textarea {
   flex-flow: column;
   height: 100%; }
 
-#header {
-  background: #292929; }
-
-li.nav-link {
-  display: inline-block;
-  padding: 0 0 2px 0; }
-
-li.active-link a {
-  border-bottom: 2pt solid #a73646; }
-
-li.unsaved a, button.unsaved, button.unsaved:hover {
+button.unsaved, button.unsaved:hover {
   color: #cea513; }
 
 #main-nav {
   padding-top: 5px; }
   #main-nav .app-link {
     margin-right: 7px; }
-
-.sub-nav a {
-  font-size: 0.875rem; }
-
-.sub-nav li:first-child:after {
-  content: " \25ba"; }
-
-.sub-nav li:not(:first-child):after {
-  color: #6c757d;
-  content: " \2022"; }
-
-.sub-nav li:last-child:after {
-  content: none; }
-
-.sub-nav li:not(:last-child) {
-  padding-right: 5px; }
 
 #nav-toggle-bar {
   background: #323232;
