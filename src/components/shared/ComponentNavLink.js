@@ -5,10 +5,12 @@ import { A } from './style';
 
 const ComponentNavLink = (props) => {
   const { className, ...remainingProps } = props;
+  const { to, location } = remainingProps;
+  const currentPath = location && location.pathname;
 
   return (
     <li className={className}>
-      <A {...remainingProps} />
+      <A isActive={currentPath === to} {...remainingProps} />
     </li>
   )
 };
