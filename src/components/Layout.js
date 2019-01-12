@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header } from './shared/style';
-import NavTop from './navigation/NavTop';
+import { NavTop, NavLeft } from './navigation';
 import Routes from './Routes';
 
 import styled from 'styled-components';
@@ -51,17 +51,7 @@ const LayoutFull = () => {
 
     <FlexRowContainer>
       <SideNav>
-        <ul>
-          <li>Item 1</li>
-          <li><ul>
-            { [...Array(5)].map((e, i) =>
-                <li>{ `Nested Item Number ${i}` }</li>) }
-          </ul></li>
-          <li>Much Longer Item 2 that just goes and goes forever it seems</li>
-
-          { [...Array(50)].map((e, i) =>
-              <li>{ `Item Number ${i}` }</li>) }
-        </ul>
+        <NavLeft />
       </SideNav>
 
       <FlexFillColumnContainer>

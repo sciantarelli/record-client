@@ -43,7 +43,11 @@ class NavTop extends Component {
           openRecordsExist &&
 
           <RecordNavUL>
-            <ComponentNavLI to={NOTES_PATH}>Notes</ComponentNavLI>
+            <ComponentNavLI
+                to={NOTES_PATH}
+                inline>
+              Notes
+            </ComponentNavLI>
 
             {
               sortObjectsBy({...openNotesState}, 'openedAt').reverse().map(note =>
@@ -67,5 +71,4 @@ const mapStateToProps = state => ({
 });
 
 
-// TODO: layout-changes If withRouter is used here, still need it in child components?
 export default withRouter(connect(mapStateToProps)(NavTop));

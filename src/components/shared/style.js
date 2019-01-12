@@ -15,7 +15,7 @@ export const A = styled(Link)`
 `;
 
 export const ComponentNavLI = styled(ComponentNavLink)`
-  display: inline-block;
+  display: ${ props => props.inline ? 'inline-block' : 'block' };
 `;
 
 export const RecordNavLI = styled(RecordNavLink)`
@@ -44,4 +44,8 @@ export const RecordNavUL = styled.ul`
       }
     }
   }
+`;
+
+export const MainNavUL = styled.ul`
+    
 `;
