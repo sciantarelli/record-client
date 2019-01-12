@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RecordNavUL, RecordNavLI, ComponentNavLI } from '../shared/style';
+import { RecordNavUL, RecordNavLI, ComponentNavLI } from './style';
 import { getOpenNotes } from '../../selectors/notes';
 import { isEmptyObject, dirtyRecordsExist, sortObjectsBy } from '../../helpers';
 import { NEW_ID, LOGOUT_PATH, NOTES_PATH, IDEAS_PATH, DASHBOARD_PATH, TAGS_PATH, ALERTS_PATH, BOOKMARKS_PATH } from '../../constants';

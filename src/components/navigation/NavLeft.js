@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { MainNavUL, ComponentNavLI } from '../shared/style';
+import { MainNavUL, ComponentNavLI } from './style';
 
 import { LOGOUT_PATH, NOTES_PATH, IDEAS_PATH, DASHBOARD_PATH, TAGS_PATH, ALERTS_PATH, BOOKMARKS_PATH } from '../../constants';
 

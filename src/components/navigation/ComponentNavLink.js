@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { A } from './style';
+import { A } from '../shared/style';
 
 
 const ComponentNavLink = (props) => {
