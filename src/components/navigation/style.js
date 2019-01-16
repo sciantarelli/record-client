@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import ComponentNavLink from './ComponentNavLink';
 import RecordNavLink from './RecordNavLink';
+import NavBottomButton from './NavBottomButton';
 
 
 export const SideNav = styled.div`
@@ -12,7 +13,7 @@ export const SideNav = styled.div`
 `;
 
 export const MainNavUL = styled.ul`
-    
+  
 `;
 
 // TODO: layout-changes Hardcoded color
@@ -45,4 +46,22 @@ export const ComponentNavLI = styled(ComponentNavLink)`
 
 export const RecordNavLI = styled(RecordNavLink)`
   display: inline-block;
+`;
+
+// TODO: layout-changes - handle padding elsewhere, like a reset for UL's
+export const NavBottomUL = styled.ul`
+  display: flex;
+  justify-content: space-around;
+  padding: 0px;
+`;
+
+// TODO: layout-changes - hardcoded colors
+export const NavBottomLI = styled(NavBottomButton)`
+  color: ${ props => props.isDirty ? 'yellow' : 'red' };
+  border-bottom: ${ props => props.isActive ? '2pt solid #a73646' : 'none' };
+  background: ${ props => props.isActive ? 'blue' : 'inherit' };
+  text-align: center;
+  display: inline-block;
+  list-style: none;
+  padding: 2px;
 `;
