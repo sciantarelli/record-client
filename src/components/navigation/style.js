@@ -16,6 +16,14 @@ export const MainNavUL = styled.ul`
   
 `;
 
+export const ComponentNavLI = styled(ComponentNavLink)`
+  display: ${ props => props.inline ? 'inline-block' : 'block' };
+`;
+
+export const RecordNavLI = styled(RecordNavLink)`
+  display: inline-block;
+`;
+
 // TODO: layout-changes Hardcoded color
 // TODO: layout-changes <a> font size should be bootstrap $font-size-sm
 // TODO: layout-changes bullets between <li> tags should be bootstrap $gray-600;
@@ -40,13 +48,6 @@ export const RecordNavUL = styled.ul`
   }
 `;
 
-export const ComponentNavLI = styled(ComponentNavLink)`
-  display: ${ props => props.inline ? 'inline-block' : 'block' };
-`;
-
-export const RecordNavLI = styled(RecordNavLink)`
-  display: inline-block;
-`;
 
 // TODO: layout-changes - handle padding elsewhere, like a reset for UL's
 export const NavBottomUL = styled.ul`
