@@ -2,15 +2,18 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { A } from '../shared/style';
 
+let count = 0;
 
 const ComponentNavLink = (props) => {
-  const { className, ...remainingProps } = props;
-  const { to, location } = remainingProps;
+  const { className, location, to, children } = props;
   const currentPath = location && location.pathname;
 
   return (
     <li className={className}>
-      <A isActive={currentPath === to} {...remainingProps} />
+      <A to={to}
+         isActive={currentPath === to}>
+            {children}
+      </A>
     </li>
   )
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -12,9 +13,12 @@ export const Footer = styled.div`
 `;
 
 // TODO: layout-changes Hardcoded color
-export const A = styled(Link)`
-  color: ${ props => props.isDirty ? 'yellow' : 'red' };
-  border-bottom: ${ props => props.isActive ? '2pt solid #a73646' : 'none' };
+export const A = styled(
+    ({ isActive, isDirty, ...rest}) => <Link {...rest} />
+  )`
+    text-decoration: none;
+    border-bottom: ${ props => props.isActive ? '2pt solid #a73646' : 'none' };
+    color: ${ props => props.isDirty ? 'yellow' : 'red' };
 `;
 
 // TODO: layout-changes Refactor the Flex styles into their own components. Look to FlexComponents.js old

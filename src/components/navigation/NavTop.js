@@ -53,7 +53,8 @@ class NavTop extends Component {
               sortObjectsBy({...openNotesState}, 'openedAt').reverse().map(note =>
                   <RecordNavLI
                       basePath={NOTES_PATH}
-                      component={note} />
+                      component={note}
+                      key={note.id} />
               )
             }
           </RecordNavUL>

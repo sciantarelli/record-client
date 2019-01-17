@@ -20,25 +20,26 @@ const NavItemsMain = () => {
       <ComponentNavLI to={DASHBOARD_PATH}>Pinned Idea One</ComponentNavLI>
       <ComponentNavLI to={DASHBOARD_PATH}>Pinned Journal One</ComponentNavLI>
 
-      <ComponentNavLI to={DASHBOARD_PATH}>
-        Nesting Example
-
+      {/* Can't nest <a> tags here, so can't embed a <ul> in <ComponentNavLI since it renders <a> tags */}
+      <ComponentNavLI to={DASHBOARD_PATH}>Nesting Example</ComponentNavLI>
+      <li>
         <ul>
           { [...Array(5)].map((e, i) =>
-              <ComponentNavLI to={DASHBOARD_PATH}>
+              <ComponentNavLI to={DASHBOARD_PATH}
+                              key={i}>
                 { `Nested Item ${i}` }
               </ComponentNavLI>)
           }
         </ul>
-
-      </ComponentNavLI>
+      </li>
 
       <ComponentNavLI to={DASHBOARD_PATH}>
         Item With Long Name Here As An Example
       </ComponentNavLI>
 
       { [...Array(50)].map((e, i) =>
-          <ComponentNavLI to={DASHBOARD_PATH}>
+          <ComponentNavLI to={DASHBOARD_PATH}
+                          key={i}>
             { `Item Number ${i}` }
           </ComponentNavLI>)
       }
