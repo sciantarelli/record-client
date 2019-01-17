@@ -1,8 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Footer, FlexFillColumnContainer } from '../../shared/style';
 import { NavBottom } from '../';
 
-
+// TODO: layout-changes - When resizing window, open note content is removed from the form. Not a huge deal, but should figure it out
 class MenuWrapper extends React.Component {
 
   constructor(props) {
@@ -13,6 +14,13 @@ class MenuWrapper extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    // This checks the location object references instead of path string, because even if the path is the same we want to close the menu.
+    if (this.props.location !== prevProps.location
+          && this.state.Menu) {
+        this.setState({ Menu: null });
+    }
+  }
 
   toggleMenu = Menu => {
     this.setState({
@@ -23,7 +31,6 @@ class MenuWrapper extends React.Component {
   render = () => {
     const { children } = this.props;
     const { Menu } = this.state;
-
 
     return (
       <React.Fragment>
@@ -44,4 +51,4 @@ class MenuWrapper extends React.Component {
 
 }
 
-export default MenuWrapper;
+export default withRouter(MenuWrapper);
