@@ -61,6 +61,9 @@ class Note extends Component {
     if (identical !== compare.length) doInitializeForm(data);
   }
 
+  // TODO: Consider handling this in different fashion. Here are resources on the matter:
+  // https://stackoverflow.com/questions/41340697/react-component-vs-react-purecomponent
+  // https://lucybain.com/blog/2017/react-js-when-to-rerender/
   shouldComponentUpdate(nextProps, nextState) {
     const { data } = this.props;
     const matchProps = ['id', 'isDirty', 'error', 'validationErrors'];
