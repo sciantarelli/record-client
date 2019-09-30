@@ -67,7 +67,7 @@ function* channelRequests(actionHandlers) {
     const action = yield take(Object.keys(actionHandlers));
 
     // True for actions such as NOTE_CREATE and NOTES_FETCH, that don't have ids
-    if (!action.hasOwnProperty('id')) {
+    if (!action.hasOwnProperty('id') || !action.id) {
       yield put(genChannel, action);
       continue;
     }
