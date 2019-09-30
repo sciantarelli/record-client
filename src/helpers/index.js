@@ -72,8 +72,9 @@ const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 const makeDataKey = (endpoint, open=false) => {
   const pieces = endpoint.split('/');
-  let dataKey = `${open ? 'open' : ''}`;
   pieces.shift(); // Removes the first entry, an empty string
+
+  let dataKey = `${open ? 'open' : pieces.shift()}`;
 
   for (const piece of pieces) {
     if (piece === ID_WILDCARD) continue;
