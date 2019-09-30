@@ -1,9 +1,21 @@
 import { channel } from 'redux-saga'
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { put, call, fork, take, takeEvery, takeLatest, all } from 'redux-saga/effects';
-import { DISPATCH_THEN_ROUTE, NOTE_CREATE, NOTE_FETCH, NOTE_UPDATE, NOTE_DELETE, NOTES_FETCH, AUTH_USER, AUTH_UPDATED, AUTH_DESTROY } from '../constants/actionTypes';
+import {
+  DISPATCH_THEN_ROUTE,
+  NOTE_CREATE,
+  NOTE_FETCH,
+  NOTE_UPDATE,
+  NOTE_DELETE,
+  NOTES_FETCH,
+  AUTH_USER,
+  AUTH_UPDATED,
+  AUTH_DESTROY,
+  CRUD_FETCH_LIST
+} from '../constants/actionTypes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes } from './notes';
+import { handleFetchList } from './crudSagas';
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
@@ -16,6 +28,7 @@ function *watchAll() {
     takeEvery(AUTH_UPDATED, handleAuthUpdated),
     takeLatest(AUTH_DESTROY, handleAuthDestroy),
     channelRequests({
+      [CRUD_FETCH_LIST]: handleFetchList,
       [NOTES_FETCH]: handleFetchNotes,
       [NOTE_FETCH]: handleFetchNote,
       [NOTE_CREATE]: handleCreateNote,
