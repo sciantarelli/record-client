@@ -1,12 +1,16 @@
 export const BASE_API_URL = `${process.env.REACT_APP_API_HOST}/v1`;
 
-// API Endpoints
-export const NOTES_ENDPOINT = '/notes';
-export const IDEAS_ENDPOINT = '/ideas';
-export const IDEA_ENDPOINT = `${IDEAS_ENDPOINT}/:id`;
-
 export const NEW_ID = 'new';
 export const NEW_NOTE_NAME = 'New Note';
+
+// Path wildcards
+export const ID_WILDCARD = ':id';
+
+// API Endpoints
+export const NOTES_ENDPOINT = '/notes';
+export const NOTE_ENDPOINT = `${NOTES_ENDPOINT}/${ID_WILDCARD}`;
+export const IDEAS_ENDPOINT = '/ideas';
+export const IDEA_ENDPOINT = `${IDEAS_ENDPOINT}/${ID_WILDCARD}`;
 
 // App paths
 export const LOGIN_PATH = '/login';

@@ -1,4 +1,8 @@
 // eslint-disable-next-line
+
+import { ID_WILDCARD } from "../constants";
+
+// TODO: Add comments to these functions
 const deletePropertyFromObject = ({[key]: _, ...newObj}, key) => newObj;
 
 const propertiesDoMatch = (a, b, props) => {
@@ -68,15 +72,20 @@ const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 const makeDataKey = (endpoint, open=false) => {
   const pieces = endpoint.split('/');
-  pieces.shift();
-  let dataKey = `${open ? 'open' : ''}${pieces.shift()}`;
+  let dataKey = `${open ? 'open' : ''}`;
+  pieces.shift(); // Removes the first entry, an empty string
 
   for (const piece of pieces) {
+    if (piece === ID_WILDCARD) continue;
     dataKey += capitalize(piece);
   }
 
   return dataKey;
 };
+
+const pathWithId = (path, id) => pathWithIdentifier(path, ':id', id);
+
+const pathWithIdentifier = (path, identifier, value) => path.replace(identifier, value);
 
 export {
     deletePropertyFromObject,
@@ -86,5 +95,7 @@ export {
     cleanHeaders,
     sortObjectsBy,
     capitalize,
-    makeDataKey
+    makeDataKey,
+    pathWithId,
+    pathWithIdentifier
 };
