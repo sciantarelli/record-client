@@ -64,11 +64,27 @@ const sortObjectsBy = (list, attr) => {
   return (list && list.sort(compare)) || [];
 };
 
+const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+const makeDataKey = (endpoint, open=false) => {
+  const pieces = endpoint.split('/');
+  pieces.shift();
+  let dataKey = `${open ? 'open' : ''}${pieces.shift()}`;
+
+  for (const piece of pieces) {
+    dataKey += capitalize(piece);
+  }
+
+  return dataKey;
+};
+
 export {
-  deletePropertyFromObject,
-  propertiesDoMatch,
-  isEmptyObject,
-  dirtyRecordsExist,
-  cleanHeaders,
-  sortObjectsBy
+    deletePropertyFromObject,
+    propertiesDoMatch,
+    isEmptyObject,
+    dirtyRecordsExist,
+    cleanHeaders,
+    sortObjectsBy,
+    capitalize,
+    makeDataKey
 };
