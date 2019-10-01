@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { makeDataKey } from "../helpers";
-import { doFetchList } from "../actions/crudActions";
+import { doFetch } from "../actions/crudActions";
+import { pathWithId } from "../helpers";
 
 
 const DefaultLoadingComponent = () =>
@@ -12,19 +13,24 @@ const DefaultLoadingComponent = () =>
 const Fetch = ({
     doFetch,
     endpoint,
-    dataKey = makeDataKey(endpoint),
+    openState = false,
+    dataKey = makeDataKey(endpoint, openState),
     id,
     dataObj = {},
-    dataObj: { data, isFetching, error },
-    renderMany=false,
+    renderMany = false,
     renderComponent: RenderComponent,
     loadingComponent: LoadingComponent = DefaultLoadingComponent ,
     children,
     ...restProps
 }) => {
     useEffect(() => {
-        doFetch(endpoint);
+        const calculatedEndpoint =
+            id ? pathWithId(endpoint, id) : endpoint;
+
+        doFetch(calculatedEndpoint, dataKey, id);
     }, []);
+
+    const { data, isFetching, error } = dataObj;
 
     // TODO: crud - Options to display error in place vs in some sort of notifications area?
 
@@ -47,24 +53,25 @@ const Fetch = ({
     return <RenderComponent {...restProps} item={data} />
 };
 
-// TODO: crud - Can probably prevent an extra render here (ownProps) by making Fetch a component wrapper/generator. See CrudForm
 const mapStateToProps = (state, ownProps) => {
     // TODO: crud - Make a selector for this, dynamic of course
-    const crudState = state.crud[makeDataKey(ownProps.endpoint)];
+    const { id, openState, endpoint } = ownProps;
+    const dataKey = makeDataKey(endpoint, openState);
+    const crudState = state.crud[dataKey];
+
+    let dataObj = {};
+
+    if (crudState) {
+        dataObj = id ? crudState[id] : crudState;
+    }
 
     return {
-        dataObj: crudState || {}
+        dataObj: dataObj
     }
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    const doFetch = doFetchList;
-    // TODO: crud - finish this!
-    // const doFetch = ownProps.fetchAction || ownProps.
-
-    return {
-        doFetch: (endpoint) => dispatch(doFetch(endpoint))
-    }
+const mapDispatchToProps = {
+    doFetch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Fetch);
