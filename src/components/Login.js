@@ -60,6 +60,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+    reduxForm({ form: 'login' }),
     connect(mapStateToProps),
-    reduxForm({ form: 'login' })
 )(Login);
