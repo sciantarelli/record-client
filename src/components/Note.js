@@ -220,12 +220,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
     reduxForm({
       form: 'note',
       // Removing this in favor of manual re-initialization, which gives more control when syncing form to open notes
       // enableReinitialize: true
     }),
+    connect(mapStateToProps, mapDispatchToProps),
     requireAuth,
     dataLoading
 )(Note);
