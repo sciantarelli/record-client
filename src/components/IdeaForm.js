@@ -1,10 +1,10 @@
 import React from 'react';
+import { Field } from "redux-form";
 
 import Fetch from "./Fetch";
 import CrudForm from "./CrudForm";
 
-import { IDEA_FORM, IDEAS_ENDPOINT } from "../constants";
-import { Field } from "redux-form";
+import { IDEA_FORM, IDEAS_ENDPOINT, NOTE_ENDPOINT } from "../constants";
 
 
 const FormFields = () =>
@@ -14,7 +14,6 @@ const FormFields = () =>
             name="name"
             type="text"
             component="input"
-            value='testing'
         />
 
         <Field
@@ -25,10 +24,16 @@ const FormFields = () =>
         />
     </>;
 
+const initialValues = { name: '', content: ''};
+
 const IdeaForm = ({ id }) => {
     return (
-        <Fetch endpoint={IDEAS_ENDPOINT} id={id}>
-            <CrudForm formName={IDEA_FORM}>
+        <Fetch endpoint={NOTE_ENDPOINT}
+               id={id}
+               openState={true}>
+            <CrudForm formName={IDEA_FORM}
+                      initialValues={initialValues}
+                      id={id}>
                 <FormFields/>
             </CrudForm>
         </Fetch>
