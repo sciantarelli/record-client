@@ -1,31 +1,52 @@
-import {CRUD_FETCH_LIST_SUCCESS, CRUD_FETCH_LIST_ERROR, CRUD_FETCH_LIST} from '../constants/actionTypes';
-import {makeDataKey} from "../helpers";
+import { get } from 'lodash';
+
+import { CRUD_FETCH, CRUD_FETCH_SUCCESS, CRUD_FETCH_ERROR } from '../constants/actionTypes';
 
 
 const errorDefault = () => null;
 const isFetchingDefault = () => false;
 
+
 export default function(state = {}, action) {
-    console.log(action);
-
-    let dataKey = action.dataKey;
-    const { data, endpoint } = action;
-
-    if (!dataKey && endpoint) dataKey = makeDataKey(endpoint);
+    const { id, data, dataKey } = action;
 
     switch(action.type) {
-        case CRUD_FETCH_LIST : {
+        case CRUD_FETCH : {
+            // TODO: crud - flesh out default object creation. Try to avoid having difference types of default state for different component types
+            const stateCopy = {...state};
+
+            // TODO: crud - clean up these cases, extract to functions
+            if (id) {
+                const data = get(stateCopy, `${dataKey}.${id}`) || { id };
+
+                return replaceOne(stateCopy, dataKey, {
+                    ...data,
+                    isFetching: true,
+                    error: errorDefault()
+                });
+            }
+
+            const data = get(stateCopy, `${dataKey}.${data}`) || {} ;
             return {
-                ...state,
+                ...stateCopy,
                 [dataKey]: {
-                    data: {...state.data},
+                    data: {...data},
                     isFetching: true,
                     error: errorDefault()
                 }
             }
         }
 
-        case CRUD_FETCH_LIST_SUCCESS : {
+        case CRUD_FETCH_SUCCESS : {
+            const stateCopy = {...state};
+
+            if (data.id) {
+                return replaceOne(stateCopy, dataKey, {
+                    ...data,
+                    isFetching: isFetchingDefault(),
+                });
+            }
+
             return {
                 ...state,
                 [dataKey]: {
@@ -41,3 +62,14 @@ export default function(state = {}, action) {
         default : return state;
     }
 }
+
+
+const replaceOne = (state, dataKey, dataState) => {
+    return {
+        ...state,
+        [dataKey]: {
+            ...state[dataKey],
+            [dataState.id]: {...dataState}
+        }
+    }
+};
