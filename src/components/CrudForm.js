@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from "react-redux";
+import { reduxForm, initialize } from 'redux-form';
+import { pick, isEmpty } from 'lodash';
 
-import { reduxForm } from 'redux-form';
-import {compose} from "redux";
-import {connect} from "react-redux";
 import requireAuth from "./requireAuth";
-import dataLoading from "./dataLoading";
-import ActionsBar from "./ActionsBar";
-import {CrudMessages} from "./async";
+import { CrudMessages } from "./async";
 import CrudActionsBar from "./CrudActionsBar";
 
-const CrudForm = ({ children }) => {
+
+const CrudFormWrapper = ({ children }) => {
+    // TODO: crud - Should this hookup to the redux store directly or should it expect data to be passed in no matter what?
+    const mapStateToProps = state => ({
+
+    });
+
+    const mapDispatchToProps = {
+
+    };
+
     return (
         <form>
             {React.Children.map(children, child =>
@@ -19,27 +27,37 @@ const CrudForm = ({ children }) => {
                 )
             )}
         </form>
-    )
+    );
 };
 
-const CrudFormWrapper = ({ id, endpoint, formName, children, dataObj }) => {
+const createForm = (formName, initialValues) => {
+    return reduxForm({
+        form: formName,
+        initialValues: {...initialValues},
+        // TODO: crud - see Notes.js for notes on reinitialize
+    })(CrudFormWrapper);
+};
 
-    // TODO: crud - if fetch isn't used, should this hookup to the redux store directly or should it expect data to be passed in no matter what?
-    const mapStateToProps = state => ({
+const CrudForm = ({
+    id,
+    formName,
+    children,
+    initialValues,
+    dataObj,
+    dataObj: { isFetching },
+    initialize
+}) => {
+    const composedFormName = `${formName}${id}`;
 
-    });
+    const [ComposedForm, setComposedForm] =
+        useState(createForm(composedFormName, initialValues));
 
-    const mapDispatchToProps = {
+    useEffect(() => {
+        if (isEmpty(dataObj) || isFetching) return;
 
-    };
-
-    const ComposedForm = compose(
-        // connect(mapStateToProps, mapDispatchToProps),
-        reduxForm({
-            form: `${formName}${id}`,
-            // TODO: crud - see Notes.js for notes on reinitialize
-        })
-    )(CrudForm);
+        const values = pick(dataObj, Object.keys(initialValues));
+        initialize(composedFormName, values);
+    },[isFetching]);
 
     return (
         <>
@@ -47,7 +65,11 @@ const CrudFormWrapper = ({ id, endpoint, formName, children, dataObj }) => {
             <CrudMessages {...dataObj} />
             <ComposedForm>{children}</ComposedForm>
         </>
-    );
+    )
 };
 
-export default requireAuth(CrudFormWrapper);
+const mapDispatchToProps = {
+    initialize
+};
+
+export default requireAuth(connect(null, mapDispatchToProps)(CrudForm));
