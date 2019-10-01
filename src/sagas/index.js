@@ -11,11 +11,11 @@ import {
   AUTH_USER,
   AUTH_UPDATED,
   AUTH_DESTROY,
-  CRUD_FETCH_LIST
+  CRUD_FETCH
 } from '../constants/actionTypes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes } from './notes';
-import { handleFetchList } from './crudSagas';
+import { handleFetch } from './crudSagas';
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
@@ -28,7 +28,7 @@ function *watchAll() {
     takeEvery(AUTH_UPDATED, handleAuthUpdated),
     takeLatest(AUTH_DESTROY, handleAuthDestroy),
     channelRequests({
-      [CRUD_FETCH_LIST]: handleFetchList,
+      [CRUD_FETCH]: handleFetch,
       [NOTES_FETCH]: handleFetchNotes,
       [NOTE_FETCH]: handleFetchNote,
       [NOTE_CREATE]: handleCreateNote,
