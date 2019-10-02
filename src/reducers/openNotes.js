@@ -17,9 +17,12 @@ const openedAtDefault = () => null;
 export const INITIAL_OPEN_NOTES_STATE = {};
 
 export const DEFAULT_NOTE_STATE = {
-  id: null,
-  name: nameDefault(),
-  content: contentDefault(),
+  data: {
+    id: null,
+    name: nameDefault(),
+    content: contentDefault(),
+  },
+
   isFetching: isFetchingDefault(),
   isSaving: isSavingDefault(),
   isDeleting: isDeletingDefault(),

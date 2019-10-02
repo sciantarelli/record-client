@@ -1,13 +1,16 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select, delay } from 'redux-saga/effects';
+import { isEmpty } from 'lodash';
+
 import { fetchList } from '../api/crudApi';
 import { doAuthUpdated } from "../actions/auth";
-import { doFetchSuccess, doFetchError } from "../actions/crudActions";
+import { doFetchSuccess, doFetchError, doInputChange } from "../actions/crudActions";
 import { handleNoResponse, is401AndHandled } from "./errors";
-import { makeDataKey} from "../helpers";
 
 
 // TODO: crud - consider moving into selectors
 const get_auth = (state) => state.auth;
+const get_tracked_forms = (state, formName) => state.crud.trackedForms;
+
 
 function *handleFetch(action) {
     const { endpoint, dataKey } = action;
@@ -31,6 +34,24 @@ function *handleFetch(action) {
     }
 }
 
+function *handleFormDataChange(action) {
+    yield delay(500);
+
+    const { meta: { form, field }, payload } = action;
+    const trackedForms = yield select(get_tracked_forms);
+
+    if (isEmpty(trackedForms)) return;
+
+    const trackedForm = trackedForms[form];
+
+    if (!trackedForm) return;
+
+    const { id, dataKey } = trackedForm;
+
+    yield put(doInputChange(id, dataKey, field, payload));
+}
+
 export {
-    handleFetch
+    handleFetch,
+    handleFormDataChange
 }

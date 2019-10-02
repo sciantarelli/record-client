@@ -37,7 +37,6 @@ export default () => {
               <Note skipLoad={true} id={NEW_ID} />
             }
           />
-          {/* TODO: crud - Make singular paths in constants, and create pathFromId() function */}
           <Route path={`${NOTES_PATH}/:id`} component={Note}/>
           <Route exact path={IDEAS_PATH} component={Ideas}/>
           <Route path={`${IDEAS_PATH}/:id`} component={withUrlId(IdeaForm)} />

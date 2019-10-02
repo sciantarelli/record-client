@@ -7,6 +7,8 @@ import requireAuth from "./requireAuth";
 import { CrudMessages } from "./async";
 import CrudActionsBar from "./CrudActionsBar";
 
+import { doTrackForm } from "../actions/crudActions";
+
 
 const CrudFormWrapper = ({ children }) => {
     // TODO: crud - Should this hookup to the redux store directly or should it expect data to be passed in no matter what?
@@ -34,7 +36,6 @@ const createForm = (formName, initialValues) => {
     return reduxForm({
         form: formName,
         initialValues: {...initialValues},
-        // TODO: crud - see Notes.js for notes on reinitialize
     })(CrudFormWrapper);
 };
 
@@ -43,9 +44,11 @@ const CrudForm = ({
     formName,
     children,
     initialValues,
+    dataKey,
     dataObj,
-    dataObj: { isFetching },
-    initialize
+    dataObj: { isFetching, data },
+    initialize,
+    doTrackForm
 }) => {
     const composedFormName = `${formName}${id}`;
 
@@ -55,9 +58,14 @@ const CrudForm = ({
     useEffect(() => {
         if (isEmpty(dataObj) || isFetching) return;
 
-        const values = pick(dataObj, Object.keys(initialValues));
+        const values = pick(data, Object.keys(initialValues));
         initialize(composedFormName, values);
     },[isFetching]);
+
+    useEffect(() => {
+        // TODO: crud - untrack when form is destroyed as well
+       doTrackForm(composedFormName, dataKey, id);
+    }, []);
 
     return (
         <>
@@ -69,7 +77,8 @@ const CrudForm = ({
 };
 
 const mapDispatchToProps = {
-    initialize
+    initialize,
+    doTrackForm
 };
 
 export default requireAuth(connect(null, mapDispatchToProps)(CrudForm));

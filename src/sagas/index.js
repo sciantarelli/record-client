@@ -15,7 +15,7 @@ import {
 } from '../constants/actionTypes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes } from './notes';
-import { handleFetch } from './crudSagas';
+import { handleFetch, handleFormDataChange } from './crudSagas';
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
@@ -27,6 +27,7 @@ function *watchAll() {
     // If AUTH_UPDATED used takeLatest, it could be missing the access token and client entries if the server deemed the last update to be a batch and the one before it actually updated all the headers
     takeEvery(AUTH_UPDATED, handleAuthUpdated),
     takeLatest(AUTH_DESTROY, handleAuthDestroy),
+    takeLatest('@@redux-form/CHANGE', handleFormDataChange),
     channelRequests({
       [CRUD_FETCH]: handleFetch,
       [NOTES_FETCH]: handleFetchNotes,

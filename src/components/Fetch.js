@@ -14,6 +14,7 @@ const Fetch = ({
     doFetch,
     endpoint,
     openState = false,
+    defaultState,
     dataKey = makeDataKey(endpoint, openState),
     id,
     dataObj = {},
@@ -27,12 +28,14 @@ const Fetch = ({
         const calculatedEndpoint =
             id ? pathWithId(endpoint, id) : endpoint;
 
-        doFetch(calculatedEndpoint, dataKey, id);
+        doFetch(calculatedEndpoint, dataKey, id, defaultState);
     }, []);
 
     const { data, isFetching, error } = dataObj;
 
     // TODO: crud - Options to display error in place vs in some sort of notifications area?
+
+    console.log('fetch render');
 
     if (!RenderComponent) return React.cloneElement(
         children,

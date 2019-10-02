@@ -5,6 +5,7 @@ import Fetch from "./Fetch";
 import CrudForm from "./CrudForm";
 
 import { IDEA_FORM, IDEAS_ENDPOINT, NOTE_ENDPOINT } from "../constants";
+import { DEFAULT_NOTE_STATE } from "../reducers/openNotes";
 
 
 const FormFields = () =>
@@ -30,7 +31,8 @@ const IdeaForm = ({ id }) => {
     return (
         <Fetch endpoint={NOTE_ENDPOINT}
                id={id}
-               openState={true}>
+               openState={true}
+               defaultState={DEFAULT_NOTE_STATE}>
             <CrudForm formName={IDEA_FORM}
                       initialValues={initialValues}
                       id={id}>
