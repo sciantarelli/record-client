@@ -17,6 +17,7 @@ const Fetch = ({
     defaultState,
     dataKey = makeDataKey(endpoint, openState),
     id,
+    noRequest = false,
     dataObj = {},
     renderMany = false,
     renderComponent: RenderComponent,
@@ -25,6 +26,8 @@ const Fetch = ({
     ...restProps
 }) => {
     useEffect(() => {
+        if (noRequest) return;
+
         if (id) {
             doFetch(pathWithId(endpoint, id), dataKey, id, defaultState);
         } else {
