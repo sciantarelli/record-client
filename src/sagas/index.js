@@ -11,11 +11,12 @@ import {
   AUTH_USER,
   AUTH_UPDATED,
   AUTH_DESTROY,
-  CRUD_FETCH
+  CRUD_FETCH,
+  CRUD_SAVE
 } from '../constants/actionTypes';
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes } from './notes';
-import { handleFetch, handleFormDataChange } from './crudSagas';
+import { handleFetch, handleSave, handleFormDataChange } from './crudSagas';
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
@@ -30,6 +31,7 @@ function *watchAll() {
     takeLatest('@@redux-form/CHANGE', handleFormDataChange),
     channelRequests({
       [CRUD_FETCH]: handleFetch,
+      [CRUD_SAVE]: handleSave,
       [NOTES_FETCH]: handleFetchNotes,
       [NOTE_FETCH]: handleFetchNote,
       [NOTE_CREATE]: handleCreateNote,

@@ -25,10 +25,11 @@ const Fetch = ({
     ...restProps
 }) => {
     useEffect(() => {
-        const calculatedEndpoint =
-            id ? pathWithId(endpoint, id) : endpoint;
-
-        doFetch(calculatedEndpoint, dataKey, id, defaultState);
+        if (id) {
+            doFetch(pathWithId(endpoint, id), dataKey, id, defaultState);
+        } else {
+            doFetch(endpoint, dataKey);
+        }
     }, []);
 
     const { data, isFetching, error } = dataObj;

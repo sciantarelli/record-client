@@ -1,15 +1,25 @@
 import { call, put, select, delay } from 'redux-saga/effects';
-import { isEmpty } from 'lodash';
+import { isEmpty, pick } from 'lodash';
 
-import { fetchList } from '../api/crudApi';
+import { fetchList, crudUpdate } from '../api/crudApi';
 import { doAuthUpdated } from "../actions/auth";
-import { doFetchSuccess, doFetchError, doInputChange } from "../actions/crudActions";
-import { handleNoResponse, is401AndHandled } from "./errors";
+import { doFetchSuccess, doFetchError, doInputChange, doSaveSuccess } from "../actions/crudActions";
+import { handleNoResponse, is401AndHandled, is422AndHandled } from "./errors";
+
+import { NEW_ID } from "../constants";
 
 
 // TODO: crud - consider moving into selectors
 const get_auth = (state) => state.auth;
+
 const get_tracked_forms = (state, formName) => state.crud.trackedForms;
+
+const changed_values = (state, ...args) => {
+    const [ dataKey, id ] = args;
+    const dataObj = state.crud[dataKey][id];
+
+    return pick(dataObj.data, Object.keys(dataObj.changed));
+};
 
 
 function *handleFetch(action) {
@@ -34,8 +44,38 @@ function *handleFetch(action) {
     }
 }
 
+function *handleSave(action) {
+    const { endpoint, dataKey, id } = action;
+
+    const crudSave = id === NEW_ID ? () => {} : crudUpdate;
+
+    try {
+        const auth = yield select(get_auth);
+        const values = yield select(changed_values, dataKey, id);
+        const result = yield call(crudSave, auth, endpoint, values);
+
+        yield put(doAuthUpdated(result.headers));
+        yield put(doSaveSuccess(dataKey, result.data));
+    } catch (error) {
+        // TODO: crud - implement error handling
+        // const { response, request } = error;
+        //
+        // if (response) {
+        //     if (yield* is401AndHandled(response)) return;
+        //     if (yield* is422AndHandled(response, doNoteValidationErrors(id, getResponseErrors(response)))) return;
+        //
+        //     yield put(doUpdateNoteError(id, error));
+        //     return;
+        // }
+        //
+        // yield* handleNoResponse(request, doUpdateNoteError(id, error));
+    }
+
+
+}
+
 function *handleFormDataChange(action) {
-    yield delay(500);
+    yield delay(500); // Restricts to one input change per n
 
     const { meta: { form, field }, payload } = action;
     const trackedForms = yield select(get_tracked_forms);
@@ -53,5 +93,6 @@ function *handleFormDataChange(action) {
 
 export {
     handleFetch,
+    handleSave,
     handleFormDataChange
 }

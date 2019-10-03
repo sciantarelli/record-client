@@ -5,13 +5,22 @@ import {
     CRUD_FETCH_SUCCESS,
     CRUD_FETCH_ERROR,
     TRACK_FORM,
-    FORM_INPUT_CHANGE
+    FORM_INPUT_CHANGE,
+    CRUD_SAVE,
+    CRUD_SAVE_SUCCESS
 } from '../constants/actionTypes';
 import {deletePropertyFromObject, isEmptyObject} from "../helpers";
 
 
 const errorDefault = () => null;
+const validationErrorsDefault = () => null;
 const isFetchingDefault = () => false;
+const isSavingDefault = () => false;
+const isDeletingDefault = () => false;
+const inputChangeOnlyDefault = () => false;
+const changedDefault = () => ({});
+const isDirtyDefault = () => false;
+const openedAtDefault = () => null;
 
 
 export default function(state = {}, action) {
@@ -67,6 +76,28 @@ export default function(state = {}, action) {
                     error: errorDefault()
                 }
             }
+        }
+
+        case CRUD_SAVE : {
+            const record = stateCopy[dataKey][id];
+
+            return replaceOne(stateCopy, dataKey, {
+                ...record,
+                isSaving: true,
+                error: errorDefault()
+            })
+        }
+
+        case CRUD_SAVE_SUCCESS : {
+            const record = stateCopy[dataKey][data.id];
+
+            return replaceOne(stateCopy, dataKey, {
+                ...record,
+                ...data,
+                isSaving: isSavingDefault(),
+                changed: changedDefault(),
+                isDirty: isDirtyDefault()
+            })
         }
 
         // TODO: crud - add error case for FETCH

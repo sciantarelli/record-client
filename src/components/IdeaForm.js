@@ -4,8 +4,9 @@ import { Field } from "redux-form";
 import Fetch from "./Fetch";
 import CrudForm from "./CrudForm";
 
-import { IDEA_FORM, IDEAS_ENDPOINT, NOTE_ENDPOINT } from "../constants";
+import { IDEA_FORM, IDEAS_ENDPOINT, NOTE_ENDPOINT, NOTES_ENDPOINT } from "../constants";
 import { DEFAULT_NOTE_STATE } from "../reducers/openNotes";
+import { makeEndpoints } from "../api/crudApi";
 
 
 const FormFields = () =>
@@ -28,6 +29,8 @@ const FormFields = () =>
 const initialValues = { name: '', content: ''};
 
 const IdeaForm = ({ id }) => {
+    const endpoints = makeEndpoints(id, NOTE_ENDPOINT, NOTES_ENDPOINT);
+
     return (
         <Fetch endpoint={NOTE_ENDPOINT}
                id={id}
@@ -35,7 +38,8 @@ const IdeaForm = ({ id }) => {
                defaultState={DEFAULT_NOTE_STATE}>
             <CrudForm formName={IDEA_FORM}
                       initialValues={initialValues}
-                      id={id}>
+                      id={id}
+                      endpoints={endpoints}>
                 <FormFields/>
             </CrudForm>
         </Fetch>

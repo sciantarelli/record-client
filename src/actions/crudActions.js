@@ -2,6 +2,8 @@ import {
     CRUD_FETCH,
     CRUD_FETCH_SUCCESS,
     CRUD_FETCH_ERROR,
+    CRUD_SAVE,
+    CRUD_SAVE_SUCCESS,
     TRACK_FORM,
     FORM_INPUT_CHANGE
 } from "../constants/actionTypes";
@@ -28,6 +30,19 @@ const doFetchError = (dataKey, error) => ({
     error,
 });
 
+const doSave = (endpoint, dataKey, id) => ({
+    type: CRUD_SAVE,
+    endpoint,
+    dataKey,
+    id
+});
+
+const doSaveSuccess = (dataKey, data) => ({
+    type: CRUD_SAVE_SUCCESS,
+    dataKey,
+    data
+});
+
 const doTrackForm = (formName, dataKey, id) => ({
     type: TRACK_FORM,
     id,
@@ -47,6 +62,8 @@ export {
     doFetch,
     doFetchSuccess,
     doFetchError,
+    doSave,
+    doSaveSuccess,
     doTrackForm,
     doInputChange
 }
