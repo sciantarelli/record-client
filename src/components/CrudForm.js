@@ -7,8 +7,11 @@ import requireAuth from "./requireAuth";
 import { CrudMessages } from "./async";
 import CrudActionsBar from "./CrudActionsBar";
 
-import { doTrackForm, doSave } from "../actions/crudActions";
-import { NEW_ID } from "../constants";
+import { doTrackForm, doSave, doClose } from "../actions/crudActions";
+import { doDispatchThenRoute } from "../actions/routing";
+import { doCloseNote } from "../actions/notes";
+import {NEW_ID, NOTES_PATH} from "../constants";
+
 
 
 const WrappedForm = ({ children }) => {
@@ -39,13 +42,15 @@ const CrudForm = ({
     children,
     initialValues,
     endpoints,
-    createPath,
+    onCreatePath,
+    onClosePath,
     dataKey,
     dataObj,
     dataObj: { isFetching, data, changed },
     initialize,
     doTrackForm,
-    doSave
+    doSave,
+    doDispatchThenRoute
 }) => {
     const composedFormName = `${formName}${id}`;
 
@@ -69,20 +74,24 @@ const CrudForm = ({
             <CrudActionsBar {...dataObj}
                 doSave={() => {
                     const endpoint = isNewRecord(id) ? endpoints.many : endpoints.one;
-                    doSave(endpoint, dataKey, id, createPath, isNewRecord(id));
-                            }} />
+                    doSave(endpoint, dataKey, id, onCreatePath, isNewRecord(id));
+                }}
+                doClose={() => {
+                    doDispatchThenRoute(doCloseNote(id), onClosePath);
+                }}
+            />
             <CrudMessages {...dataObj} />
             <ComposedForm>{children}</ComposedForm>
         </>
     )
 };
 
-// TODO: crud - this needs to route after new record creation
 
 const mapDispatchToProps = {
     initialize,
     doTrackForm,
-    doSave
+    doSave,
+    doDispatchThenRoute,
 };
 
 export default requireAuth(connect(null, mapDispatchToProps)(CrudForm));

@@ -41,7 +41,8 @@ const IdeaForm = ({ id }) => {
                       initialValues={initialValues}
                       id={id}
                       endpoints={endpoints}
-                      createPath={IDEA_PATH}>
+                      onCreatePath={IDEA_PATH}
+                      onClosePath={IDEAS_PATH}>
                 <FormFields/>
             </CrudForm>
         </Fetch>
