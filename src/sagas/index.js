@@ -14,6 +14,7 @@ import {
   CRUD_FETCH,
   CRUD_SAVE
 } from '../constants/actionTypes';
+import {NEW_ID} from "../constants";
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes } from './notes';
 import { handleFetch, handleSave, handleFormDataChange } from './crudSagas';
@@ -70,7 +71,7 @@ function* channelRequests(actionHandlers) {
     const action = yield take(Object.keys(actionHandlers));
 
     // True for actions such as NOTE_CREATE and NOTES_FETCH, that don't have ids
-    if (!action.hasOwnProperty('id') || !action.id) {
+    if (!action.hasOwnProperty('id') || !action.id || action.isNewRecord) {
       yield put(genChannel, action);
       continue;
     }

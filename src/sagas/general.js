@@ -42,6 +42,7 @@ function* handleDispatchThenRoute(action) {
 
       yield put(action);
 
+      // TODO: crud - explore whether this is still necessary
       if (!action.waitFor) continue;
 
       // What happens if there's two actions dispatched async that could both trigger the action being waited for here?
@@ -50,6 +51,7 @@ function* handleDispatchThenRoute(action) {
 
       if (result.error) throw result.error;
 
+      // TODO: crud - explore whether this is still necessary
       if (result.type.includes('CREATE_SUCCESS')) {
         newId = result.id;
 

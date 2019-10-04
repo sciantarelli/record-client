@@ -6,10 +6,12 @@ import {
     CRUD_FETCH_ERROR,
     TRACK_FORM,
     FORM_INPUT_CHANGE,
+    CRUD_NEW,
     CRUD_SAVE,
-    CRUD_SAVE_SUCCESS
+    CRUD_SAVE_SUCCESS, CRUD_CLOSE
 } from '../constants/actionTypes';
 import {deletePropertyFromObject, isEmptyObject} from "../helpers";
+import { NEW_ID } from "../constants";
 
 
 const errorDefault = () => null;
@@ -78,6 +80,15 @@ export default function(state = {}, action) {
             }
         }
 
+        // TODO: crud - this doesn't fire when hard-reloading the page, "new" record not created
+        case CRUD_NEW : {
+            return replaceOne(state, dataKey, {
+                ...action.defaultState,
+                isDirty: true,
+                openedAt: Date.now()
+            }, NEW_ID);
+        }
+
         case CRUD_SAVE : {
             const record = stateCopy[dataKey][id];
 
@@ -85,25 +96,34 @@ export default function(state = {}, action) {
                 ...record,
                 isSaving: true,
                 error: errorDefault()
-            })
+            }, id)
         }
 
         case CRUD_SAVE_SUCCESS : {
-            const record = stateCopy[dataKey][data.id];
+            const replaceId = action.replaceId;
+            const selectId = replaceId || data.id;
+            const record = stateCopy[dataKey][selectId];
 
             return replaceOne(stateCopy, dataKey, {
                 ...record,
-                ...data,
+                data: {...data},
                 isSaving: isSavingDefault(),
                 changed: changedDefault(),
                 isDirty: isDirtyDefault()
             })
         }
 
+        case CRUD_CLOSE : {
+            return {
+                ...state,
+                [dataKey]: deletePropertyFromObject(state[dataKey], id)
+            }
+        }
+
         // TODO: crud - add error case for FETCH
 
         case FORM_INPUT_CHANGE : {
-            const { id, dataKey, attr, value } = action;
+            const { attr, value } = action;
             const record = stateCopy[dataKey][id];
 
             const recordChanged = record.changed;
@@ -125,7 +145,7 @@ export default function(state = {}, action) {
                 },
                 changed,
                 isDirty: !isEmptyObject(changed)
-            });
+            }, id);
         }
 
         case TRACK_FORM : {
@@ -155,12 +175,12 @@ export default function(state = {}, action) {
 }
 
 
-const replaceOne = (state, dataKey, dataState) => {
+const replaceOne = (state, dataKey, dataState, id) => {
     return {
         ...state,
         [dataKey]: {
             ...state[dataKey],
-            [dataState.data.id]: {...dataState}
+            [id || dataState.data.id]: {...dataState}
         }
     }
 };

@@ -1,12 +1,13 @@
 import { call, put, select, delay } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import { isEmpty, pick } from 'lodash';
 
-import { fetchList, crudUpdate } from '../api/crudApi';
+import { fetchList, crudUpdate, crudCreate } from '../api/crudApi';
 import { doAuthUpdated } from "../actions/auth";
-import { doFetchSuccess, doFetchError, doInputChange, doSaveSuccess } from "../actions/crudActions";
+import { doFetchSuccess, doFetchError, doInputChange, doSaveSuccess, doClose } from "../actions/crudActions";
 import { handleNoResponse, is401AndHandled, is422AndHandled } from "./errors";
 
-import { NEW_ID } from "../constants";
+import { pathWithId } from "../helpers";
 
 
 // TODO: crud - consider moving into selectors
@@ -45,9 +46,9 @@ function *handleFetch(action) {
 }
 
 function *handleSave(action) {
-    const { endpoint, dataKey, id } = action;
+    const { endpoint, dataKey, id, createPath, isNewRecord } = action;
 
-    const crudSave = id === NEW_ID ? () => {} : crudUpdate;
+    const crudSave = isNewRecord ? crudCreate : crudUpdate;
 
     try {
         const auth = yield select(get_auth);
@@ -55,7 +56,12 @@ function *handleSave(action) {
         const result = yield call(crudSave, auth, endpoint, values);
 
         yield put(doAuthUpdated(result.headers));
-        yield put(doSaveSuccess(dataKey, result.data));
+        yield put(doSaveSuccess(dataKey, result.data, id));
+
+        if (!isNewRecord) return;
+
+        yield put(push(pathWithId(createPath, result.data.id)));
+        yield put(doClose(dataKey, id));
     } catch (error) {
         // TODO: crud - implement error handling
         // const { response, request } = error;

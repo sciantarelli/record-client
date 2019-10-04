@@ -8,18 +8,10 @@ import { CrudMessages } from "./async";
 import CrudActionsBar from "./CrudActionsBar";
 
 import { doTrackForm, doSave } from "../actions/crudActions";
+import { NEW_ID } from "../constants";
 
 
 const WrappedForm = ({ children }) => {
-    // TODO: crud - Should this hookup to the redux store directly or should it expect data to be passed in no matter what?
-    const mapStateToProps = state => ({
-
-    });
-
-    const mapDispatchToProps = {
-
-    };
-
     return (
         <form>
             {React.Children.map(children, child =>
@@ -39,12 +31,15 @@ const createForm = (formName, initialValues) => {
     })(WrappedForm);
 };
 
+const isNewRecord = (id) => id === NEW_ID;
+
 const CrudForm = ({
     id,
     formName,
     children,
     initialValues,
     endpoints,
+    createPath,
     dataKey,
     dataObj,
     dataObj: { isFetching, data, changed },
@@ -69,18 +64,20 @@ const CrudForm = ({
        doTrackForm(composedFormName, dataKey, id);
     }, []);
 
-    console.log(dataKey);
     return (
         <>
             <CrudActionsBar {...dataObj}
                 doSave={() => {
-                    doSave(endpoints.one, dataKey, id);
+                    const endpoint = isNewRecord(id) ? endpoints.many : endpoints.one;
+                    doSave(endpoint, dataKey, id, createPath, isNewRecord(id));
                             }} />
             <CrudMessages {...dataObj} />
             <ComposedForm>{children}</ComposedForm>
         </>
     )
 };
+
+// TODO: crud - this needs to route after new record creation
 
 const mapDispatchToProps = {
     initialize,

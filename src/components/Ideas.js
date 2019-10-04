@@ -1,28 +1,56 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import requireAuth from './requireAuth';
+import Fetch from "./Fetch";
 import { AppLink } from "./Links";
+import { ButtonNaked } from "./Buttons";
+import ActionsBar from "./ActionsBar";
+
+import { doNew } from "../actions/crudActions";
+import { doDispatchThenRoute } from "../actions/routing";
+import { makeDataKey } from "../helpers";
+
+import { IDEAS_PATH, NEW_IDEA_PATH, NOTES_ENDPOINT } from "../constants";
+import { DEFAULT_NOTE_STATE } from "../reducers/openNotes";
 
 // TODO: crud - replace IDEAS_PATH with IDEA_PATH
-import { IDEAS_PATH, NOTES_ENDPOINT } from "../constants";
-import Fetch from "./Fetch";
 
-const Ideas = () => {
+
+const Ideas = ({ doDispatchThenRoute }) => {
+    const dataKey = makeDataKey(NOTES_ENDPOINT, true);
+
   return (
       <>
-        <ul>
-          <Fetch endpoint={NOTES_ENDPOINT}
-                 renderComponent={({ item }) =>
-                     <AppLink to={`${IDEAS_PATH}/${item.id}`}
-                              key={item.id}
-                              auth={true}>
-                      {item.name}
-                     </AppLink>
-                 }
-                 renderMany={true} />
-        </ul>
+          <ActionsBar>
+              <ButtonNaked onClick={() =>
+                  doDispatchThenRoute(
+                      doNew(dataKey, DEFAULT_NOTE_STATE),
+                      NEW_IDEA_PATH
+                  )}>
+                  Create Idea
+              </ButtonNaked>
+          </ActionsBar>
+
+          {/* TODO: crud - add error container */}
+
+          <ul>
+              <Fetch endpoint={NOTES_ENDPOINT}
+                     renderComponent={({item}) =>
+                         <AppLink to={`${IDEAS_PATH}/${item.id}`}
+                                  key={item.id}
+                                  auth={true}>
+                             {item.name}
+                         </AppLink>
+                     }
+                     renderMany={true}/>
+          </ul>
       </>
   )
 };
 
-export default requireAuth(Ideas);
+const mapDispatchToProps = {
+    doDispatchThenRoute
+};
+
+export default connect(null, mapDispatchToProps)(requireAuth(Ideas));

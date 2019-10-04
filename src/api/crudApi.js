@@ -23,8 +23,21 @@ const put = (endpoint, values, authState) => {
     });
 };
 
+const post = (endpoint, values, authState) => {
+    return axios({
+        ...authHeaders(authState),
+        method: 'post',
+        url: `${BASE_API_URL}${endpoint}`,
+        data: {...values}
+    });
+};
+
 const fetchList = (authState, endpoint) => {
     return get(authState, endpoint);
+};
+
+const crudCreate = (authState, endpoint, values) => {
+    return post(endpoint, values, authState);
 };
 
 const crudUpdate = (authState, endpoint, values) => {
@@ -42,5 +55,6 @@ export {
     get,
     makeEndpoints,
     fetchList,
-    crudUpdate
+    crudUpdate,
+    crudCreate
 }
