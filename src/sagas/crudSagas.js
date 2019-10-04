@@ -2,10 +2,17 @@ import { call, put, select, delay } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { isEmpty, pick } from 'lodash';
 
-import { fetchList, crudUpdate, crudCreate } from '../api/crudApi';
+import { fetchList, crudUpdate, crudCreate, crudDelete } from '../api/crudApi';
 import { doAuthUpdated } from "../actions/auth";
-import { doFetchSuccess, doFetchError, doInputChange, doSaveSuccess, doClose } from "../actions/crudActions";
-import { handleNoResponse, is401AndHandled, is422AndHandled } from "./errors";
+import {
+    doFetchSuccess,
+    doFetchError,
+    doInputChange,
+    doSaveSuccess,
+    doClose,
+    doDeleteSuccess
+} from "../actions/crudActions";
+import {getResponseErrors, handleNoResponse, is401AndHandled, is422AndHandled} from "./errors";
 
 import { pathWithId } from "../helpers";
 
@@ -46,7 +53,7 @@ function *handleFetch(action) {
 }
 
 function *handleSave(action) {
-    const { endpoint, dataKey, id, createPath, isNewRecord } = action;
+    const { endpoint, dataKey, id, onCreatePath, isNewRecord } = action;
 
     const crudSave = isNewRecord ? crudCreate : crudUpdate;
 
@@ -60,7 +67,7 @@ function *handleSave(action) {
 
         if (!isNewRecord) return;
 
-        yield put(push(pathWithId(createPath, result.data.id)));
+        yield put(push(pathWithId(onCreatePath, result.data.id)));
         yield put(doClose(dataKey, id));
     } catch (error) {
         // TODO: crud - implement error handling
@@ -78,6 +85,30 @@ function *handleSave(action) {
     }
 
 
+}
+
+function *handleDelete(action) {
+    const { endpoint, dataKey, id, onDeletePath } = action;
+
+    try {
+        const auth = yield select(get_auth);
+        const result = yield call(crudDelete, auth, endpoint);
+        yield put(doAuthUpdated(result.headers));
+        yield put(push(onDeletePath));
+        yield put(doDeleteSuccess(dataKey, id));
+    } catch (error) {
+        // const { response, request } = error;
+        //
+        // if (response) {
+        //     if (yield* is401AndHandled(response)) return;
+        //     if (yield* is422AndHandled(response, doNoteValidationErrors(id, getResponseErrors(response)))) return;
+        //
+        //     yield put(doDeleteNoteError(id, error));
+        //     return;
+        // }
+        //
+        // yield* handleNoResponse(request, doDeleteNoteError(id, error));
+    }
 }
 
 function *handleFormDataChange(action) {
@@ -100,5 +131,6 @@ function *handleFormDataChange(action) {
 export {
     handleFetch,
     handleSave,
+    handleDelete,
     handleFormDataChange
 }

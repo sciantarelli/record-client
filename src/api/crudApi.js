@@ -32,6 +32,14 @@ const post = (endpoint, values, authState) => {
     });
 };
 
+const deleteRequest = (authState, endpoint) => {
+    return axios({
+        ...authHeaders(authState),
+        method: 'delete',
+        url: `${BASE_API_URL}${endpoint}`,
+    })
+};
+
 const fetchList = (authState, endpoint) => {
     return get(authState, endpoint);
 };
@@ -42,6 +50,10 @@ const crudCreate = (authState, endpoint, values) => {
 
 const crudUpdate = (authState, endpoint, values) => {
     return put(endpoint, values, authState);
+};
+
+const crudDelete = (authState, endpoint) => {
+    return deleteRequest(authState, endpoint);
 };
 
 const makeEndpoints = (id, one, many) => {
@@ -56,5 +68,6 @@ export {
     makeEndpoints,
     fetchList,
     crudUpdate,
-    crudCreate
+    crudCreate,
+    crudDelete
 }

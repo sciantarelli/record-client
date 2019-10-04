@@ -5,6 +5,8 @@ import {
     CRUD_NEW,
     CRUD_SAVE,
     CRUD_SAVE_SUCCESS,
+    CRUD_DELETE,
+    CRUD_DELETE_SUCCESS,
     CRUD_CLOSE,
     TRACK_FORM,
     FORM_INPUT_CHANGE
@@ -38,12 +40,12 @@ const doNew = (dataKey, defaultState) => ({
     defaultState
 });
 
-const doSave = (endpoint, dataKey, id, createPath, isNewRecord) => ({
+const doSave = (endpoint, dataKey, id, onCreatePath, isNewRecord) => ({
     type: CRUD_SAVE,
     endpoint,
     dataKey,
     id,
-    createPath,
+    onCreatePath,
     isNewRecord
 });
 
@@ -52,6 +54,20 @@ const doSaveSuccess = (dataKey, data, replaceId) => ({
     dataKey,
     data,
     replaceId
+});
+
+const doDelete = (endpoint, dataKey, id, onDeletePath) => ({
+    type: CRUD_DELETE,
+    endpoint,
+    dataKey,
+    id,
+    onDeletePath
+});
+
+const doDeleteSuccess = (dataKey, id) => ({
+    type: CRUD_DELETE_SUCCESS,
+    dataKey,
+    id
 });
 
 const doClose = (dataKey, id) => ({
@@ -82,6 +98,8 @@ export {
     doNew,
     doSave,
     doSaveSuccess,
+    doDelete,
+    doDeleteSuccess,
     doClose,
     doTrackForm,
     doInputChange

@@ -12,12 +12,13 @@ import {
   AUTH_UPDATED,
   AUTH_DESTROY,
   CRUD_FETCH,
-  CRUD_SAVE
+  CRUD_SAVE,
+  CRUD_DELETE
 } from '../constants/actionTypes';
 import {NEW_ID} from "../constants";
 import { handleAuthUser, handleAuthUpdated, handleAuthDestroy } from './auth';
 import { handleCreateNote, handleFetchNote, handleUpdateNote, handleDeleteNote, handleFetchNotes } from './notes';
-import { handleFetch, handleSave, handleFormDataChange } from './crudSagas';
+import { handleFetch, handleSave, handleDelete, handleFormDataChange } from './crudSagas';
 import { handleLocationChange, handleDispatchThenRoute } from './general';
 
 
@@ -33,6 +34,7 @@ function *watchAll() {
     channelRequests({
       [CRUD_FETCH]: handleFetch,
       [CRUD_SAVE]: handleSave,
+      [CRUD_DELETE]:handleDelete,
       [NOTES_FETCH]: handleFetchNotes,
       [NOTE_FETCH]: handleFetchNote,
       [NOTE_CREATE]: handleCreateNote,

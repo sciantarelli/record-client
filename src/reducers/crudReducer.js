@@ -8,7 +8,10 @@ import {
     FORM_INPUT_CHANGE,
     CRUD_NEW,
     CRUD_SAVE,
-    CRUD_SAVE_SUCCESS, CRUD_CLOSE
+    CRUD_SAVE_SUCCESS,
+    CRUD_CLOSE,
+    CRUD_DELETE,
+    CRUD_DELETE_SUCCESS
 } from '../constants/actionTypes';
 import {deletePropertyFromObject, isEmptyObject} from "../helpers";
 import { NEW_ID } from "../constants";
@@ -113,6 +116,16 @@ export default function(state = {}, action) {
             })
         }
 
+        case CRUD_DELETE : {
+            const record = stateCopy[dataKey][id];
+
+            return replaceOne(stateCopy, dataKey, {
+                ...record,
+                isDeleting: true
+            });
+        }
+
+        case CRUD_DELETE_SUCCESS :
         case CRUD_CLOSE : {
             return {
                 ...state,

@@ -7,10 +7,10 @@ import requireAuth from "./requireAuth";
 import { CrudMessages } from "./async";
 import CrudActionsBar from "./CrudActionsBar";
 
-import { doTrackForm, doSave, doClose } from "../actions/crudActions";
+import { doTrackForm, doSave, doClose, doDelete } from "../actions/crudActions";
 import { doDispatchThenRoute } from "../actions/routing";
-import { doCloseNote } from "../actions/notes";
-import {NEW_ID, NOTES_PATH} from "../constants";
+
+import { NEW_ID } from "../constants";
 
 
 
@@ -50,6 +50,7 @@ const CrudForm = ({
     initialize,
     doTrackForm,
     doSave,
+    doDelete,
     doDispatchThenRoute
 }) => {
     const composedFormName = `${formName}${id}`;
@@ -77,7 +78,10 @@ const CrudForm = ({
                     doSave(endpoint, dataKey, id, onCreatePath, isNewRecord(id));
                 }}
                 doClose={() => {
-                    doDispatchThenRoute(doCloseNote(id), onClosePath);
+                    doDispatchThenRoute(doClose(dataKey, id), onClosePath);
+                }}
+                doDelete={() => {
+                    doDelete(endpoints.one, dataKey, id, onClosePath)
                 }}
             />
             <CrudMessages {...dataObj} />
@@ -91,6 +95,7 @@ const mapDispatchToProps = {
     initialize,
     doTrackForm,
     doSave,
+    doDelete,
     doDispatchThenRoute,
 };
 
