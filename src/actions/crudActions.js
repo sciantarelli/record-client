@@ -9,6 +9,7 @@ import {
     CRUD_DELETE_SUCCESS,
     CRUD_CLOSE,
     TRACK_FORM,
+    UNTRACK_FORM,
     FORM_INPUT_CHANGE
 } from "../constants/actionTypes";
 
@@ -83,6 +84,11 @@ const doTrackForm = (formName, dataKey, id) => ({
     dataKey
 });
 
+const doUntrackForm = (formName) => ({
+    type: UNTRACK_FORM,
+    formName
+});
+
 const doInputChange = (id, dataKey, attr, value) => ({
     type: FORM_INPUT_CHANGE,
     id,
@@ -102,5 +108,6 @@ export {
     doDeleteSuccess,
     doClose,
     doTrackForm,
+    doUntrackForm,
     doInputChange
 }

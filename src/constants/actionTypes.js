@@ -39,4 +39,5 @@ export const CRUD_DELETE = 'CRUD_DELETE';
 export const CRUD_DELETE_SUCCESS = 'CRUD_DELETE_SUCCESS';
 export const CRUD_CLOSE = 'CRUD_CLOSE';
 export const TRACK_FORM = 'TRACK_FORM';
+export const UNTRACK_FORM = 'UNTRACK_FORM';
 export const FORM_INPUT_CHANGE = 'FORM_INPUT_CHANGE';

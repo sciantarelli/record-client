@@ -5,6 +5,7 @@ import {
     CRUD_FETCH_SUCCESS,
     CRUD_FETCH_ERROR,
     TRACK_FORM,
+    UNTRACK_FORM,
     FORM_INPUT_CHANGE,
     CRUD_NEW,
     CRUD_SAVE,
@@ -167,6 +168,7 @@ export default function(state = {}, action) {
 
             if (!state.trackedForms) stateCopy.trackedForms = {};
 
+            // TODO: crud - use replace one here
             return {
                 ...stateCopy,
                 trackedForms: {
@@ -179,9 +181,14 @@ export default function(state = {}, action) {
             }
         }
 
-        // case UNTRACK_FORM : {
-        //
-        // }
+        case UNTRACK_FORM : {
+            const dataKey = 'trackedForms';
+
+            return {
+                ...state,
+                [dataKey]: deletePropertyFromObject(state[dataKey], action.formName)
+            }
+        }
 
         default : return state;
     }

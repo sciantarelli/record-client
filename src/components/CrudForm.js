@@ -7,7 +7,7 @@ import requireAuth from "./requireAuth";
 import { CrudMessages } from "./async";
 import CrudActionsBar from "./CrudActionsBar";
 
-import { doTrackForm, doSave, doClose, doDelete } from "../actions/crudActions";
+import { doTrackForm, doUntrackForm, doSave, doClose, doDelete } from "../actions/crudActions";
 import { doDispatchThenRoute } from "../actions/routing";
 
 import { NEW_ID } from "../constants";
@@ -45,6 +45,7 @@ const CrudForm = ({
     callInProgress,
     initialize,
     doTrackForm,
+    doUntrackForm,
     doSave,
     doDelete,
     doDispatchThenRoute
@@ -62,8 +63,9 @@ const CrudForm = ({
     },[isFetching]);
 
     useEffect(() => {
-        // TODO: crud - untrack when form is destroyed as well
        doTrackForm(composedFormName, dataKey, id);
+
+       return () => doUntrackForm(composedFormName);
     }, []);
 
     return (
@@ -92,6 +94,7 @@ const CrudForm = ({
 const mapDispatchToProps = {
     initialize,
     doTrackForm,
+    doUntrackForm,
     doSave,
     doDelete,
     doDispatchThenRoute,
