@@ -14,15 +14,10 @@ import { NEW_ID } from "../constants";
 
 
 
-const WrappedForm = ({ children }) => {
+const WrappedForm = ({ children, callInProgress }) => {
     return (
         <form>
-            {React.Children.map(children, child =>
-                React.cloneElement(
-                    child,
-                    { disabled: true } // TODO: crud - make this dynamic
-                )
-            )}
+            {React.cloneElement(children, { callInProgress })}
         </form>
     );
 };
@@ -47,6 +42,7 @@ const CrudForm = ({
     dataKey,
     dataObj,
     dataObj: { isFetching, data, changed },
+    callInProgress,
     initialize,
     doTrackForm,
     doSave,
@@ -85,7 +81,9 @@ const CrudForm = ({
                 }}
             />
             <CrudMessages {...dataObj} />
-            <ComposedForm>{children}</ComposedForm>
+            <ComposedForm callInProgress={callInProgress}>
+                {children}
+            </ComposedForm>
         </>
     )
 };

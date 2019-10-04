@@ -7,16 +7,12 @@ import { ButtonNaked } from "./Buttons";
 
 const CrudActionsBar = ({
     isDirty,
-    isFetching,
-    isSaving,
-    isDeleting,
+    callInProgress,
     data,
     doSave,
     doClose,
     doDelete
 }) => {
-    const callInProgress = (isFetching || isSaving || isDeleting);
-
     return (
         <ActionsBar>
             <ButtonGroup>

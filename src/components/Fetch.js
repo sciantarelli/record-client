@@ -35,7 +35,8 @@ const Fetch = ({
         }
     }, []);
 
-    const { data, isFetching, error } = dataObj;
+    const { data, isFetching, isSaving, isDeleting, error } = dataObj;
+    const callInProgress = isFetching || isSaving || isDeleting;
 
     // TODO: crud - Options to display error in place vs in some sort of notifications area?
 
@@ -43,7 +44,7 @@ const Fetch = ({
 
     if (!RenderComponent) return React.cloneElement(
         children,
-        { dataObj: { ...dataObj }, endpoint, dataKey }
+        { dataObj: { ...dataObj }, endpoint, dataKey, callInProgress }
     );
 
     if (isFetching) return <LoadingComponent/>;

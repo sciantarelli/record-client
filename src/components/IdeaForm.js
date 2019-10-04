@@ -9,13 +9,14 @@ import { DEFAULT_NOTE_STATE } from "../reducers/openNotes";
 import { makeEndpoints } from "../api/crudApi";
 
 
-const FormFields = () =>
+const FormFields = ({ callInProgress }) =>
     <>
         <Field
             className="component-name"
             name="name"
             type="text"
             component="input"
+            disabled={callInProgress}
         />
 
         <Field
@@ -23,6 +24,7 @@ const FormFields = () =>
             name="content"
             type="text"
             component="textarea"
+            disabled={callInProgress}
         />
     </>;
 
