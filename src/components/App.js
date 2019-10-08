@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from './Header';
-import Routes from './Routes';
-import { FlexFillContainer } from './FlexComponents';
+import Header from './layout/Header';
+import Routes from './navigation/Routes';
+import { FlexFillContainer } from './layout/FlexComponents';
 
 class App extends Component {
   render() {

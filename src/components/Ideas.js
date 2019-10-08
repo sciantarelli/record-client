@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import requireAuth from './requireAuth';
-import Fetch from "./Fetch";
-import { AppLink } from "./Links";
-import { ButtonNaked } from "./Buttons";
-import ActionsBar from "./ActionsBar";
+import requireAuth from './auth/requireAuth';
+import Fetch from "./data/Fetch";
+import { AppLink } from "./navigation/Links";
+import { ButtonNaked } from "./input/Buttons";
+import ActionsBar from "./input/ActionsBar";
 
 import { doNew } from "../actions/crudActions";
 import { doDispatchThenRoute } from "../actions/routing";

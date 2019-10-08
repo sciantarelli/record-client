@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getIsAuthenticated } from '../selectors/auth';
+import { getIsAuthenticated } from '../../selectors/auth';
 
 const AppLink = (props) => {
   const { children, auth, isAuthed, to, inline, addClasses } = props;

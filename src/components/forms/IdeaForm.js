@@ -1,12 +1,12 @@
 import React from 'react';
 import { Field } from "redux-form";
 
-import Fetch from "./Fetch";
+import Fetch from "../data/Fetch";
 import CrudForm from "./CrudForm";
 
-import { IDEA_FORM, IDEA_PATH, IDEAS_ENDPOINT, IDEAS_PATH, NEW_ID, NOTE_ENDPOINT, NOTES_ENDPOINT} from "../constants";
-import { DEFAULT_NOTE_STATE } from "../reducers/openNotes";
-import { makeEndpoints } from "../api/crudApi";
+import { IDEA_FORM, IDEA_PATH, IDEAS_ENDPOINT, IDEAS_PATH, NEW_ID, NOTE_ENDPOINT, NOTES_ENDPOINT} from "../../constants";
+import { DEFAULT_NOTE_STATE } from "../../reducers/openNotes";
+import { makeEndpoints } from "../../api/crudApi";
 
 
 const FormFields = ({ callInProgress }) =>

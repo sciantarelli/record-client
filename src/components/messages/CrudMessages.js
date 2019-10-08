@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessagesContainer, ErrorMessages } from './async';
+import { MessagesContainer, ErrorMessages } from '../async';
 
 const CrudMessages = ({ isFetching, isSaving, isDeleting, errorMessage, validationErrors }) => {
 

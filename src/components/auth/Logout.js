@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import requireAuth from './requireAuth';
-import { MessagesContainer, WarningMessages } from './async';
-import { ButtonNaked } from './Buttons';
-import { doLogoutUser } from '../actions/auth';
-import { getOpenNotes } from '../selectors/notes';
-import { dirtyRecordsExist } from '../helpers';
+import { MessagesContainer, WarningMessages } from '../async';
+import { ButtonNaked } from '../input/Buttons';
+import { doLogoutUser } from '../../actions/auth';
+import { getOpenNotes } from '../../selectors/notes';
+import { dirtyRecordsExist } from '../../helpers';
 
 class Logout extends Component {
 

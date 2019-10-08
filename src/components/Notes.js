@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import requireAuth from './requireAuth';
-import dataLoading from './dataLoading';
-import { AppLink } from './Links';
-import ActionsBar from './ActionsBar';
+import requireAuth from './auth/requireAuth';
+import dataLoading from './data/dataLoading';
+import { AppLink } from './navigation/Links';
+import ActionsBar from './input/ActionsBar';
 import { CrudMessages } from './async';
-import { ButtonNaked } from './Buttons';
+import { ButtonNaked } from './input/Buttons';
 import { doFetchNotes } from '../actions/notes';
 import { getNotesArray, getNotesError, getNotesIsFetching } from '../selectors/notes';
 import { NOTES_PATH, NEW_NOTE_PATH } from '../constants';

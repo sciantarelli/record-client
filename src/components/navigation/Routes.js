@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import withUrlId from "./withUrlId";
-import Dashboard from './Dashboard';
-import { Note, Notes } from './async';
-import IdeaForm from "./IdeaForm";
-import Ideas from './Ideas';
-import Login from './Login';
-import Logout from './Logout';
-import NotFound from './NotFound';
-import ComingSoon from './ComingSoon';
+import withUrlId from "../withUrlId";
+import Dashboard from '../Dashboard';
+import { Note, Notes } from '../async';
+import IdeaForm from "../forms/IdeaForm";
+import Ideas from '../Ideas';
+import Login from '../auth/Login';
+import Logout from '../auth/Logout';
+import NotFound from '../NotFound';
+import ComingSoon from '../ComingSoon';
 import {
   NEW_ID,
   LOGIN_PATH,
@@ -21,7 +21,7 @@ import {
   ALERTS_PATH,
   BOOKMARKS_PATH,
   NOT_FOUND_PATH
-} from '../constants';
+} from '../../constants';
 
 
 export default () => {

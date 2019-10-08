@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { makeDataKey } from "../helpers";
-import { doFetch } from "../actions/crudActions";
-import { pathWithId } from "../helpers";
+import { makeDataKey } from "../../helpers";
+import { doFetch } from "../../actions/crudActions";
+import { pathWithId } from "../../helpers";
 
 
 const DefaultLoadingComponent = () =>

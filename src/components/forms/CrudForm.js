@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { reduxForm, initialize } from 'redux-form';
 import { pick, isEmpty } from 'lodash';
 
-import requireAuth from "./requireAuth";
-import { CrudMessages } from "./async";
-import CrudActionsBar from "./CrudActionsBar";
+import requireAuth from "../auth/requireAuth";
+import { CrudMessages } from "../async";
+import CrudActionsBar from "../input/CrudActionsBar";
 
-import { doTrackForm, doUntrackForm, doSave, doClose, doDelete } from "../actions/crudActions";
-import { doDispatchThenRoute } from "../actions/routing";
+import { doTrackForm, doUntrackForm, doSave, doClose, doDelete } from "../../actions/crudActions";
+import { doDispatchThenRoute } from "../../actions/routing";
 
-import { NEW_ID } from "../constants";
+import { NEW_ID } from "../../constants";
 
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import AppLink from './AppLink';
 import NavLink from './NavLink';
-import { NOTES_PATH } from '../constants';
+import { NOTES_PATH } from '../../constants';
 
 
 const openNoteNavLink = (openNote, id) => {

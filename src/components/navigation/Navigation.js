@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Nav, Collapse } from 'reactstrap';
 import { NavLink, openNoteNavLink } from './Links';
-import { ButtonNaked } from './Buttons';
-import { getOpenNotes } from '../selectors/notes';
-import { getIsAuthenticated } from '../selectors/auth';
-import { isEmptyObject, dirtyRecordsExist, sortObjectsBy } from '../helpers';
-import { NEW_ID, LOGOUT_PATH, NOTES_PATH, IDEAS_PATH, DASHBOARD_PATH, TAGS_PATH, ALERTS_PATH, BOOKMARKS_PATH } from '../constants';
+import { ButtonNaked } from '../input/Buttons';
+import { getOpenNotes } from '../../selectors/notes';
+import { getIsAuthenticated } from '../../selectors/auth';
+import { isEmptyObject, dirtyRecordsExist, sortObjectsBy } from '../../helpers';
+import { NEW_ID, LOGOUT_PATH, NOTES_PATH, IDEAS_PATH, DASHBOARD_PATH, TAGS_PATH, ALERTS_PATH, BOOKMARKS_PATH } from '../../constants';
 
 
 class Navigation extends Component {

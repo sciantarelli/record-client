@@ -1,5 +1,5 @@
 import React from 'react';
-import requireAuth from './requireAuth';
+import requireAuth from './auth/requireAuth';
 
 const Dashboard = () => {
   return (

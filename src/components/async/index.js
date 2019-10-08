@@ -1,6 +1,6 @@
 import React from "react";
 import Loadable from "react-loadable";
-import AsyncLoading from '../AsyncLoading';
+import AsyncLoading from './AsyncLoading';
 
 
 let modules = ['messages'];
@@ -9,25 +9,25 @@ const loading = AsyncLoading;
 // Messages Chunk
 
 const AsyncCrudMessages = Loadable({
-    loader: () => import(/* webpackChunkName: "messages" */ "../CrudMessages"),
+    loader: () => import(/* webpackChunkName: "messages" */ "../messages/CrudMessages"),
     loading,
     modules
 });
 
 const AsyncWarningMessages = Loadable({
-    loader: () => import(/* webpackChunkName: "messages" */ "../WarningMessages"),
+    loader: () => import(/* webpackChunkName: "messages" */ "../messages/WarningMessages"),
     loading,
     modules
 });
 
 const AsyncErrorMessages = Loadable({
-    loader: () => import(/* webpackChunkName: "messages" */ "../ErrorMessages"),
+    loader: () => import(/* webpackChunkName: "messages" */ "../messages/ErrorMessages"),
     loading,
     modules
 });
 
 const AsyncMessagesContainer = Loadable({
-    loader: () => import(/* webpackChunkName: "messages" */ "../MessagesContainer"),
+    loader: () => import(/* webpackChunkName: "messages" */ "../messages/MessagesContainer"),
     loading,
     modules
 });
